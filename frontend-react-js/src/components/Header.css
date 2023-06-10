@@ -1,0 +1,45 @@
+#NavItems{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    height: 25px;
+    background-color: hsl(0, 0%, 98%);
+}
+
+#NavLinks{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+}
+#links{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    gap: 1rem;
+}
+#links li{
+    color: hsl(273, 4%, 51%);;
+}
+#links li:hover{
+    color: hsl(256, 26%, 20%);
+}
+#PlansBtn{
+    border-radius: 3px;
+    padding: 10px;
+    border-style: 1px hsl(0, 0%, 98%);
+}
+#PlansBtn:hover{
+    color: white;
+    background-color: hsl(256, 26%, 20%);
+    
+}
+#NavImg img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
