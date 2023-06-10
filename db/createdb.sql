@@ -12,11 +12,21 @@ CREATE TABLE Admins (
   adminId INT PRIMARY KEY,
   firstName VARCHAR(50) NOT NULL,
   lastName VARCHAR(50) NOT NULL,
+  country VARCHAR(50) NOT NULL,
   email VARCHAR(100) NOT NULL,
   phoneNumber VARCHAR(20) NOT NULL,
   registrationDate DATE NOT NULL,
   password VARCHAR(100) NOT NULL
+  organizationId INT,
+  FOREIGN KEY (organizationId) REFERENCES Organization(organizationId)
 );
+
+-- Organization Table
+CREATE TABLE Organization(
+  organizationId INT PRIMARY KEY,
+  organizationName VARCHAR(50) NOT NULL,
+  organizationType VARCHAR(50) NOT NULL
+)
 
 -- Surveys table--
 CREATE TABLE Surveys (

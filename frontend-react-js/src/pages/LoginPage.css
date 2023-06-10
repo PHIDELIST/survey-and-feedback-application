@@ -1,0 +1,37 @@
+#LoginContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 25rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    background-color: hsl(0, 0%, 98%);
+    
+}
+#LoginForm{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+}
+#LoginForm input {
+    width: 400px;
+}
+#LoginForm button{
+    width: 100px;
+}
+
+#Log{
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    gap: 5px;
+}
+#RightLoginImg img{
+    margin-top: 10px;
+    width: 70%;
+}
+#LoginForm p{
+    color: red;
+    font-size: 10px;
+}

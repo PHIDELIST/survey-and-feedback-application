@@ -1,0 +1,63 @@
+#RegisterMain{
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    background-color: hsl(0, 0%, 98%); 
+}
+#RegisterForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: left;
+    
+}
+#RegisterForm p{
+    font-size: 10px;
+}
+#Names{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10rem;
+}
+input{
+    max-width: 250px;
+}
+#countyPhone{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10rem;
+}
+#EmailDate{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10rem;
+}
+#Password{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10rem;
+}
+#RightRegisterImg img{
+    width: 400px;
+    margin-top: 25px;
+    margin-right: 50px;
+    background-image: url(../assets/bg-pattern-intro-right-desktop.svg);
+
+
+}
