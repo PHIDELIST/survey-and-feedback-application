@@ -12,7 +12,7 @@ function Header() {
           <ul id='links'>
               <Link to ="/login">Login</Link>
           </ul>
-          <button id='PlansBtn'>VIEW PLANS</button>
+          <button id='PlansBtn'>SURVEY</button>
       </div>
     </div>
     </>

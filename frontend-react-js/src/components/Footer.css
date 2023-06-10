@@ -1,0 +1,78 @@
+#FooterMain{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: hsl(0, 0%, 98%);
+    margin-top: 3rem;
+    justify-content: center;
+    background-image: url(../assets/bg-pattern-footer-desktop.svg);
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+#FooterHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+#FooterContent{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: space-between;
+    font-family: Karla;
+    font-size: 10px;
+}
+#Browse{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 5px;
+    color: hsl(273, 4%, 51%); 
+}
+#Browse h4{
+    color: hsl(270, 9%, 17%); 
+}
+#HelpMe{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 5px;
+    color: hsl(273, 4%, 51%);  
+}
+#HelpMe h4{
+    color: hsl(270, 9%, 17%); 
+}
+
+#Resources{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 5px;
+    color: hsl(273, 4%, 51%);
+    
+}
+#Resources h4{
+    color: hsl(270, 9%, 17%); 
+}
+#KnowUs{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 5px;
+    color: hsl(273, 4%, 51%);
+   
+}
+#KnowUs h4{
+    color: hsl(270, 9%, 17%); 
+}
+#FooterHeader img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+#iconsFooter{
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+}
