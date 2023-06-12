@@ -38,9 +38,9 @@ function Header() {
           <ul id='links'>
               
               <Link to ="/about">About</Link>
-              <Link to ="/login">Login</Link>
+              <Link to ="/login">Admin</Link>
           </ul>
-          <button id='PlansBtn'>SURVEY</button>
+         <Link to="/userloginpage"><button id='PlansBtn'>SURVEY</button></Link> 
       </div>
       
     </div>

@@ -3,7 +3,9 @@ CREATE DATABASE SurveyFeedBack
 CREATE TABLE Users (
   userId INT PRIMARY KEY,
   firstName VARCHAR(50) NOT NULL,
-  lastName VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  country VARCHAR(50) NOT NULL,
   createdDate DATE NOT NULL
 );
 
@@ -16,7 +18,7 @@ CREATE TABLE Admins (
   email VARCHAR(100) NOT NULL,
   phoneNumber VARCHAR(20) NOT NULL,
   registrationDate DATE NOT NULL,
-  password VARCHAR(100) NOT NULL
+  password VARCHAR(100) NOT NULL,
   organizationId INT,
   FOREIGN KEY (organizationId) REFERENCES Organization(organizationId)
 );
@@ -123,7 +125,7 @@ CREATE TABLE Ratings (
 -- UserAuthentication table--
 CREATE TABLE UserAuthentication (
   userId INT,
-  username VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL,
   password VARCHAR(100) NOT NULL,
   accessLevel INT,
   FOREIGN KEY (userId) REFERENCES Users(userId),
