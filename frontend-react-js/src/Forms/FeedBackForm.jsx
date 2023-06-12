@@ -1,3 +1,4 @@
+//make sure to run yarn add react-modal//
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 
