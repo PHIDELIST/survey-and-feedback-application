@@ -1,4 +1,5 @@
 CREATE DATABASE SurveyFeedBack
+
 -- Users table
 CREATE TABLE Users (
   userId INT PRIMARY KEY,
@@ -9,6 +10,13 @@ CREATE TABLE Users (
   createdDate DATE NOT NULL
 );
 
+
+-- Organization Table
+CREATE TABLE Organization(
+  organizationId INT PRIMARY KEY,
+  organizationName VARCHAR(50) NOT NULL,
+  organizationType VARCHAR(50) NOT NULL
+)
 -- Admins table---
 CREATE TABLE Admins (
   adminId INT PRIMARY KEY,
@@ -23,12 +31,6 @@ CREATE TABLE Admins (
   FOREIGN KEY (organizationId) REFERENCES Organization(organizationId)
 );
 
--- Organization Table
-CREATE TABLE Organization(
-  organizationId INT PRIMARY KEY,
-  organizationName VARCHAR(50) NOT NULL,
-  organizationType VARCHAR(50) NOT NULL
-)
 
 -- Surveys table--
 CREATE TABLE Surveys (
@@ -129,5 +131,5 @@ CREATE TABLE UserAuthentication (
   password VARCHAR(100) NOT NULL,
   accessLevel INT,
   FOREIGN KEY (userId) REFERENCES Users(userId),
-  CONSTRAINT PK_UserAuthentication PRIMARY KEY (userId, username)
+  CONSTRAINT PK_UserAuthentication PRIMARY KEY (userId, email)
 );
