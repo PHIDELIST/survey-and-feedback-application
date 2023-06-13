@@ -2,7 +2,7 @@ CREATE DATABASE SurveyFeedBack
 
 -- Users table
 CREATE TABLE Users (
-  userId INT PRIMARY KEY,
+  userId INT PRIMARY KEY IDENTITY(1,1),
   firstName VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
   password VARCHAR(100) NOT NULL,
@@ -13,13 +13,13 @@ CREATE TABLE Users (
 
 -- Organization Table
 CREATE TABLE Organization(
-  organizationId INT PRIMARY KEY,
+  organizationId INT PRIMARY KEY IDENTITY(1,1),
   organizationName VARCHAR(50) NOT NULL,
   organizationType VARCHAR(50) NOT NULL
 )
 -- Admins table---
 CREATE TABLE Admins (
-  adminId INT PRIMARY KEY,
+  adminId INT PRIMARY KEY IDENTITY(1,1),
   firstName VARCHAR(50) NOT NULL,
   lastName VARCHAR(50) NOT NULL,
   country VARCHAR(50) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE Admins (
 
 -- Surveys table--
 CREATE TABLE Surveys (
-  surveyId INT PRIMARY KEY,
+  surveyId INT PRIMARY KEY IDENTITY(1,1),
   title VARCHAR(100) NOT NULL,
   description VARCHAR(500) NOT NULL,
   startDate DATE NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE Surveys (
 
 -- Questions table
 CREATE TABLE Questions (
-  questionId INT PRIMARY KEY,
+  questionId INT PRIMARY KEY IDENTITY(1,1),
   surveyId INT,
   questionText VARCHAR(500) NOT NULL,
   FOREIGN KEY (surveyId) REFERENCES Surveys(surveyId)
@@ -54,7 +54,7 @@ CREATE TABLE Questions (
 
 -- Options table
 CREATE TABLE Options (
-  optionId INT PRIMARY KEY,
+  optionId INT PRIMARY KEY IDENTITY(1,1),
   questionId INT,
   optionText VARCHAR(500) NOT NULL,
   FOREIGN KEY (questionId) REFERENCES Questions(questionId)
@@ -62,7 +62,7 @@ CREATE TABLE Options (
 
 -- Responses table---
 CREATE TABLE Responses (
-  responseId INT PRIMARY KEY,
+  responseId INT PRIMARY KEY IDENTITY(1,1),
   userId INT,
   surveyId INT,
   questionId INT,
@@ -77,7 +77,7 @@ CREATE TABLE Responses (
 
 -- UserFeedback table---
 CREATE TABLE UserFeedback (
-  feedbackId INT PRIMARY KEY,
+  feedbackId INT PRIMARY KEY IDENTITY(1,1),
   userId INT,
   feedbackText TEXT,
   createdAt DATE,
@@ -86,7 +86,7 @@ CREATE TABLE UserFeedback (
 
 -- SurveyAnalytics table---
 CREATE TABLE SurveyAnalytics (
-  analyticsId INT PRIMARY KEY,
+  analyticsId INT PRIMARY KEY IDENTITY(1,1),
   surveyId INT,
   responseCount INT,
   averageRating DECIMAL(5,2),
@@ -117,7 +117,7 @@ CREATE TABLE SurveyQuestions (
 
 -- Ratings table--
 CREATE TABLE Ratings (
-  ratingId INT PRIMARY KEY,
+  ratingId INT PRIMARY KEY IDENTITY(1,1),
   questionId INT,
   ratingValue INT,
   ratingLabel VARCHAR(50),
@@ -126,7 +126,7 @@ CREATE TABLE Ratings (
 
 -- UserAuthentication table--
 CREATE TABLE UserAuthentication (
-  userId INT,
+  userId INT ,
   email VARCHAR(50) NOT NULL,
   password VARCHAR(100) NOT NULL,
   accessLevel INT,

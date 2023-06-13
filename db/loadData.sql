@@ -1,120 +1,153 @@
--- Users table
-INSERT INTO Users (userId, firstName, lastName, createdDate)
+-- Insert sample records into Users table
+INSERT INTO Users (firstName, email, password, country, createdDate)
 VALUES
-  (1, 'John', 'Doe', '2022-01-01'),
-  (2, 'Jane', 'Smith', '2022-02-15'),
-  (3, 'Michael', 'Johnson', '2022-03-10'),
-  (4, 'Emily', 'Davis', '2022-04-20'),
-  (5, 'David', 'Anderson', '2022-05-05');
+('John', 'john@example.com', 'password123', 'USA', '2023-06-01'),
+('Emma', 'emma@example.com', 'pass456', 'Canada', '2023-06-02'),
+('Michael', 'michael@example.com', 'secret', 'Australia', '2023-06-03'),
+('Sophia', 'sophia@example.com', '12345678', 'UK', '2023-06-04'),
+('Daniel', 'daniel@example.com', 'qwerty', 'Germany', '2023-06-05');
 
--- Admins table
-INSERT INTO Admins (adminId, firstName, lastName, email, phoneNumber, registrationDate, password)
+-- Insert sample records into Organization table
+INSERT INTO Organization (organizationName, organizationType)
 VALUES
-  (1, 'Admin', 'One', 'admin1@example.com', '1234567890', '2022-01-01', 'admin1password'),
-  (2, 'Admin', 'Two', 'admin2@example.com', '0987654321', '2022-02-15', 'admin2password'),
-  (3, 'Admin', 'Three', 'admin3@example.com', '9876543210', '2022-03-10', 'admin3password'),
-  (4, 'Admin', 'Four', 'admin4@example.com', '0123456789', '2022-04-20', 'admin4password'),
-  (5, 'Admin', 'Five', 'admin5@example.com', '5678901234', '2022-05-05', 'admin5password');
+('Organization 1', 'Type 1'),
+('Organization 2', 'Type 2'),
+('Organization 3', 'Type 3'),
+('Organization 4', 'Type 1'),
+('Organization 5', 'Type 2');
 
--- Surveys table
-INSERT INTO Surveys (surveyId, title, description, startDate, endDate, active, adminId)
+-- Insert sample records into Admins table
+INSERT INTO Admins (firstName, lastName, country, email, phoneNumber, registrationDate, password, organizationId)
 VALUES
-  (1, 'Customer Satisfaction Survey', 'Please rate your experience with our products and services.', '2022-01-01', '2022-01-31', 1, 1),
-  (2, 'Employee Engagement Survey', 'Provide feedback on your work environment and job satisfaction.', '2022-02-15', '2022-03-15', 1, 2),
-  (3, 'Product Feedback Survey', 'Share your opinions on our latest product offerings.', '2022-03-10', '2022-04-10', 1, 3),
-  (4, 'Website Usability Survey', 'Help us improve our website by providing feedback on its usability.', '2022-04-20', '2022-05-20', 1, 4),
-  (5, 'Event Feedback Survey', 'Tell us about your experience attending our recent event.', '2022-05-05', '2022-06-05', 1, 5);
+('Admin 1', 'Smith', 'USA', 'admin1@example.com', '1234567890', '2023-06-01', 'adminpass1', 1),
+('Admin 2', 'Johnson', 'Canada', 'admin2@example.com', '9876543210', '2023-06-02', 'adminpass2', 2),
+('Admin 3', 'Williams', 'Australia', 'admin3@example.com', '4567890123', '2023-06-03', 'adminpass3', 3),
+('Admin 4', 'Brown', 'UK', 'admin4@example.com', '0123456789', '2023-06-04', 'adminpass4', 4),
+('Admin 5', 'Jones', 'Germany', 'admin5@example.com', '6789012345', '2023-06-05', 'adminpass5', 5);
 
--- Questions table
-INSERT INTO Questions (questionId, surveyId, questionText)
+-- Insert sample records into Surveys table
+INSERT INTO Surveys (title, description, startDate, endDate, active, adminId)
 VALUES
-  (1, 1, 'How satisfied are you with our customer service?'),
-  (2, 1, 'Rate the quality of our products.'),
-  (3, 2, 'Do you feel valued and appreciated at your workplace?'),
-  (4, 2, 'How satisfied are you with the communication within the company?'),
-  (5, 3, 'Which product feature do you find most valuable?');
+('Survey 1', 'Description for Survey 1', '2023-06-01', '2023-06-10', 1, 1),
+('Survey 2', 'Description for Survey 2', '2023-06-02', '2023-06-12', 1, 2),
+('Survey 3', 'Description for Survey 3', '2023-06-03', '2023-06-15', 1, 3),
+('Survey 4', 'Description for Survey 4', '2023-06-04', '2023-06-18', 1, 4),
+('Survey 5', 'Description for Survey 5', '2023-06-05', '2023-06-20', 1, 5);
 
--- Options table
-INSERT INTO Options (optionId, questionId, optionText)
+-- Insert sample records into Questions table
+INSERT INTO Questions (surveyId, questionText)
 VALUES
-  (1, 1, 'Very Satisfied'),
-  (2, 1, 'Satisfied'),
-  (3, 1, 'Neutral'),
-  (4, 1, 'Dissatisfied'),
-  (5, 1, 'Very Dissatisfied'),
-  (6, 2, 'Excellent'),
-  (7, 2, 'Good'),
-  (8, 2, 'Fair'),
-  (9, 2, 'Poor'),
-  (10, 2, 'Very Poor');
+(1, 'Question 1 for Survey 1'),
+(1, 'Question 2 for Survey 1'),
+(2, 'Question 1 for Survey 2'),
+(2, 'Question 2 for Survey 2'),
+(3, 'Question 1 for Survey 3'),
+(3, 'Question 2 for Survey 3'),
+(4, 'Question 1 for Survey 4'),
+(4, 'Question 2 for Survey 4'),
+(5, 'Question 1 for Survey 5'),
+(5, 'Question 2 for Survey 5');
 
--- Responses table
-INSERT INTO Responses (responseId, userId, surveyId, questionId, optionId, answer, createdAt)
+-- Insert sample records into Options table
+INSERT INTO Options (questionId, optionText)
 VALUES
-  (1, 1, 1, 1, 2, NULL, '2022-01-05'),
-  (2, 1, 1, 2, 6, NULL, '2022-01-05'),
-  (3, 2, 1, 1, 3, NULL, '2022-01-06'),
-  (4, 2, 1, 2, 7, NULL, '2022-01-06'),
-  (5, 3, 2, 3, NULL, 'Yes, I feel valued.', '2022-02-18'),
-  (6, 3, 2, 4, NULL, 'I am satisfied with the communication.', '2022-02-18');
+(1, 'Option 1 for Question 1'),
+(1, 'Option 2 for Question 1'),
+(1, 'Option 3 for Question 1'),
+(2, 'Option 1 for Question 2'),
+(2, 'Option 2 for Question 2'),
+(2, 'Option 3 for Question 2'),
+(3, 'Option 1 for Question 3'),
+(3, 'Option 2 for Question 3'),
+(3, 'Option 3 for Question 3'),
+(4, 'Option 1 for Question 4'),
+(4, 'Option 2 for Question 4'),
+(4, 'Option 3 for Question 4'),
+(5, 'Option 1 for Question 5'),
+(5, 'Option 2 for Question 5'),
+(5, 'Option 3 for Question 5');
 
--- UserFeedback table
-INSERT INTO UserFeedback (feedbackId, userId, feedbackText, createdAt)
+-- Insert sample records into Responses table
+INSERT INTO Responses (userId, surveyId, questionId, optionId, answer, createdAt)
 VALUES
-  (1, 1, 'Great service!', '2022-01-05'),
-  (2, 2, 'The product quality could be better.', '2022-01-06'),
-  (3, 3, 'I love working here!', '2022-02-20'),
-  (4, 4, 'Communication needs improvement.', '2022-02-22'),
-  (5, 5, 'The website is user-friendly.', '2022-05-10');
+(1, 1, 1, 1, 'Answer 1 for Response 1', '2023-06-01'),
+(2, 1, 2, 2, 'Answer 2 for Response 1', '2023-06-01'),
+(3, 2, 1, 3, 'Answer 1 for Response 2', '2023-06-02'),
+(3, 2, 2, 1, 'Answer 2 for Response 2', '2023-06-02'),
+(4, 3, 1, 2, 'Answer 1 for Response 3', '2023-06-03'),
+(4, 3, 2, 3, 'Answer 2 for Response 3', '2023-06-03'),
+(5, 3, 1, 1, 'Answer 1 for Response 4', '2023-06-03'),
+(5, 3, 2, 2, 'Answer 2 for Response 4', '2023-06-03'),
+(1, 4, 1, 3, 'Answer 1 for Response 5', '2023-06-04'),
+(2, 4, 2, 1, 'Answer 2 for Response 5', '2023-06-04'),
+(1, 5, 1, 2, 'Answer 1 for Response 6', '2023-06-05'),
+(5, 5, 2, 3, 'Answer 2 for Response 6', '2023-06-05');
 
--- SurveyAnalytics table
-INSERT INTO SurveyAnalytics (analyticsId, surveyId, responseCount, averageRating, completionRate, startDate, endDate)
+-- Insert sample records into UserFeedback table
+INSERT INTO UserFeedback (userId, feedbackText, createdAt)
 VALUES
-  (1, 1, 2, 4.5, 100.0, '2022-01-01', '2022-01-31'),
-  (2, 2, 2, NULL, 100.0, '2022-02-15', '2022-03-15'),
-  (3, 3, 1, NULL, 100.0, '2022-03-10', '2022-04-10'),
-  (4, 4, 0, NULL, 0.0, '2022-04-20', '2022-05-20'),
-  (5, 5, 0, NULL, 0.0, '2022-05-05', '2022-06-05');
+(1, 'Feedback 1 from User 1', '2023-06-01'),
+(2, 'Feedback 1 from User 2', '2023-06-02'),
+(3, 'Feedback 1 from User 3', '2023-06-03'),
+(4, 'Feedback 1 from User 4', '2023-06-04'),
+(5, 'Feedback 1 from User 5', '2023-06-05');
 
--- SurveyParticipants table
+-- Insert sample records into SurveyAnalytics table
+INSERT INTO SurveyAnalytics (surveyId, responseCount, averageRating, completionRate, startDate, endDate)
+VALUES
+(1, 10, 4.2, 80.5, '2023-06-01', '2023-06-10'),
+(2, 8, 3.8, 64.3, '2023-06-02', '2023-06-12'),
+(3, 12, 4.5, 90.0, '2023-06-03', '2023-06-15'),
+(4, 6, 3.2, 48.0, '2023-06-04', '2023-06-18'),
+(5, 9, 4.0, 60.0, '2023-06-05', '2023-06-20');
+
+-- Insert sample records into SurveyParticipants table
 INSERT INTO SurveyParticipants (surveyId, userId)
 VALUES
-  (1, 1),
-  (1, 2),
-  (2, 2),
-  (2, 3),
-  (3, 3),
-  (4, 4),
-  (5, 5);
+(1, 1),
+(1, 2),
+(2, 2),
+(2, 3),
+(3, 3),
+(3, 4),
+(4, 4),
+(4, 5),
+(5, 1),
+(5, 5);
 
--- SurveyQuestions table
+-- Insert sample records into SurveyQuestions table
 INSERT INTO SurveyQuestions (surveyId, questionId, questionOrder)
 VALUES
-  (1, 1, 1),
-  (1, 2, 2),
-  (2, 3, 1),
-  (2, 4, 2),
-  (3, 5, 1);
+(1, 1, 1),
+(1, 2, 2),
+(2, 1, 1),
+(2, 2, 2),
+(3, 1, 1),
+(3, 2, 2),
+(4, 1, 1),
+(4, 2, 2),
+(5, 1, 1),
+(5, 2, 2);
 
--- Ratings table
-INSERT INTO Ratings (ratingId, questionId, ratingValue, ratingLabel)
+-- Insert sample records into Ratings table
+INSERT INTO Ratings (questionId, ratingValue, ratingLabel)
 VALUES
-  (1, 1, 1, 'Very Satisfied'),
-  (2, 1, 2, 'Satisfied'),
-  (3, 1, 3, 'Neutral'),
-  (4, 1, 4, 'Dissatisfied'),
-  (5, 1, 5, 'Very Dissatisfied'),
-  (6, 2, 1, 'Excellent'),
-  (7, 2, 2, 'Good'),
-  (8, 2, 3, 'Fair'),
-  (9, 2, 4, 'Poor'),
-  (10, 2, 5, 'Very Poor');
+(1, 1, 'Poor'),
+(1, 2, 'Fair'),
+(1, 3, 'Average'),
+(1, 4, 'Good'),
+(1, 5, 'Excellent'),
+(2, 1, 'Poor'),
+(2, 2, 'Fair'),
+(2, 3, 'Average'),
+(2, 4, 'Good'),
+(2, 5, 'Excellent');
 
--- UserAuthentication table
-INSERT INTO UserAuthentication (userId, username, password, accessLevel)
+-- Insert sample records into UserAuthentication table
+INSERT INTO UserAuthentication (userId, email, password, accessLevel)
 VALUES
-  (1, 'john.doe', 'password1', 1),
-  (2, 'jane.smith', 'password2', 2),
-  (3, 'michael.johnson', 'password3', 2),
-  (4, 'emily.davis', 'password4', 3),
-  (5, 'david.anderson', 'password5', 3);
+(1, 'john@example.com', 'password123', 1),
+(2, 'emma@example.com', 'pass456', 2),
+(3, 'michael@example.com', 'secret', 1),
+(4, 'sophia@example.com', '12345678', 3),
+(5, 'daniel@example.com', 'qwerty', 2);

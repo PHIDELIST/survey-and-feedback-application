@@ -10,7 +10,7 @@ function SurveyResponseForm() {
     // Fetch surveys from the backend and set the surveys state
     const fetchSurveys = async () => {
       try {
-        const response = await fetch('/api/surveys');
+        const response = await fetch(`http://localhost:8081/surveyfeedback`);
         const data = await response.json();
         setSurveys(data);
       } catch (error) {
@@ -28,7 +28,7 @@ function SurveyResponseForm() {
 
     // Fetch questions for the selected survey from the backend
     try {
-      const response = await fetch(`/api/surveys/${surveyId}/questions`);
+      const response = await fetch(`/http://localhost:8081/surveyfeedback/${surveyId}/questions`);
       const data = await response.json();
       setSelectedSurvey((prevSurvey) => ({
         ...prevSurvey,

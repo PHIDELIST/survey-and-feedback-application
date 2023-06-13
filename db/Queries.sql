@@ -50,4 +50,4 @@ GROUP BY questionId;
 -- Get user authentication details for a specific user
 SELECT *
 FROM UserAuthentication
-WHERE userId = [userId];
+WHERE userId = 1;

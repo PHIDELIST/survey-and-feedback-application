@@ -1,11 +1,12 @@
-import {getSurveys} from '../controllers/surveyfeedbackController.js'
+import {createSurvey,getQuestions, getSurveys} from '../controllers/surveyfeedbackController.js'
 const surveyfeedbackRoutes = (app) =>{
     app.route("/surveyfeedback")
         .get(getSurveys)
-        .post();
+        .post(createSurvey);
+       
     app.route("/surveyfeedback/:Id")
-        .get()
+        .get(getQuestions)
         .put()
-        .delete()
+        .delete();
 };
 export default surveyfeedbackRoutes 

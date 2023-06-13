@@ -62,53 +62,26 @@ function SurveyCreationForm() {
       <h1>Create Survey</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-        />
+        <input type="text" id="title" value={title} onChange={(event) => setTitle(event.target.value)} />
 
         <label htmlFor="description">Description:</label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-        ></textarea>
+        <textarea value={description} onChange={(event) => setDescription(event.target.value)} id="description"></textarea>
 
         <label htmlFor="startDate">Start Date:</label>
-        <input
-          type="date"
-          id="startDate"
-          value={startDate}
-          onChange={(event) => setStartDate(event.target.value)}
-        />
+        <input id="startDate" value={startDate} onChange={(event) => setStartDate(event.target.value)} type="date" />
 
         <label htmlFor="endDate">End Date:</label>
-        <input
-          type="date"
-          id="endDate"
-          value={endDate}
-          onChange={(event) => setEndDate(event.target.value)}
-        />
+        <input type="date" id="endDate" value={endDate} onChange={(event) => setEndDate(event.target.value)} />
 
         <label>Questions:</label>
         {questions.map((question, questionIndex) => (
           <div key={questionIndex}>
-            <input
-              type="text"
-              value={question.text}
-              onChange={(event) => handleQuestionChange(questionIndex, event)}
-            />
+            <input type="text" value={question.text} onChange={(event) => handleQuestionChange(questionIndex, event)} />
 
             <label>Choices:</label>
             {question.choices.map((choice, choiceIndex) => (
               <div key={choiceIndex}>
-                <input
-                  type="text"
-                  value={choice}
-                  onChange={(event) => handleChoiceChange(questionIndex, choiceIndex, event)}
-                />
+                <input type="text" value={choice} onChange={(event) => handleChoiceChange(questionIndex, choiceIndex, event)} />
                 <button type="button" onClick={() => handleRemoveChoice(questionIndex, choiceIndex)}>
                   Remove Choice
                 </button>
