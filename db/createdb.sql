@@ -1,135 +1,99 @@
 CREATE DATABASE SurveyFeedBack
 
--- Users table
+CREATE TABLE Locations (
+  LocationID INT PRIMARY KEY IDENTITY(1,1),
+  Country VARCHAR(255) NOT NULL,
+  City VARCHAR(255) NOT NULL,
+);
+
 CREATE TABLE Users (
-  userId INT PRIMARY KEY IDENTITY(1,1),
-  firstName VARCHAR(50) NOT NULL,
-  email VARCHAR(50) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  country VARCHAR(50) NOT NULL,
-  createdDate DATE NOT NULL
+  UserID INT PRIMARY KEY IDENTITY(1,1),
+  Username VARCHAR(255) NOT NULL,
+  Password VARCHAR(255) NOT NULL,
+  Email VARCHAR(255) NOT NULL,
+  Role VARCHAR(255),
+  LocationID INT,
+  FOREIGN KEY (LocationID) REFERENCES Locations(LocationID) ON DELETE SET NULL
 );
 
-
--- Organization Table
-CREATE TABLE Organization(
-  organizationId INT PRIMARY KEY IDENTITY(1,1),
-  organizationName VARCHAR(50) NOT NULL,
-  organizationType VARCHAR(50) NOT NULL
-)
--- Admins table---
-CREATE TABLE Admins (
-  adminId INT PRIMARY KEY IDENTITY(1,1),
-  firstName VARCHAR(50) NOT NULL,
-  lastName VARCHAR(50) NOT NULL,
-  country VARCHAR(50) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  phoneNumber VARCHAR(20) NOT NULL,
-  registrationDate DATE NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  organizationId INT,
-  FOREIGN KEY (organizationId) REFERENCES Organization(organizationId)
-);
-
-
--- Surveys table--
 CREATE TABLE Surveys (
-  surveyId INT PRIMARY KEY IDENTITY(1,1),
-  title VARCHAR(100) NOT NULL,
-  description VARCHAR(500) NOT NULL,
-  startDate DATE NOT NULL,
-  endDate DATE NOT NULL,
-  active BIT NOT NULL,
-  adminId INT,
-  FOREIGN KEY (adminId) REFERENCES Admins(adminId)
+  SurveyID INT PRIMARY KEY IDENTITY(1,1),
+  Title VARCHAR(255) NOT NULL,
+  Description TEXT,
+  StartDate DATE,
+  EndDate DATE,
+  Active BIT DEFAULT 0,
+  CONSTRAINT CHK_SurveyDates CHECK (EndDate >= StartDate)
 );
 
--- Questions table
 CREATE TABLE Questions (
-  questionId INT PRIMARY KEY IDENTITY(1,1),
-  surveyId INT,
-  questionText VARCHAR(500) NOT NULL,
-  FOREIGN KEY (surveyId) REFERENCES Surveys(surveyId)
+  QuestionID INT PRIMARY KEY IDENTITY(1,1),
+  SurveyID INT,
+  QuestionText TEXT,
+  Type VARCHAR(255),
+  FOREIGN KEY (SurveyID) REFERENCES Surveys(SurveyID) ON DELETE CASCADE
 );
 
--- Options table
 CREATE TABLE Options (
-  optionId INT PRIMARY KEY IDENTITY(1,1),
-  questionId INT,
-  optionText VARCHAR(500) NOT NULL,
-  FOREIGN KEY (questionId) REFERENCES Questions(questionId)
+  OptionID INT PRIMARY KEY IDENTITY(1,1),
+  QuestionID INT,
+  OptionText TEXT,
+  FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE
 );
 
--- Responses table---
-CREATE TABLE Responses (
-  responseId INT PRIMARY KEY IDENTITY(1,1),
-  userId INT,
-  surveyId INT,
-  questionId INT,
-  optionId INT,
-  answer TEXT,
-  createdAt DATE,
-  FOREIGN KEY (userId) REFERENCES Users(userId),
-  FOREIGN KEY (surveyId) REFERENCES Surveys(surveyId),
-  FOREIGN KEY (questionId) REFERENCES Questions(questionId),
-  FOREIGN KEY (optionId) REFERENCES Options(optionId)
+CREATE TABLE SurveyResponses (
+  ResponseID INT PRIMARY KEY IDENTITY(1,1),
+  SurveyID INT,
+  UserID INT,
+  QuestionID INT,
+  OptionID INT,
+  ResponseText TEXT,
+  Timestamp TIMESTAMP,
+  FOREIGN KEY (SurveyID) REFERENCES Surveys(SurveyID) ON DELETE CASCADE,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID) ,
+  FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ,
+  FOREIGN KEY (OptionID) REFERENCES Options(OptionID)
 );
 
--- UserFeedback table---
-CREATE TABLE UserFeedback (
-  feedbackId INT PRIMARY KEY IDENTITY(1,1),
-  userId INT,
-  feedbackText TEXT,
-  createdAt DATE,
-  FOREIGN KEY (userId) REFERENCES Users(userId)
+CREATE TABLE AdminUsers (
+  AdminID INT PRIMARY KEY IDENTITY(1,1),
+  UserID INT,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
--- SurveyAnalytics table---
-CREATE TABLE SurveyAnalytics (
-  analyticsId INT PRIMARY KEY IDENTITY(1,1),
-  surveyId INT,
-  responseCount INT,
-  averageRating DECIMAL(5,2),
-  completionRate DECIMAL(5,2),
-  startDate DATE,
-  endDate DATE,
-  FOREIGN KEY (surveyId) REFERENCES Surveys(surveyId)
+CREATE TABLE UserSurveys (
+  UserSurveyID INT PRIMARY KEY IDENTITY(1,1),
+  UserID INT,
+  SurveyID INT,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+  FOREIGN KEY (SurveyID) REFERENCES Surveys(SurveyID) ON DELETE CASCADE
 );
 
--- SurveyParticipants table--
-CREATE TABLE SurveyParticipants (
-  surveyId INT,
-  userId INT,
-  FOREIGN KEY (surveyId) REFERENCES Surveys(surveyId),
-  FOREIGN KEY (userId) REFERENCES Users(userId),
-  CONSTRAINT PK_SurveyParticipants PRIMARY KEY (surveyId, userId)
-);
-
--- SurveyQuestions table--
 CREATE TABLE SurveyQuestions (
-  surveyId INT,
-  questionId INT,
-  questionOrder INT,
-  FOREIGN KEY (surveyId) REFERENCES Surveys(surveyId),
-  FOREIGN KEY (questionId) REFERENCES Questions(questionId),
-  CONSTRAINT PK_SurveyQuestions PRIMARY KEY (surveyId, questionId)
+  SurveyQuestionID INT PRIMARY KEY IDENTITY(1,1),
+  SurveyID INT,
+  QuestionID INT,
+  FOREIGN KEY (SurveyID) REFERENCES Surveys(SurveyID) ,
+  FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID) ON DELETE CASCADE
 );
 
--- Ratings table--
-CREATE TABLE Ratings (
-  ratingId INT PRIMARY KEY IDENTITY(1,1),
-  questionId INT,
-  ratingValue INT,
-  ratingLabel VARCHAR(50),
-  FOREIGN KEY (questionId) REFERENCES Questions(questionId)
+CREATE TABLE ResponseOptions (
+  ResponseOptionID INT PRIMARY KEY IDENTITY(1,1),
+  ResponseID INT,
+  QuestionID INT,
+  OptionID INT,
+  FOREIGN KEY (ResponseID) REFERENCES SurveyResponses(ResponseID) ON DELETE CASCADE,
+  FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID),
+  FOREIGN KEY (OptionID) REFERENCES Options(OptionID)
 );
 
--- UserAuthentication table--
-CREATE TABLE UserAuthentication (
-  userId INT ,
-  email VARCHAR(50) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  accessLevel INT,
-  FOREIGN KEY (userId) REFERENCES Users(userId),
-  CONSTRAINT PK_UserAuthentication PRIMARY KEY (userId, email)
+CREATE TABLE Analytics (
+  AnalyticsID INT PRIMARY KEY IDENTITY(1,1),
+  SurveyID INT,
+  QuestionID INT,
+  ResponseCount INT,
+  AverageRating DECIMAL(5,2),
+  CompletionRate DECIMAL(5,2),
+  FOREIGN KEY (SurveyID) REFERENCES Surveys(SurveyID) ON DELETE CASCADE,
+  FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
 );

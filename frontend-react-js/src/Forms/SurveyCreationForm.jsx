@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import './SurveyCreationForm.css';
+
+
 
 function SurveyCreationForm() {
   const [title, setTitle] = useState('');
@@ -44,33 +47,26 @@ function SurveyCreationForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Perform validation and submit the survey data to the backend
-    const surveyData = {
-      title,
-      description,
-      startDate,
-      endDate,
-      questions,
-    };
+    //validation before submit the survey data to the backend
+    const surveyData = { title, description, startDate, endDate, questions,};
 
     console.log(surveyData);
-    // Make API request to store survey data in the database
+    // waiting for API to store survey data in the database
   };
 
   return (
-    <div>
-      <h1>Create Survey</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title:</label>
+    <div id="create-survey">
+      <form onSubmit={handleSubmit} id="surveycreation-form">
+        <label>Title:</label>
         <input type="text" id="title" value={title} onChange={(event) => setTitle(event.target.value)} />
 
-        <label htmlFor="description">Description:</label>
+        <label>Description:</label>
         <textarea value={description} onChange={(event) => setDescription(event.target.value)} id="description"></textarea>
 
-        <label htmlFor="startDate">Start Date:</label>
+        <label>Start Date:</label>
         <input id="startDate" value={startDate} onChange={(event) => setStartDate(event.target.value)} type="date" />
 
-        <label htmlFor="endDate">End Date:</label>
+        <label>End Date:</label>
         <input type="date" id="endDate" value={endDate} onChange={(event) => setEndDate(event.target.value)} />
 
         <label>Questions:</label>
@@ -81,25 +77,17 @@ function SurveyCreationForm() {
             <label>Choices:</label>
             {question.choices.map((choice, choiceIndex) => (
               <div key={choiceIndex}>
-                <input type="text" value={choice} onChange={(event) => handleChoiceChange(questionIndex, choiceIndex, event)} />
-                <button type="button" onClick={() => handleRemoveChoice(questionIndex, choiceIndex)}>
-                  Remove Choice
-                </button>
+                <input type="text" value={choice} onChange={(event) => handleChoiceChange(questionIndex, choiceIndex, event)}     />
+                <button type="button" onClick={() => handleRemoveChoice(questionIndex, choiceIndex)}>Remove Choice</button>
               </div>
             ))}
-            <button type="button" onClick={() => handleAddChoice(questionIndex)}>
-              Add Choice
-            </button>
+            <button type="button" onClick={() => handleAddChoice(questionIndex)}>Add Choice</button>
 
-            <button type="button" onClick={() => handleRemoveQuestion(questionIndex)}>
-              Remove Question
-            </button>
+            <button type="button" onClick={() => handleRemoveQuestion(questionIndex)}>Remove Question</button>
           </div>
         ))}
 
-        <button type="button" onClick={handleAddQuestion}>
-          Add Question
-        </button>
+        <button type="button" onClick={handleAddQuestion}>Add Question</button>
 
         <button type="submit">Create Survey</button>
       </form>

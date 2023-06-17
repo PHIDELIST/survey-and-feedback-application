@@ -1,0 +1,17 @@
+#create-survey{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+#surveycreation-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+input{
+    width: 100%;
+    text-align: center;
+}

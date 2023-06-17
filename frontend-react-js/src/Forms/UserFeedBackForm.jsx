@@ -17,7 +17,7 @@ function UserFeedbackForm() {
 
       if (response.ok) {
         console.log('User feedback submitted successfully');
-        // Reset the form after successful submission
+        
         reset();
       } else {
         console.log('Error submitting user feedback');

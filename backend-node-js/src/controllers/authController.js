@@ -1,7 +1,7 @@
 import sql from 'mssql';
 import config from '../db/config.js';
 import bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 export const loginRequired = (req, res, next) => {
     if (req.admin) {
@@ -16,15 +16,15 @@ export const register = async (req, res) => {
     const { firstName, lastName, country, email,phoneNumber,registrationDate, password,organizationId } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
     try {
-        const adminReg = await sql.connect(config.sql);
-        const result = await adminReg.request()
+        const admin= await sql.connect(config.sql);
+        const result = await admin.request()
             .input('email', sql.VarChar, email)
             .query('SELECT * FROM Admins WHERE email = @email');
             const user = result.recordset[0];
             if(user){
                 res.status(400).json({ message: 'Admin already exists' });
             }else{
-        await adminReg.request()
+        await admin.request()
             .input('firstName', sql.VarChar, firstName)
             .input('lastName', sql.VarChar, lastName)
             .input('country', sql.VarChar, country)
@@ -54,7 +54,7 @@ export const login = async (req, res) => {
         if(!bcrypt.compareSync(password, admin.password)){
             res.status(400).json({ message: 'Password is incorrect' });
         }else {
-            const token = `JWT ${jwt.sign({ firstName: admin.firstName, email: admin.email}, config.jwt_secret, { expiresIn: '1h' })}`;
+            const token = `JWT ${jwt.sign({ firstName: admin.firstName, email: admin.email}, config.jwt_secret)}`;
             res.status(200).json({ email: admin.email, token:token });
         
         }

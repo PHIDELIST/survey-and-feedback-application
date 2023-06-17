@@ -22,6 +22,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mssql": "^9.1.1",
+    "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.3",
     "rollbar": "^2.26.1"
   }
 }

@@ -5,13 +5,13 @@ function UserProfilePage() {
   const { register, handleSubmit, setValue, reset } = useForm();
 
   useEffect(() => {
-    // Fetch user profile data from the backend and populate the form fields
+   
     const fetchProfileData = async () => {
       try {
-        const response = await fetch('/api/user/profile');
+        const response = await fetch('/api/user/profile'); // Fetch user profile data from the backend and populate the form fields
         const data = await response.json();
 
-        // Populate the form fields with the profile data
+        
         setValue('firstName', data.firstName);
         setValue('email', data.email);
         setValue('country', data.country);
@@ -26,8 +26,8 @@ function UserProfilePage() {
 
   const handleFormSubmit = async (data) => {
     try {
-      // Send updated user profile data to the backend to update the user's profile
-      const response = await fetch('/api/user/profile', {
+      
+      const response = await fetch('/api/user/profile', {// Send updated user profile data to the backend to update the user's profile
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ function UserProfilePage() {
 
       if (response.ok) {
         console.log('User profile updated successfully');
-        // Reset the form after successful submission
+        
         reset();
       } else {
         console.log('Error updating user profile');

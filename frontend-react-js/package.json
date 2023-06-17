@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@date-io/date-fns": "1.x",
     "@hookform/resolvers": "^3.1.0",
     "@rollbar/react": "^0.11.1",
+    "chart.js": "^4.3.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "fa-icons": "^0.2.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.3",
     "react-icons": "^4.9.0",

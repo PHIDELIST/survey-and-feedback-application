@@ -1,103 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useReducer } from 'react';
+import './SurveyResponseForm.css';
 
-function SurveyResponseForm() {
-  const [surveys, setSurveys] = useState([]);
-  const [selectedSurvey, setSelectedSurvey] = useState(null);
-  const { register, handleSubmit, setValue } = useForm();
+const SurveyResponseForm = ({ survey, onSubmit }) => {
+  const [questionIndex, setQuestionIndex] = useState(0);
 
-  useEffect(() => {
-    // Fetch surveys from the backend and set the surveys state
-    const fetchSurveys = async () => {
-      try {
-        const response = await fetch(`http://localhost:8081/surveyfeedback`);
-        const data = await response.json();
-        setSurveys(data);
-      } catch (error) {
-        console.log('Error fetching surveys:', error);
-      }
-    };
-
-    fetchSurveys();
-  }, []);
-
-  const handleSurveyChange = async (event) => {
-    const surveyId = parseInt(event.target.value);
-    const selectedSurvey = surveys.find((survey) => survey.id === surveyId);
-    setSelectedSurvey(selectedSurvey);
-
-    // Fetch questions for the selected survey from the backend
-    try {
-      const response = await fetch(`/http://localhost:8081/surveyfeedback/${surveyId}/questions`);
-      const data = await response.json();
-      setSelectedSurvey((prevSurvey) => ({
-        ...prevSurvey,
-        questions: data.questions,
-      }));
-    } catch (error) {
-      console.log('Error fetching questions:', error);
+  const handleNextQuestion = () => {
+    if (questionIndex < survey.questions.length - 1) {
+      setQuestionIndex(questionIndex + 1);
     }
   };
 
-  const handleFormSubmit = (data) => {
-    // You can customize this function to send the user responses to the backend
-    console.log('Form data:', data);
-  };
-
-  const renderQuestionField = (question) => {
-    if (question.type === 'multiple_choice') {
-      return (
-        <div key={question.id}>
-          <label>{question.text}</label>
-          <select name={`question_${question.id}`} ref={register}>
-            {question.choices.map((choice) => (
-              <option key={choice.id} value={choice.id}>
-                {choice.text}
-              </option>
-            ))}
-          </select>
-        </div>
-      );
-    } else if (question.type === 'text_input') {
-      return (
-        <div key={question.id}>
-          <label>{question.text}</label>
-          <textarea name={`question_${question.id}`} ref={register}></textarea>
-        </div>
-      );
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // HERE IS WHERE IS HANDLE SENDING DATA TO THE DATBASE
+  
+    if (onSubmit) {
+      onSubmit();
     }
   };
 
+  if (!survey || !survey.questions || survey.questions.length === 0) {
+    return null; 
+  }
+  const currentQuestion = survey.questions[questionIndex];
   return (
-    <div>
-      <h2>Survey Response Form</h2>
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <label>Select a survey:</label>
-        <select name="survey" onChange={handleSurveyChange} ref={register}>
-          <option value="">Select a survey</option>
-          {surveys.map((survey) => (
-            <option key={survey.id} value={survey.id}>
-              {survey.title}
-            </option>
-          ))}
-        </select>
+    <div id='surveyresponse-form'>
+    <form onSubmit={handleSubmit}>
+      <h3>{survey.title}</h3>
+      <p>{survey.description}</p>
 
-        {selectedSurvey && (
-          <div>
-            <h3>{selectedSurvey.title}</h3>
-            <p>{selectedSurvey.description}</p>
-            {selectedSurvey.questions.map((question) =>
-              renderQuestionField(question)
-            )}
-          </div>
+      <div>
+        <p>{currentQuestion.text}</p>
+        {/* Here we Render the appropriate input based on the question type */}
+        {currentQuestion.type === 'yes_no' && (
+          <>
+            <label>
+              <input type="radio" name="answer" value="yes" /> Yes
+            </label>
+            <label>
+              <input type="radio" name="answer" value="no" /> No
+            </label>
+          </>
         )}
 
-        {selectedSurvey && (
-          <button type="submit">Submit</button>
+        {currentQuestion.type === 'multiple_response' && (
+          <>
+            {currentQuestion.choices.map((choice, index) => (
+              <label key={index}>
+                <input type="checkbox" name="answer" value={choice.text}
+                />{' '}
+                {choice.text}
+              </label>
+            ))}
+          </>
         )}
-      </form>
+
+        {currentQuestion.type === 'text_input' && (
+          <textarea name="answer" rows="4" cols="50" />
+        )}
+      </div>
+
+      {questionIndex < survey.questions.length - 1 && (
+        <button type="button" onClick={handleNextQuestion}>Next Question</button>
+      )}
+
+      {questionIndex === survey.questions.length - 1 && (
+        <button type="submit">Submit</button>
+      )}
+    </form>
     </div>
   );
-}
+};
 
 export default SurveyResponseForm;

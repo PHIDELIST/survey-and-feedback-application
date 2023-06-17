@@ -1,1 +1,3 @@
 ```yarn add express mssql dotenv cors body-parser```
+crontab.guru ---for running cron jobs
+nodemailer

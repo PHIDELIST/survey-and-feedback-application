@@ -5,13 +5,11 @@ function AdminProfilePage() {
   const { register, handleSubmit, setValue, reset } = useForm();
 
   useEffect(() => {
-    // Fetch admin profile data from the backend and populate the form fields
+    
     const fetchProfileData = async () => {
       try {
-        const response = await fetch('/api/admin/profile');
+        const response = await fetch('/api/admin/profile');// Fetch admin profile data from the backend and populate the form fields
         const data = await response.json();
-
-        // Populate the form fields with the profile data
         setValue('firstName', data.firstName);
         setValue('lastName', data.lastName);
         setValue('email', data.email);
@@ -40,7 +38,7 @@ function AdminProfilePage() {
 
       if (response.ok) {
         console.log('Admin profile updated successfully');
-        // Reset the form after successful submission
+      
         reset();
       } else {
         console.log('Error updating admin profile');
