@@ -1,4 +1,5 @@
-#NavItems{
+
+#NavItems {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -9,53 +10,99 @@
     width: 100%;
     max-width: 1448px;
     top: 0;
-    background-color: hsl(0, 0%, 98%);
-}
-
-#NavLinks{
+    background-color: #91ddf6;
+  }
+  
+  #NavLinks {
     display: flex;
     flex-direction: row;
     padding: 10px;
-    gap: 2rem;
+    gap: 5rem;
     list-style: none;
     align-items: center;
     justify-content: center;
-}
-#links{
+    color: black;
+  }
+  
+  #links {
     display: flex;
     flex-direction: row;
     list-style: none;
     gap: 1rem;
-}
-#links li{
-    color: hsl(273, 4%, 51%);;
-}
-#links li:hover{
+  }
+  
+  #links li {
+    color: hsl(273, 4%, 51%);
+  }
+  
+  #links li:hover {
     color: hsl(256, 26%, 20%);
-}
-#PlansBtn{
+  }
+  
+  #PlansBtn {
     border-radius: 3px;
     padding: 10px;
     border-style: 1px hsl(0, 0%, 98%);
-}
-#PlansBtn:hover{
+  }
+  
+  #PlansBtn:hover {
     color: white;
     background-color: hsl(256, 26%, 20%);
-    
-}
-#NavImg img{
+  }
+  
+  #NavImg img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-}
-#HomeIcon{
+  }
+  
+  #HomeIcon {
     color: greenyellow;
     width: 50px;
     height: 40px;
-}
-#NavImg{
+  }
+  
+  #NavImg {
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 2px;
-}
+  }
+  
+
+  
+  /* For screens with a maximum width of 768px */
+  @media screen and (max-width: 768px) {
+    #NavItems {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      height: auto;
+    }
+  
+    #NavLinks {
+      flex-direction: column;
+      gap: 2rem;
+      padding: 0;
+    }
+  
+    #links {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  
+  /* For screens with a maximum width of 480px */
+  @media screen and (max-width: 480px) {
+    #NavItems {
+      padding: 10px;
+    }
+  
+    #NavLinks {
+      gap: 2rem;
+    }
+  }
+  
+
+  

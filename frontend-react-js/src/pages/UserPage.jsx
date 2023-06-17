@@ -5,7 +5,7 @@ import SurveyResponseForm from '../Forms/SurveyResponseForm';
 const sampleSurveys = [
   {
     id: 1,
-    title: 'Survey feedack',
+    title: 'Survey feedback   website',
     description: 'I am dummy.',
     expiration_date: '2024-07-07',
     questions: [
@@ -31,7 +31,7 @@ const sampleSurveys = [
   },
   {
     id: 2,
-    title: 'Sample Survey 2',
+    title: 'Sarova white sands hotel &',
     description: 'lets try it out.',
     expiration_date: '2024-07-08',
     questions: [

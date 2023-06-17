@@ -1,6 +1,11 @@
 import React from 'react'
 import './HomePage.css'
 import IntroPhoto from '../assets/introPhoto.jpg'
+import { Link } from 'react-router-dom'
+import sarova from '../assets/sarova.png'
+import kilele from'../assets/kilele.jpg'
+import mtKenya from '../assets/mtKenya.jpg'
+import gym from '../assets/gym.jpg'
 
 export default function HomePage() {
   return (
@@ -8,37 +13,70 @@ export default function HomePage() {
    <div id='MainHomeContainer'>
        <div id='HomePageIntro'>
         <div id='intro'>
-        <h2>Survey Questions and Feedback : This Will Help Enhance Customer Satisfaction</h2>
+        <h2>Welcome to our Surveys Platform</h2>
         <p>
-        Need some help writing survey questions? We've got you. 
-        Dive into our survey question examples and write kick-ass survey questions.
+        Discover valuable insights, make informed decisions, and shape the future with our powerful survey platform
+        Empower your organization, engage your audience, and unlock the voice of your stakeholders with our comprehensive survey tools
       </p>
+       
       </div>
       <img src={IntroPhoto} id="IntroPhoto" alt="" />
        </div>
       <div id='Explanations'>
-      <h1>Types of survey questions</h1>
-      <h2>This is what you came for—the good stuff.</h2>
-      <h3>Here are the types of survey questions you should be using to get more survey responses:</h3>
+      <div>
+        <div id="testimonial">
+        <h2>What our users say</h2>
+            <blockquote>"Taking surveys on this platform has been an insightful experience. Highly recommended!"</blockquote>
+            <cite>- Phidel oluoch</cite>
+            <blockquote>"I've gained valuable knowledge and contributed to important research through these surveys."</blockquote>
+            <cite>- Delphi Omuya</cite>
+            <h2>Get Started Now</h2>
+          <p>Join our community and share your opinions through our surveys.</p>
+          <Link to="/userloginpage"><button id='PlansBtn'>TAKE SURVEY</button></Link>
+          </div>
+        </div>
+        <div id='survey-cards-main'>
+          <div id="survey-card">
+              <img src={sarova} alt="Survey Image" />
+              <h3>Sarova Whitesands Beach Resort</h3>
+              <p>we will like to know how was your experince at our beach hotel</p>
+              <Link to="/userloginpage"><button id='PlansBtn'>TAKE SURVEY</button></Link>
+          </div>
+          <div id="survey-card">
+          <img src={kilele} alt="Survey Image" />
+            <h3>KIRINYAGA UNIVERSITY</h3>
+            <p>We value your experience on our site take survey to help us make it better</p>
+            
+            <Link to="/userloginpage"><button id='PlansBtn'>TAKE SURVEY</button></Link>
+          </div>
+          <div id="survey-card">
+          <img src={gym} alt="Survey Image" />
+            <h3>DELPHI GYM</h3>
+            <div className="progress-bar">
+              <div className="progress"></div>
+            </div>
+            <p>Progress: 50%</p>
+            <Link to="/userloginpage"><button id='PlansBtn'>Continue Survey</button></Link>
+  
+          </div>
+          <div id="survey-card">
+          <img src={mtKenya} alt="Survey Image" />
+            <h3>Mount Kenya Safaris</h3>
+            <div className="ratings">
+              <span className="rating">&#9733;</span>
+              <span className="rating">&#9733;</span>
+              <span className="rating">&#9733;</span>
+              <span className="rating">&#9734;</span>
+              <span className="rating">&#9734;</span>
+            </div>
+            <p>Number of Reviews: 10</p>
+            <Link to="/userloginpage"><button id='PlansBtn'>View Surveys</button></Link>
+          </div>
 
-              <li>Open-ended questions</li>
 
-              <li>Closed-ended questions</li>
 
-              <li>Rating questions</li>
+        </div>
 
-              <li>Likert scale questions</li>
-
-              <li>Multiple choice questions</li>
-
-              <li>Picture choice questions</li>
-
-              <li>Demographic questions</li>
-        <p>
-        Maybe that’s exactly what you needed—seven types of sample survey questions. Great. But maybe you’re looking for more.
-        Maybe, you want some of our juiciest tips for writing better questions. The questions you should be asking to potential customers. 
-        Or maybe you want to hear what a psychology researcher-turned-marketer thinks you should do. Then you should read on. Definitely.
-        </p>
         </div>
    </div>
    </>

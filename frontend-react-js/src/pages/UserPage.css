@@ -3,15 +3,10 @@
     flex-direction: column;
     margin-top: 5rem;
     align-items: center;
+    background: linear-gradient(to bottom, #f2f2f2, #ffffff);
+    border-radius: 4px;
 }
-/* #usercontainerdashboard{
-    display: flex;
-    flex-direction: row;
-    gap:2rem;
-    justify-content: center;
-    align-items: center;
-    justify-content: space-between;
-} */
+
 #survey-cards-container{
     display: flex;
     flex-direction: row;
@@ -23,6 +18,7 @@
  
 #survey-card {
     padding: 20px;
+    width: 50%;
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 5px;

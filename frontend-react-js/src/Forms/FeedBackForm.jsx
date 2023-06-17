@@ -25,16 +25,14 @@ function FeedbackForm() {
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
-    // Perform validation or additional logic if needed
 
-    // Submit feedback to the backend or perform any desired actions
     console.log('Feedback submitted:', feedbackType, feedbackText);
 
-    // Reset the form
+
     setFeedbackType('');
     setFeedbackText('');
 
-    // Close the modal
+
     setIsModalOpen(false);
   };
 
@@ -67,7 +65,7 @@ function FeedbackForm() {
       >
         <h2>Feedback Form</h2>
         <form onSubmit={handleFormSubmit}>
-          <p>Selected Feedback Type: {feedbackType}</p>
+          <p>{feedbackType}</p>
 
           <label htmlFor="feedbackText">Additional Comments:</label>
           <textarea

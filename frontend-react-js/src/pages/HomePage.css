@@ -1,45 +1,127 @@
-#MainHomeContainer{
-    background-color: white;
-}
-#HomePageIntro{
+/* Default styles */
+#HomePageIntro {
     display: flex;
     flex-direction: row;
     gap: 4rem;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-right: 15px;
     margin-top: 5rem;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
     border-radius: 5px;
     padding-left: 15px;
-}
-#HomePageIntro:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
-#intro h2{
-    font-size: 50px;
-}
-#intro p{
-    font-size: 20px;
-}
-#FooterBottom{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-#Explanations{
+  #testimonial{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 10rem;
-    padding-right: 10rem;
-    text-align: justify;
-    font-weight: 500;
-    
+    align-items: center;
+    margin-bottom: 2rem;
 }
-#IntroPhoto{
+  #intro h2 {
+    font-size: 50px;
+  }
+  
+  #intro p {
+    font-size: 20px;
+  }
+  
+  #IntroPhoto {
     width: 60%;
     border-radius: 5px;
-}
-#IntroPhoto:hover {opacity: 0.7;}
+  }
+  
+  #survey-cards-main {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+  }
+  
+  #survey-card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    width: 25%;
+  }
+  
+  #survey-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  #survey-card h3 {
+    margin-top: 10px;
+  }
+  
+  #survey-card p {
+    margin-bottom: 10px;
+  }
+  
+  #survey-card button {
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #progress-bar {
+    width: 100%;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    height: 10px;
+    margin-bottom: 10px;
+  }
+  
+  #progress {
+    width: 50%;
+    background-color: #337ab7;
+    height: 100%;
+    border-radius: 4px;
+  }
+  
+  #ratings {
+    margin-bottom: 10px;
+  }
+  
+  #rating {
+    color: #f1c40f;
+    font-size: 20px;
+  }
+  
+
+  
+  /* For screens with a maximum width of 768px */
+  @media screen and (max-width: 768px) {
+    #HomePageIntro {
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+  
+    #IntroPhoto {
+      width: 100%;
+    }
+  
+    #survey-cards-main {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  
+    #survey-card {
+      width: 100%;
+    }
+  }
+  
+  /* For screens with a maximum width of 480px */
+  @media screen and (max-width: 480px) {
+    #HomePageIntro {
+      margin-top: 2rem;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+  
+  
+  
