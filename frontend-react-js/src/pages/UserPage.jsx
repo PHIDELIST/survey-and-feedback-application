@@ -89,7 +89,7 @@ function UserPage() {
       {!showPopup && (
         <div id="survey-cards-container">
           {sampleSurveys.map((survey) => (
-            <div id="survey-card" key={survey.id}>
+            <div id="userpagesurvey-card" key={survey.id}>
               <h3>{survey.title}</h3>
               <p>{survey.description}</p>
               <p>Expires on: {survey.expiration_date}</p>

@@ -13,14 +13,6 @@ function Footer() {
     <>
     <div id='FooterMain'>
         <div id='FooterHeader'>
-        <div><Link to ="/"><img src={logo} alt="" /></Link></div>
-        <div id='iconsFooter'>
-        <FaFacebook />
-        <FaTwitter />
-        <FaInstagram />
-        <FaYoutube />
-        <FaLinkedin />
-        </div>
         </div>
     
         <div id='FooterContent'>
@@ -58,7 +50,7 @@ function Footer() {
             </div>
         </div>
         <div id='FooterBottom'>
-        <p>© 2022 All Rights Reserved</p>
+        <p>© 2023 All Rights Reserved</p>
         </div>
     </div>
 

@@ -4,11 +4,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-self: center;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     height: 25px;
-    position: fixed;
+    margin-right: 10px;
     width: 100%;
-    max-width: 1448px;
     top: 0;
     background-color: #91ddf6;
   }
@@ -54,6 +54,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    margin-left: 10px;
   }
   
   #HomeIcon {
@@ -71,38 +72,27 @@
   
 
   
-  /* For screens with a maximum width of 768px */
-  @media screen and (max-width: 768px) {
+  /* For screens with a maximum width of 480px */
+  @media screen and (max-width: 480px) {
     #NavItems {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      flex-direction: row;
       padding: 10px;
+      max-width: 480px;
       height: auto;
     }
   
     #NavLinks {
-      flex-direction: column;
+      flex-direction: row;
       gap: 2rem;
       padding: 0;
-    }
+  
   
     #links {
-      flex-direction: column;
+      flex-direction: row;
       gap: 1rem;
     }
   }
   
-  /* For screens with a maximum width of 480px */
-  @media screen and (max-width: 480px) {
-    #NavItems {
-      padding: 10px;
-    }
-  
-    #NavLinks {
-      gap: 2rem;
-    }
   }
-  
 
   

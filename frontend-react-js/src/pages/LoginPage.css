@@ -1,24 +1,24 @@
 #LoginContainer{
     display: flex;
     flex-direction: row;
- 
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-top: 5rem;
-    background-color: hsl(0, 0%, 98%);
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 5px;
-    padding-left: 5rem;
-    padding-right: 5rem;
-
-    
+    gap: 5rem;
+   
 }
 #LoginForm{
     display: flex;
     flex-direction: column;
     gap: 5px;
     justify-content: center;
+    background-color: hsl(0, 0%, 98%);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 #LoginForm input {
     width: 400px;
@@ -35,9 +35,18 @@
 }
 #RightLoginImg img{
     margin-top: 10px;
-    width: 70%;
+    width: 100%;
+    border-radius: 5px;
 }
 #LoginForm p{
     color: red;
     font-size: 10px;
+}
+@media screen and (max-width: 480px) {
+    #LoginContainer{
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 100%;
+    }
 }

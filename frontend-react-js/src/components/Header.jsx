@@ -9,7 +9,6 @@ function Header() {
     <>
     <div id='NavItems'>
     <div id='NavImg'>
-      <Link to ="/"><FaHome id='HomeIcon'/></Link>
       <Link to ="/"><img src={logo} alt="" /></Link>
       </div>
       <div id='NavLinks'> 

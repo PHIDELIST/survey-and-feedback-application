@@ -48,11 +48,11 @@ function Dashboard() {
        <h1>Admin Dashboard</h1>
       <div id='dashboardmain'>
       {questionData.map((item) => (
-        <div className="card" key={item.question}>
-          <div className="card-header">
+        <div id="card" key={item.question}>
+          <div id="card-header">
             <h3>{item.question}</h3>
           </div>
-          <div className="card-body">
+          <div id="card-body">
             <ul>
               {Object.entries(item.percentages).map(([option, percentage]) => (
                 <li key={option}>

@@ -1,6 +1,7 @@
 import {createSurvey,getQuestions, getSurveys,deleteSurvey,getResponse} from '../controllers/surveyfeedbackController.js'
 import {register,login,loginRequired} from '../controllers/authController.js'
 import { response } from 'express';
+import { createLocations } from '../controllers/locationController.js';
 
 const surveyfeedbackRoutes = (app) =>{
     app.route("/surveyfeedbacks")
@@ -12,13 +13,17 @@ const surveyfeedbackRoutes = (app) =>{
         .delete(loginRequired,deleteSurvey);
 
     app.route("/response/:questionId")
-    .get(loginRequired,getResponse);
+        .get(loginRequired,getResponse);
 
     app.route('/auth/register')
-    .post(register);
+        .post(register);
 
     app.route('/auth/login')
-    .post(login);
+        .post(login);
+
+    app.route('/locations')
+        .post(createLocations)
+
 
 };
 export default surveyfeedbackRoutes 

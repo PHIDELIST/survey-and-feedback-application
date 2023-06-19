@@ -47,7 +47,7 @@ function FeedbackForm() {
 
   return (
     <div>
-      <h2>Feedback Form</h2>
+     
       <div className="feedback-options">
         <button onClick={() => openModal('thumbs-up')}>
           <span role="img" aria-label="Thumbs Up">👍</span>

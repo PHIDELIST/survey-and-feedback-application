@@ -1,9 +1,9 @@
 #maindashboardcontainer{
     display: flex;
     flex-direction: column;
-    margin-top: 5rem;
     justify-content: center;
     align-items: center;
+    
 }
 #dashboardmain{
     display: flex;
@@ -12,36 +12,36 @@
     justify-content: center;
     
 }
-.card {
+#card {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  .card-header {
+  #card-header {
     background-color: #f5f5f5;
     padding: 10px;
     border-bottom: 1px solid #ccc;
   }
   
-  .card-header h3 {
+  #card-header h3 {
     margin: 0;
     font-size: 16px;
     color: #333;
   }
   
-  .card-body {
+  #card-body {
     padding: 10px;
   }
   
-  .card-body ul {
+  #card-body ul {
     margin: 0;
     padding: 0;
     list-style: none;
   }
   
-  .card-body li {
+  #card-body li {
     margin-bottom: 5px;
     color: #666;
   }
