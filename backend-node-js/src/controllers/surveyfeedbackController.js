@@ -1,6 +1,108 @@
-// here is where we write the logic
 import sql from 'mssql';
 import config from '../db/config.js';
+
+// Creating a Survey
+export const createSurvey = async (req, res) => {
+  try {
+    const { Title, Description, StartDate, EndDate, Active, Questions } = req.body;
+    const AdminID = req.admin.AdminID; // getting stored admin's ID in the user object after authentication
+    let pool = await sql.connect(config.sql);
+
+    const transaction = new sql.Transaction(pool);
+
+    // Wrap transaction.begin with a promise
+    const beginTransaction = () => {
+      return new Promise((resolve, reject) => {
+        transaction.begin((error) => {
+          if (error) {
+            console.error('Transaction begin error:', error);
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      });
+    };
+
+    // Call beginTransaction and handle errors
+    try {
+      await beginTransaction();
+
+      const request = new sql.Request(transaction);
+
+      // Insert survey data
+      request.input('Title', sql.VarChar, Title);
+      request.input('Description', sql.VarChar, Description);
+      request.input('StartDate', sql.Date, StartDate);
+      request.input('EndDate', sql.Date, EndDate);
+      request.input('Active', sql.Bit, Active);
+      request.input('AdminID', sql.Int, AdminID);
+      const surveyInsertQuery =
+        'INSERT INTO Surveys (Title, Description, StartDate, EndDate, Active, AdminID) ' +
+        'VALUES (@Title, @Description, @StartDate, @EndDate, @Active, @AdminID); ' +
+        'SELECT SCOPE_IDENTITY() AS SurveyID';
+
+        const surveyIdResult = await request.query(surveyInsertQuery);
+        const surveyId = surveyIdResult.recordset[0].SurveyID;
+
+
+      // Insert questions
+      for (let i = 0; i < Questions.length; i++) {
+        const question = Questions[i];
+        request.input(`QuestionText_${i}`, sql.Text, question.text);
+        request.input(`Type_${i}`, sql.VarChar, question.type);
+        request.input(`SurveyID_${i}`, sql.Int, surveyId);
+
+        const questionInsertQuery =
+          `INSERT INTO Questions (QuestionText, Type, SurveyID) ` +
+          `VALUES (@QuestionText_${i}, @Type_${i}, ${surveyId}); SELECT SCOPE_IDENTITY() AS QuestionID`;
+
+        const questionInsertResult = await request.query(questionInsertQuery);
+        const questionId = questionInsertResult.recordset[0].QuestionID;
+
+        // Insert question options
+        if (question.options && question.options.length > 0) {
+          for (let j = 0; j < question.options.length; j++) {
+            const option = question.options[j];
+            request.input(`OptionText_${i}_${j}`, sql.Text, option);
+            request.input(`QuestionID_${i}_${j}`, sql.Int, questionId);
+
+            const optionInsertQuery =
+              `INSERT INTO Options (OptionText, QuestionID) ` +
+              `VALUES (@OptionText_${i}_${j}, @QuestionID_${i}_${j})`;
+
+            await request.query(optionInsertQuery);
+          }
+        }
+      }
+
+      // Commit the transaction
+      transaction.commit((commitError) => {
+        if (commitError) {
+          console.error('Transaction commit error:', commitError);
+          res.status(500).json({ error: 'An error occurred while creating a survey' });
+        } else {
+          res.status(200).json({ message: 'Survey created successfully' });
+        }
+      });
+    } catch (error) {
+      console.error('Database operation error:', error);
+      // Rollback the transaction in case of any query error
+      transaction.rollback((rollbackError) => {
+        if (rollbackError) {
+          console.error('Transaction rollback error:', rollbackError);
+        }
+        res.status(500).json({ error: 'An error occurred while creating a survey' });
+      });
+    }
+  } catch (connectionError) {
+    console.error('Database connection error:', connectionError);
+    res.status(500).json({ error: 'An error occurred while connecting to the database' });
+  } finally {
+    sql.close();
+  }
+};
+
 
 //get all surveys
 export const getSurveys = async (req,res) => {
@@ -16,42 +118,6 @@ export const getSurveys = async (req,res) => {
     }
 };
 
-//Creating a Survey
-export const createSurvey = async (req,res) => {
-    try{
-        const{title,description,startDate,endDate,active,adminId} = req.body;
-        let pool = await sql.connect(config.sql);//configurations for connectiong to sql
-        await pool.request()
-        .input('title',sql.VarChar,title)//these .inputs helps to prevent sql injection attacts by confiming first the data types then holding them to be used later
-        .input('description',sql.VarChar,description)
-        .input('startDate',sql.Date,startDate)
-        .input('endDate',sql.Date,endDate)
-        .input('active',sql.Bit,active)
-        .input('adminId',sql.Int,adminId)
-        .query("INSERT INTO Surveys (title,description,startDate,endDate,active,adminId) VALUES (@title,@description,@startDate,@endDate,@active,@adminId)");
-        res.status(200).json({message: 'survey created successfully'})
-    }catch(error){
-        res.status(500).json({error: 'an error occurred while creating a survey'}); 
-    }finally{
-        sql.close();
-    }
-}
-//Creating a Survey questions
-export const createQuestions = async (req,res) => {
-    try{
-        const{surveyId,questionText} = req.body;
-        let pool = await sql.connect(config.sql);//configurations for connectiong to sql
-        await pool.request()
-        .input('surveyId',sql.Int,surveyId)
-        .input('questionText',sql.VarChar,questionText)
-        .query("INSERT INTO Questions (surveyId,questionText) VALUES (@surveyId,@questionText)");
-        res.status(200).json({message: 'question created successfully'})
-    }catch(error){
-        res.status(500).json({error: 'an error occurred while creating a question'}); 
-    }finally{
-        sql.close();
-    }
-}
 ///Fetching questions for a specific survey
 export const getQuestions = async (req,res) => {
     try{

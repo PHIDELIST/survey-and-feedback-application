@@ -3,6 +3,8 @@ import config from './src/db/config.js';
 import surveyfeedbackRoutes from "./src/routes/surveyfeedbackRoutes.js"
 // import Rollbar from 'rollbar';
 import jwt from 'jsonwebtoken';
+import cors from 'cors';
+
 
 
 
@@ -22,7 +24,7 @@ const app = express();
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cors());
 //JWT middleware
 app.use((req,res,next) => {
   if(req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT'){
