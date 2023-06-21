@@ -105,18 +105,19 @@ export const createSurvey = async (req, res) => {
 
 
 //get all surveys
-export const getSurveys = async (req,res) => {
-    try{
-        let pool = await sql.connect(config.sql);//configurations for connectiong to sql
-        const result = await pool.request().query("SELECT * FROM Surveys");// ALL the queries are writen here(*)
-        res.status(200).json(result.recordset[0]);
-    
-    }catch(error){
-        res.status(202).json({error: 'an error occurred while retrieving surveys'});
-    }finally{
-        sql.close();
-    }
+export const getSurveys = async (req, res) => {
+  try {
+    let pool = await sql.connect(config.sql); 
+    const result = await pool.request().query("SELECT * FROM Surveys");
+    res.status(200).json(result.recordset); // Return the entire recordset
+
+  } catch (error) {
+    res.status(202).json({ error: 'An error occurred while retrieving surveys' });
+  } finally {
+    sql.close();
+  }
 };
+
 
 ///Fetching questions for a specific survey
 export const getQuestions = async (req,res) => {

@@ -1,6 +1,7 @@
 import {createSurvey,getQuestions, getSurveys,deleteSurvey,getResponse} from '../controllers/surveyfeedbackController.js'
 import {register,login,loginRequired} from '../controllers/authController.js'
-import { response } from 'express';
+import {submitResponse} from '../controllers/responseController.js'
+
 
 const surveyfeedbackRoutes = (app) =>{
     app.route("/surveyfeedbacks")
@@ -13,9 +14,13 @@ const surveyfeedbackRoutes = (app) =>{
 
     app.route("/response/:questionId")
         .get(loginRequired,getResponse);
+    
+    app.route("/response")
+        .post(loginRequired,submitResponse);
 
     app.route('/auth/register')
         .post(register);
+    
 
     app.route('/auth/login')
         .post(login);
