@@ -1,0 +1,409 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: This template build network layers for the surveyfeedback project. 
+             -it includes VPC, subnets, and Security groups for the project.
+
+Parameters:
+  VPCCIDR:
+    Description: CIDR Block for VPC
+    Type: String
+    Default: 10.0.0.0/16
+    AllowedValues:
+      - 10.0.0.0/16
+
+  PublicSubnet1Param:
+    Description: Public Subnet 1
+    Type: String
+    Default: 10.0.0.0/24
+    AllowedValues:
+      - 10.0.0.0/24
+
+  PublicSubnet2Param:
+    Description: Public Subnet 2
+    Type: String
+    Default: 10.0.1.0/24
+    AllowedValues:
+      - 10.0.1.0/24
+
+  AppSubnet1Param:
+    Description: App Subnet 1
+    Type: String
+    Default: 10.0.2.0/24
+    AllowedValues:
+      - 10.0.2.0/24
+
+  AppSubnet2Param:
+    Description: App Subnet 2
+    Type: String
+    Default: 10.0.3.0/24
+    AllowedValues:
+      - 10.0.3.0/24
+
+  DatabaseSubnet1Param:
+    Description: Private Subnet 1
+    Type: String
+    Default: 10.0.4.0/24
+    AllowedValues:
+      - 10.0.4.0/24
+
+  DatabaseSubnet2Param:
+    Description: Private Subnet 2
+    Type: String
+    Default: 10.0.5.0/24
+    AllowedValues:
+      - 10.0.5.0/24
+
+Resources:
+###########
+# VPC and Network Structure
+###########
+  SurveyVPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: !Ref VPCCIDR
+      EnableDnsSupport: True
+      EnableDnsHostnames: True
+      InstanceTenancy: 'default'
+      Tags:
+        - Key: Name
+          Value: SurveyVPC
+
+  SurveyInternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+
+  AttachGateway:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      InternetGatewayId: !Ref SurveyInternetGateway
+
+#NATs
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt ElasticIPAddress.AllocationId
+      SubnetId: !Ref PublicSubnet1
+      Tags:
+        - Key: Name
+          Value: SurveyNATGateway
+
+  ElasticIPAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+
+#Subnets
+  PublicSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      CidrBlock: !Ref PublicSubnet1Param
+      MapPublicIpOnLaunch: True
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: PublicSubnet1
+
+  PublicSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      CidrBlock: !Ref PublicSubnet2Param
+      MapPublicIpOnLaunch: True
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: PublicSubnet2
+
+  AppSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      CidrBlock: !Ref AppSubnet1Param
+      MapPublicIpOnLaunch: False
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs '' 
+      Tags:
+        - Key: Name
+          Value: AppSubnet1
+
+  AppSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      CidrBlock: !Ref AppSubnet2Param
+      MapPublicIpOnLaunch: False
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: AppSubnet2
+
+  DatabaseSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      CidrBlock: !Ref DatabaseSubnet1Param
+      MapPublicIpOnLaunch: False
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: DatabaseSubnet1
+
+  DatabaseSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      CidrBlock: !Ref DatabaseSubnet2Param
+      MapPublicIpOnLaunch: False
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: DatabaseSubnet2
+
+#Routing
+#Route Tables
+  PublicRouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      Tags:
+        - Key: Name
+          Value: PublicRouteTable
+
+  PrivateRouteTableAZ1:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      Tags:
+        - Key: Name
+          Value: PrivateRouteTableAZ1
+
+  PrivateRouteTableAZ2:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref SurveyVPC
+      Tags:
+        - Key: Name
+          Value: PrivateRouteTableAZ2
+#Routes
+  PublicRoute:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref SurveyInternetGateway
+
+  PrivateRouteAZ1:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableAZ1
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+
+  PrivateRouteAZ2:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      RouteTableId: !Ref PrivateRouteTableAZ2
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+#Subnet Associations
+  PublicSubnet1RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnet2RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+
+  AppSubnet1RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref AppSubnet1
+      RouteTableId: !Ref PrivateRouteTableAZ1
+
+  AppSubnet2RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref AppSubnet2
+      RouteTableId: !Ref PrivateRouteTableAZ2
+
+  DatabaseSubnet1RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref DatabaseSubnet1
+      RouteTableId: !Ref PrivateRouteTableAZ1
+
+  DatabaseSubnet2RouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref DatabaseSubnet2
+      RouteTableId: !Ref PrivateRouteTableAZ2
+
+  ###########
+  # DB Subnet Group
+  ###########
+
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: SurveyDBSubnetGroup
+      DBSubnetGroupName: SurveyDBSubnetGroup
+      SubnetIds:
+        - !Ref DatabaseSubnet1
+        - !Ref DatabaseSubnet2
+      Tags:
+        - Key: Name
+          Value: DBSubnetGroup
+         
+
+###########
+# Security Groups
+###########
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html
+  ALBsecurityGroup:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security Group allowing HTTP/HTTPS traffic from internet to the ALB
+      VpcId: !Ref SurveyVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+          Description: INTERNET HTTP
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+          Description: INTERNET HTTPS
+      Tags:
+        - Key: Name
+          Value: SurveyAlbSecurityGroup
+
+  AppInstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security Group allowing HTTP traffic for Insurane instances
+      VpcId: !Ref SurveyVPC
+      Tags:
+        - Key: Name
+          Value: AppInstanceSecurityGroup
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ALBsecurityGroup
+
+  RDSSecurityGroup:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbsubnetgroup.html
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security Group allowing RDS instances to have to recieve traffic traffic from Appservers
+      VpcId: !Ref SurveyVPC
+      Tags:
+        - Key: Name
+          Value: RDSSecurityGroup
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref AppInstanceSecurityGroup
+
+
+
+Outputs:
+
+  Region:
+    Description: "Survey Region"
+    Value: !Ref AWS::Region
+    
+  DatabaseSubnet1CIDR:
+    Description: "CIDR block for the DB Subnet in AZ a"
+    Value: !Ref DatabaseSubnet1Param
+
+  DatabaseSubnet2CIDR:
+    Description: "CIDR block for the DB Subnet in AZ b"
+    Value: !Ref DatabaseSubnet2Param
+
+  DatabaseSubnet1ID:
+    Description: "The Subnet ID for the DB Subnet in AZ a"
+    Value: !Ref DatabaseSubnet1
+    Export:
+      Name: "DatabaseSubnet1ID"
+
+  DatabaseSubnet2ID:
+    Description: "The Subnet ID for the DB Subnet in AZ b"
+    Value: !Ref DatabaseSubnet2
+    Export:
+      Name: "DatabaseSubnet2ID"
+
+  AppInstanceSecurityGroupID:
+    Description: "The Security Group ID for the Survey Instance Security Group"
+    Value: !Ref AppInstanceSecurityGroup
+    Export:
+      Name: "AppInstanceSecurityGroupID"
+      
+  ALBsecurityGroupID:
+    Description: "The Security Group ID for the SurveyALB Security Group"
+    Value: !Ref ALBsecurityGroup
+    Export:
+      Name: "ALBsecurityGroupID"
+  
+
+  RDSSecurityGroupID:
+    Description: "The Security Group ID for the Survey RDS cluster"
+    Value: !Ref RDSSecurityGroup
+    Export:
+      Name: "RDSSecurityGroupID"
+
+  AppSubnet1ID:
+    Description: "Subnet Id for App Subnet 1"
+    Value: !Ref AppSubnet1
+    Export:
+      Name: "AppSubnet1"
+
+  AppSubnet2ID:
+    Description: "Subnet Id for App Subnet 2"
+    Value: !Ref AppSubnet2
+    Export:
+      Name: "AppSubnet2"
+  PublicSubnet1ID:
+    Description: "Subnet Id for public Subnet 1"
+    Value: !Ref PublicSubnet1ID
+    Export:
+      Name: "PublicSubnet1"
+  PublicSubnet2ID:
+    Description: "Subnet Id for public Subnet 2"
+    Value: !Ref PublicSubnet2
+    Export:
+      Name: "PublicSubnet2ID"
+
+  DBSubnetGroup:
+    Description: "db subnet group name"
+    Value: !Ref DBSubnetGroup
+    Export:
+      Name: "DBSubnetGroup"
+
+
+  SurveyVPCID:
+    Description: "The VPC ID for the Survey"
+    Value: !Ref SurveyVPC
+    Export:
+      Name: "SurveyVPCID"

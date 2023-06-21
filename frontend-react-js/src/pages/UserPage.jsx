@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './UserPage.css';
+
 import SurveyResponseForm from '../Forms/SurveyResponseForm';
 import { Axios } from 'axios';
-
-
-const user = JSON.parse(localStorage.getItem('user'))
-const { token } = user
-const response = await Axios.get('http://localhost:8081/surveyfeedbacks', Surveys, {
-  headers: {
-    'Content-Type': 'application/json',
-    'authorization': token
-  }
-});
 
 function UserPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
 
+  const {Surveys,getSurveys} = useState([])
+
+  const getSurveys = async () => {
+    const res = await Axios.get('http://localhost:8081/surveyfeedbacks/surveys',
+    {
+      headers:{
+       
+      }
+    });
+    
+  
+  }
+  useEffect(() => {
+    getSurveys();
+    
+    }
+  ,[])
+  console.log(Surveys)
   const handleTakeSurvey = (survey) => {
     setSelectedSurvey(survey);
     setShowPopup(true);
