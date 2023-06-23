@@ -45,3 +45,19 @@ export const submitResponse = async (req, res) => {
     }
   };
   
+  export const getCustomSurveys = async (req, res) => {
+    try {
+      await sql.connect(config.sql);
+      const result = await sql.query(`
+      SELECT q.id AS questionId, q.question, c.id AS choiceId, c.choice
+      FROM CustomQuestions q
+      JOIN Choices c ON q.id = c.questionId;
+    `);
+      res.json(result.recordset);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } finally {
+      sql.close();
+    }
+  };

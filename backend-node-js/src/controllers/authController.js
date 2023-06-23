@@ -52,7 +52,7 @@ export const login = async (req, res) => {
             res.status(400).json({ message: 'Password is incorrect' });
         }else {
             const token = `JWT ${jwt.sign({ AdminID: admin.AdminID, AdminName: admin.AdminName, Email: admin.Email}, config.jwt_secret)}`;
-            res.status(200).json({AdminID: admin.AdminID, Email: admin.Email, token:token });
+            res.status(200).json({AdminID: admin.AdminID, AdminName: admin.AdminName,Email: admin.Email, token:token });
         
         }
     

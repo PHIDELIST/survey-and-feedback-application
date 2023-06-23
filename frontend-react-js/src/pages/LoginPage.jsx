@@ -42,7 +42,7 @@ function LoginPage() {
         <br />
         <button type='submit'>Login</button>
     </form>
-    <Link to='/register'>SignUp here</Link>
+    <Link id='SignUpLink'to='/register'>SignUp here</Link>
     </div>
     <div id='RightLoginImg'>
             <img src={IntroPhoto} alt="" />

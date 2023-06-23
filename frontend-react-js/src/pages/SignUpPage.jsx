@@ -30,7 +30,9 @@ function SignUpPage() {
     <>
     <div id='RegisterMain'>
         <form id='RegisterForm' onSubmit={handleSubmit(onSubmit)}>
-        <h2>Admins Registration</h2>
+        <div class="card-header">
+        <div class="text-header">Register Details</div>
+        </div>
             <label>
             Name:
             </label> <input type="text" placeholder='Enter your username' {...register("AdminName")} />
@@ -47,11 +49,9 @@ function SignUpPage() {
                 Confirm Password:
             </label><input type="password" placeholder='Password' {...register("confirmPassword")} />
             <p>{errors.confirmPassword?.message}</p>
-           <button type='submit'>Register</button>
+           <button id='RegisterButton'type='submit'>Register</button>
         </form>
-        <div id='RightRegisterImg'>
-            <img src={IntroPhoto} alt="" />
-        </div>
+        
     </div>
     </>
   )

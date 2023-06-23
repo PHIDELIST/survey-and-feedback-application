@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { useContext } from 'react'
 import { Context } from '../context/UserContext/Context'
-
+import data from '../assets/data.jpeg'
 function Header() {
   const {user} = useContext(Context);
   const handleLogout = () => {  
@@ -20,12 +20,16 @@ function Header() {
       </div>
       <div id='NavLinks'> 
           <ul id='links'> 
-              <Link to ="/about">About</Link>
-              <Link to ="/login">Login</Link>   
+              <Link id='loginbtn' to ="/about">About</Link>
+              <Link id='loginbtn' to ="/login">Login</Link>
+              <div id="arrow-wrapper">
+            <div id="arrow"></div>
+                </div>
+               
               {
                 user && (
                   <>
-                  <Link to ="/adminprofile"><FaUser id='profileicon'/></Link>
+                  <Link to ="/profile"><img id='profileicon'  src={data} alt="" /></Link>
                   <Link to ="/" onClick={handleLogout}>logout</Link>
                   </>
                 )
