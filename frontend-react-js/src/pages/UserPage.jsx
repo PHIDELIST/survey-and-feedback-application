@@ -42,35 +42,12 @@ function UserPage() {
   };
 
   const calculateDaysRemaining = (endDate) => {
-  const today = new Date();
-  const expiryDate = new Date(endDate);
-  const timeDifference = expiryDate.getTime() - today.getTime();
-  const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-  return daysRemaining >= 0 ? daysRemaining : 'Expired';
-};
-const surveysample = {
-  title: 'Sample Survey',
-  description: 'Please provide your feedback',
-  questions: [
-    {
-      text: 'Did you enjoy the event?',
-      type: 'yes_no',
-    },
-    {
-      text: 'Which of the following activities did you participate in? (Select all that apply)',
-      type: 'multiple_response',
-      choices: [
-        { text: 'Workshops' },
-        { text: 'Networking sessions' },
-        { text: 'Panel discussions' },
-      ],
-    },
-    {
-      text: 'Any additional comments?',
-      type: 'text_input',
-    },
-  ],
-};
+    const today = new Date();
+    const expiryDate = new Date(endDate);
+    const timeDifference = expiryDate.getTime() - today.getTime();
+    const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    return daysRemaining >= 0 ? daysRemaining : 'Expired';
+  };
 
   return (
     <div id="Mainuserpage">
@@ -82,7 +59,8 @@ const surveysample = {
               <button id="popup-close" onClick={() => setShowPopup(false)}>
                 &times;
               </button>
-              <SurveyResponseForm survey={surveysample} onSubmit={handleFinishSurvey} />
+              <SurveyResponseForm survey={selectedSurvey} onSubmit={handleFinishSurvey} />
+
             </div>
           </div>
         )}

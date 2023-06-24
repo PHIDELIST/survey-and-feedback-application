@@ -2,49 +2,62 @@ import sql from 'mssql';
 import config from '../db/config.js';
 
 export const submitResponse = async (req, res) => {
+
+    const surveyResponse = req.body;
+  
     try {
-      const { surveyId, formData } = req.body;
+      await sql.connect(config.sql);
   
-    
-      const pool = await sql.connect(config.sql);
-      const surveyResponseQuery = `INSERT INTO SurveyResponses (SurveyID, UserID, QuestionID, OptionID, ResponseText, Timestamp)
-                                   VALUES (@surveyId, @userId, @questionId, @optionId, @responseText, GETDATE())`;
+      // Insert the survey response into the database
+      const query = `
+        INSERT INTO SurveyResponses (SurveyID, QuestionID, Answer)
+        VALUES (@surveyID, @questionID, @answer)
+      `;
   
-      for (const questionId in formData) {
-        const response = formData[questionId];
-        if (Array.isArray(response)) {
-          
-          for (const optionId of response) {
-            await pool.request()
-              .input('surveyId', sql.Int, surveyId)
-              .input('userId', sql.Int, userId)
-              .input('questionId', sql.Int, questionId)
-              .input('optionId', sql.Int, optionId)
-              .input('responseText', sql.NVarChar, null)
-              .query(surveyResponseQuery);
-          }
-        } else {
-          
-          await pool.request()
-            .input('surveyId', sql.Int, surveyId)
-            .input('userId', sql.Int, userId)
-            .input('questionId', sql.Int, questionId)
-            .input('optionId', sql.Int, null)
-            .input('responseText', sql.NVarChar, response)
-            .query(surveyResponseQuery);
+      const transaction = new sql.Transaction();
+      transaction.begin(async (error) => {
+        if (error) {
+          console.log('Transaction error:', error);
+          res.status(500).send('Database error.');
+          return;
         }
-      }
   
-      
-      res.status(200).json({ message: 'Survey response submitted successfully' });
+        try {
+          const ps = new sql.PreparedStatement(transaction);
+          ps.input('surveyID', sql.Int);
+          ps.input('questionID', sql.Int);
+          ps.input('answer', sql.VarChar);
+  
+          for (const question of surveyResponse.survey) {
+            await ps.prepare(query);
+  
+            for (const choice of question.choices) {
+              await ps.execute({
+                surveyID: 1, // Replace with the actual survey ID
+                questionID: 1, // Replace with the actual question ID
+                answer: choice,
+              });
+            }
+  
+            await ps.unprepare();
+          }
+  
+          await transaction.commit();
+          res.status(200).json({ message: 'Survey response submitted successfully.' });
+        } catch (error) {
+          await transaction.rollback();
+          console.log('Transaction rollback:', error);
+          res.status(500).send('Database error.');
+        }
+      });
     } catch (error) {
-      console.error('Error submitting survey response:', error);
-      res.status(500).json({ error: 'An error occurred while submitting the survey response' });
+      console.log('Database connection error:', error);
+      res.status(500).send('Database error.');
     } finally {
       sql.close();
     }
-  };
-  
+  }
+  ;
   
   export const getSurvey = async (req, res) => {
     try {
