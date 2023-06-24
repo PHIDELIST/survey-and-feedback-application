@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  The primary MSSQL RDS Database with a read replica for the application
+  - RDS Instance
+  - Database Security Group
+  - DBSubnetGroup
+
+Parameters:
+  BackupRetentionPeriod:
+    Type: Number
+    Default: 7
+  DBInstanceClass:
+    Type: String
+    Default: db.t4g.micro
+  DBInstanceIdentifier:
+    Type: String
+    Default: Survey-Instance
+  DBName:
+    Type: String
+    Default: Survey
+  DeletionProtection:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: false
+  EngineVersion:
+    Type: String
+    Default: '8.0.32'
+  MasterUsername:
+    Type: String
+  MasterUserPassword:
+    Type: String
+    NoEcho: true
+
+Resources:
+
+
+  Database:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Snapshot
+    Properties:
+      AllocatedStorage: '20'
+      AllowMajorVersionUpgrade: true
+      AutoMinorVersionUpgrade: true
+      BackupRetentionPeriod: !Ref BackupRetentionPeriod
+      DBInstanceClass: !Ref DBInstanceClass
+      DBInstanceIdentifier: !Ref DBInstanceIdentifier
+      DBName: !Ref DBName
+      DBSubnetGroupName: !ImportValue DBSubnetGroup
+      DeletionProtection: !Ref DeletionProtection
+      EnablePerformanceInsights: false
+      Engine: mssql
+      EngineVersion: !Ref EngineVersion
+      MasterUsername: !Ref MasterUsername
+      MasterUserPassword: !Ref MasterUserPassword
+      PubliclyAccessible: true
+      VPCSecurityGroups:
+        - !ImportValue RDSSecurityGroupID
+        - !ImportValue AppInstanceSecurityGroupID
+
+  ReadReplica:
+    Type: AWS::RDS::DBInstance
+    DependsOn: Database
+    Properties:
+      SourceDBInstanceIdentifier: !Ref DBInstanceIdentifier
+      DBInstanceIdentifier: !Sub ${DBInstanceIdentifier}-readreplica
+      DBInstanceClass: !Ref DBInstanceClass
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      PubliclyAccessible: true
+      VPCSecurityGroups:
+        - !ImportValue RDSSecurityGroupID
+

@@ -1,0 +1,159 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: |
+  - Application Load Balanacer (ALB)
+    - ipv4 only
+    - internet facing
+     - certificate attached from Amazon Certification Manager (ACM)
+  - ALB Security Group
+  - HTTPS Listerner
+    - send api. subdomain to backend App Target Group
+  - HTTP Listerner
+    - redirects to HTTPS Listerner
+  - Backend App Target Group
+  
+Parameters:
+  NetworkingStack:
+    Type: String
+    Description: This is our base layer of networking components eg. VPC, Subnets
+    Default: SurveyNet
+  CertificateArn:
+    Type: String
+
+  #Backend ------
+  BackendPort:
+    Type: Number
+    Default: 3000
+  BackendHealthCheckIntervalSeconds:
+    Type: Integer
+    Default: 15
+  BackendHealthCheckPath:
+    Type: String
+    Default: "/api/health-check"
+  BackendHealthCheckPort:
+    Type: String
+    Default: 4567
+  BackendHealthCheckProtocol:
+    Type: String
+    Default: HTTP
+  BackendHealthCheckTimeoutSeconds:
+    Type: Integer
+    Default: 5
+  BackendHealthyThresholdCount:
+    Type: Integer
+    Default: 2
+  BackendUnhealthyThresholdCount:
+    Type: Integer
+    Default: 2
+Resources:
+
+  ALB:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-loadbalancer.html
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties: 
+      Name: "Survey ALB"
+      Type: application
+      IpAddressType: ipv4
+      # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-loadbalancer-loadbalancerattributes.html
+      Scheme: internet-facing
+      SecurityGroups:
+        - !ImportValue ALBsecurityGroupID
+      Subnets:
+        - !ImportValue PublicSubnet1ID
+        - !ImportValue PublicSubnet2ID
+      LoadBalancerAttributes:
+        - Key: routing.http2.enabled
+          Value: true
+        - Key: routing.http.preserve_host_header.enabled
+          Value: false
+        - Key: deletion_protection.enabled
+          Value: false
+        - Key: load_balancing.cross_zone.enabled
+          Value: true
+        - Key: access_logs.s3.enabled
+          Value: false
+        # In-case we want to turn on logs
+        # - Name: access_logs.s3.bucket
+        #   Value: bucket-name
+        # - Name: access_logs.s3.prefix
+        #   Value: ""
+  HTTPSListener:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listener.html
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      Protocol: HTTPS
+      Port: 443
+      LoadBalancerArn: !Ref ALB
+      Certificates: 
+        - CertificateArn: !Ref CertificateArn
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn:  !Ref BackendTGArn
+  HTTPListener:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listener.html
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+        Protocol: HTTP
+        Port: 80
+        LoadBalancerArn: !Ref ALB
+        DefaultActions:
+          - Type: redirect
+            RedirectConfig:
+              Protocol: "HTTPS"
+              Port: 443
+              Host: "#{host}"
+              Path: "/#{path}"
+              Query: "#{query}"
+              StatusCode: "HTTP_301"
+  ApiALBListernerRule:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listenerrule.html
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      Conditions: 
+        - Field: host-header
+          HostHeaderConfig: 
+            Values: 
+              - api.Surveywebsite.com
+      Actions: 
+        - Type: forward
+          TargetGroupArn:  !Ref BackendAppTG
+      ListenerArn: !Ref HTTPSListener
+      Priority: 1
+      
+  BackendTG:
+    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      #Name: !Sub "${AWS::StackName}BackendTG"
+      Port: !Ref BackendPort
+      HealthCheckEnabled: true
+      HealthCheckProtocol: !Ref BackendHealthCheckProtocol
+      HealthCheckIntervalSeconds: !Ref BackendHealthCheckIntervalSeconds
+      HealthCheckPath: !Ref BackendHealthCheckPath
+      HealthCheckPort: !Ref BackendHealthCheckPort
+      HealthCheckTimeoutSeconds: !Ref BackendHealthCheckTimeoutSeconds
+      HealthyThresholdCount: !Ref BackendHealthyThresholdCount
+      UnhealthyThresholdCount: !Ref BackendUnhealthyThresholdCount
+      IpAddressType: ipv4
+      Matcher: 
+        HttpCode: 200
+      Protocol: HTTP
+      ProtocolVersion: HTTP2
+      TargetType: ip
+      TargetGroupAttributes: 
+        - Key: deregistration_delay.timeout_seconds
+          Value: 0
+      VpcId:
+        - !ImportValue SurveyVPCID 
+          
+      Tags:
+        - Key: target-group-name
+          Value: backend App 
+
+# Outputs:
+Outputs:
+  BackendTGArn:
+    Value: !Ref BackendTG
+    Export:
+      Name: "BackendTGArn"
+      

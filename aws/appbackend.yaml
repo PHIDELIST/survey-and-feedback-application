@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  SurveyLaunchTemplate:
+    Type: 'AWS::EC2::LaunchTemplate'
+    Properties:
+      LaunchTemplateName: SurveyLaunchTemplate
+      LaunchTemplateData:
+        ImageId: ami-0261755bbcb8c4a84
+        InstanceType: t2.micro
+        SecurityGroupIds:
+          - !ImportValue AppInstanceSecurityGroupID
+          - !ImportValue ALBsecurityGroupID
+          - !ImportValue RDSSecurityGroupID 
+          - !ImportValue EFSMountTargetSecurityGroupID
+        UserData: !Base64 |
+          #!/bin/bash
+          sudo apt update -y
+          sudo git clone https://github.com/PHIDELIST/survey-and-feedback-application.git
+          sudo cd survey-and-feedback-application/backend-node-js
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+          . ~/.nvm/nvm.sh
+          nvm install --lts
+          sudo apt install -y cmdtest
+          sudo apt install bcrypt cors mssql jwt 
+          
+
+        
+  SurveyAutoScalingGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId: !Ref SurveyLaunchTemplate
+        Version: !GetAtt SurveyLaunchTemplate.LatestVersionNumber # Specify the same version as in the Launch Template
+      MinSize: 2
+      MaxSize: 4
+      DesiredCapacity: 2
+      VPCZoneIdentifier:
+        - !ImportValue AppSubnet1
+        - !ImportValue AppSubnet2
+      TargetGroupARNs: !ImportValue BackendTGArn
+      Tags:
+        - Key: Name
+          Value: SurveyAutoScalingGroup
+          PropagateAtLaunch: true
+
+Outputs:
+  AutoScalingGroupName:
+    Description: The name of the Auto Scaling Group
+    Value: !Ref SurveyAutoScalingGroup
+    Export:
+      Name: AutoScalingGroupName
