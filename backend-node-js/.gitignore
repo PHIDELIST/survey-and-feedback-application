@@ -1,4 +1,4 @@
-# *.env
-# * .log
-# env
+*.env
+* .log
+env
 node_modules
