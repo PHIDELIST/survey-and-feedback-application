@@ -1,14 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const SurveyResponseForm = ({ survey, onSubmit }) => {
+const SurveyResponseForm = ({ onSubmit }) => {
+  const [survey, setSurvey] = useState(null);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedChoices, setSelectedChoices] = useState([]);
 
+  useEffect(() => {
+    const fetchSurvey = async () => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const { token } = user;
+      try {
+        const response = await axios.get('http://localhost:8081/questions', {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: token,
+          },
+        });
+        console.log('Response Data:', response.data);
+        setSurvey(response.data);
+      } catch (error) {
+        console.error('Error fetching survey:', error);
+      }
+    };
+
+    fetchSurvey();
+  }, []);
+
   const handleNextQuestion = () => {
-    if (questionIndex < survey.questions.length - 1) {
-      const question = survey.questions[questionIndex];
-      if (question.type === 'multiple_response') {
-        const selected = Array.from(document.querySelectorAll('input[name="answer"]:checked')).map((checkbox) => checkbox.value);
+    if (questionIndex < survey.survey.length - 1) {
+      const question = survey.survey[questionIndex];
+      if (question.type === 'multiple-choice') {
+        const selected = Array.from(document.querySelectorAll('input[name="answer"]:checked')).map(
+          (checkbox) => checkbox.value
+        );
         setSelectedChoices((prevSelectedChoices) => [...prevSelectedChoices, selected]);
       } else {
         setSelectedChoices((prevSelectedChoices) => [...prevSelectedChoices, null]);
@@ -39,27 +64,27 @@ const SurveyResponseForm = ({ survey, onSubmit }) => {
 
     console.log('Form Data:', formValues);
 
-    // Call the onSubmit callback if provided
+   
     if (onSubmit) {
       onSubmit();
     }
   };
 
-  if (!survey || !survey.questions || survey.questions.length === 0) {
-    return null; // or display a message indicating no questions found
+  if (!survey || !survey.survey || survey.survey.length === 0) {
+    return <p>Loading...</p>; 
   }
 
-  const currentQuestion = survey.questions[questionIndex];
+  const currentQuestion = survey.survey[questionIndex];
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>{survey.Title}</h3>
-      <p>{survey.Description}</p>
+      <h3>{currentQuestion.Title}</h3>
+      <p>{currentQuestion.Description}</p>
 
       <div>
         <p>{currentQuestion.text}</p>
         {/* Render the appropriate input based on the question type */}
-        {currentQuestion.type === 'yes_no' && (
+        {currentQuestion.type === 'yes-no' && (
           <>
             <label>
               <input type="radio" name="answer" value="yes" /> Yes
@@ -70,35 +95,26 @@ const SurveyResponseForm = ({ survey, onSubmit }) => {
           </>
         )}
 
-        {currentQuestion.type === 'multiple_response' && (
+        {currentQuestion.type === 'multiple-choice' && (
           <>
             {currentQuestion.choices.map((choice, index) => (
               <label key={index}>
-                <input
-                  type="checkbox"
-                  name="answer"
-                  value={choice.text}
-                />{' '}
-                {choice.text}
+                <input type="checkbox" name="answer" value={choice.OptionText} /> {choice.OptionText}
               </label>
             ))}
           </>
         )}
 
-        {currentQuestion.type === 'text_input' && (
-          <textarea name="answer" rows="4" cols="50" />
-        )}
+        {currentQuestion.type === 'text_input' && <textarea name="answer" rows="4" cols="50" />}
       </div>
 
-      {questionIndex < survey.questions.length - 1 && (
+      {questionIndex < survey.survey.length - 1 && (
         <button type="button" onClick={handleNextQuestion}>
           Next Question
         </button>
       )}
 
-      {questionIndex === survey.questions.length - 1 && (
-        <button type="submit">Submit</button>
-      )}
+      {questionIndex === survey.survey.length - 1 && <button type="submit">Submit</button>}
     </form>
   );
 };

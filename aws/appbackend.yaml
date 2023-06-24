@@ -15,14 +15,17 @@ Resources:
         UserData: !Base64 |
           #!/bin/bash
           sudo apt update -y
+          cd /home
           sudo git clone https://github.com/PHIDELIST/survey-and-feedback-application.git
           cd survey-and-feedback-application/backend-node-js
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
           . ~/.nvm/nvm.sh
           nvm install --lts
-          sudo apt install -y cmdtest
           npm install -g npm@9.7.2
-          npm install bcrypt cors mssql jwt 
+          sudo chown -R ubuntu:ubuntu /home/survey-and-feedback-application/backend-node-js
+          npm install bcrypt cors mssql jsonwebtoken
+          node server.js
+          
           
 
         

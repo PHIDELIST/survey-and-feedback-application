@@ -45,19 +45,41 @@ export const submitResponse = async (req, res) => {
     }
   };
   
-  export const getCustomSurveys = async (req, res) => {
+  
+  export const getSurvey = async (req, res) => {
     try {
       await sql.connect(config.sql);
-      const result = await sql.query(`
-      SELECT q.id AS questionId, q.question, c.id AS choiceId, c.choice
-      FROM CustomQuestions q
-      JOIN Choices c ON q.id = c.questionId;
-    `);
-      res.json(result.recordset);
+  
+      const query = `
+        SELECT
+          s.Title,
+          s.Description,
+          q.QuestionText AS 'text',
+          q.Type AS 'type',
+          (
+            SELECT OptionText FROM Options WHERE QuestionID = q.QuestionID FOR JSON PATH
+          ) AS 'choices'
+        FROM Surveys s
+        JOIN Questions q ON q.SurveyID = s.SurveyID
+        FOR JSON PATH, ROOT('survey')
+      `;
+  
+      const result = await sql.query(query);
+  
+      if (result.recordset.length === 0) {
+        res.status(404).json({ message: 'No surveys found' });
+        return;
+      }
+  
+      const surveyData = JSON.parse(result.recordset[0][Object.keys(result.recordset[0])[0]]);
+  
+      res.json(surveyData);
     } catch (err) {
-      console.error(err);
-      res.status(500).send('Internal Server Error');
+      console.log(err);
+      res.status(500).send('Database error.');
     } finally {
       sql.close();
     }
   };
+  
+  
