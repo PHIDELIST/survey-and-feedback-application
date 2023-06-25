@@ -11,13 +11,13 @@ Parameters:
     Default: 7
   DBInstanceClass:
     Type: String
-    Default: db.t4g.micro
+    Default: db.t2.micro
   DBInstanceIdentifier:
     Type: String
     Default: Survey-Instance
   DBName:
     Type: String
-    Default: Survey
+  
   DeletionProtection:
     Type: String
     AllowedValues:
@@ -26,12 +26,14 @@ Parameters:
     Default: false
   EngineVersion:
     Type: String
-    Default: '8.0.32'
+    Default: '14.00.3460.9.v1'
   MasterUsername:
     Type: String
+    Default: 'sa'
   MasterUserPassword:
     Type: String
     NoEcho: true
+    Default: 'rootpassword'
 
 Resources:
 
@@ -44,6 +46,7 @@ Resources:
       AllocatedStorage: '20'
       AllowMajorVersionUpgrade: true
       AutoMinorVersionUpgrade: true
+      # LicenseModel: license-included
       BackupRetentionPeriod: !Ref BackupRetentionPeriod
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Ref DBInstanceIdentifier
@@ -51,7 +54,7 @@ Resources:
       DBSubnetGroupName: !ImportValue DBSubnetGroup
       DeletionProtection: !Ref DeletionProtection
       EnablePerformanceInsights: false
-      Engine: mssql
+      Engine: sqlserver-ex
       EngineVersion: !Ref EngineVersion
       MasterUsername: !Ref MasterUsername
       MasterUserPassword: !Ref MasterUserPassword

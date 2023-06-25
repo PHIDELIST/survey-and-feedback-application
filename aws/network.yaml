@@ -77,20 +77,7 @@ Resources:
       VpcId: !Ref SurveyVPC
       InternetGatewayId: !Ref SurveyInternetGateway
 
-#NATs
-  NATGateway:
-    Type: AWS::EC2::NatGateway
-    Properties:
-      AllocationId: !GetAtt ElasticIPAddress.AllocationId
-      SubnetId: !Ref PublicSubnet1
-      Tags:
-        - Key: Name
-          Value: SurveyNATGateway
 
-  ElasticIPAddress:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
 
 
 #Subnets
@@ -182,21 +169,22 @@ Resources:
         - Key: Name
           Value: PublicRouteTable
 
-  PrivateRouteTableAZ1:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref SurveyVPC
-      Tags:
-        - Key: Name
-          Value: PrivateRouteTableAZ1
+# LocalRouteTableAZ1:
+#   Type: 'AWS::EC2::RouteTable'
+#   Properties:
+#     VpcId: !Ref SurveyVPC
+#     Tags:
+#       - Key: Name
+#         Value: LocalRouteTableAZ1
 
-  PrivateRouteTableAZ2:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref SurveyVPC
-      Tags:
-        - Key: Name
-          Value: PrivateRouteTableAZ2
+# LocalRouteTableAZ2:
+#   Type: 'AWS::EC2::RouteTable'
+#   Properties:
+#     VpcId: !Ref SurveyVPC
+#     Tags:
+#       - Key: Name
+#         Value: LocalRouteTableAZ2
+
 #Routes
   PublicRoute:
     Type: 'AWS::EC2::Route'
@@ -205,19 +193,19 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref SurveyInternetGateway
 
-  PrivateRouteAZ1:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PrivateRouteTableAZ1
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NATGateway
+  # PrivateRouteAZ1:
+  #   Type: 'AWS::EC2::Route'
+  #   Properties:
+  #     RouteTableId: !Ref PrivateRouteTableAZ1
+  #     DestinationCidrBlock: 10.0.0.0/16
+  #     NatGatewayId: !Ref NATGateway
 
-  PrivateRouteAZ2:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PrivateRouteTableAZ2
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NATGateway
+  # PrivateRouteAZ2:
+  #   Type: 'AWS::EC2::Route'
+  #   Properties:
+  #     RouteTableId: !Ref PrivateRouteTableAZ2
+  #     DestinationCidrBlock: 10.0.0.0/16
+  #     NatGatewayId: !Ref NATGateway
 #Subnet Associations
   PublicSubnet1RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
@@ -235,25 +223,25 @@ Resources:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       SubnetId: !Ref AppSubnet1
-      RouteTableId: !Ref PrivateRouteTableAZ1
+      RouteTableId: !Ref PublicRouteTable
 
   AppSubnet2RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       SubnetId: !Ref AppSubnet2
-      RouteTableId: !Ref PrivateRouteTableAZ2
+      RouteTableId: !Ref PublicRouteTable
 
   DatabaseSubnet1RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       SubnetId: !Ref DatabaseSubnet1
-      RouteTableId: !Ref PrivateRouteTableAZ1
+      RouteTableId: !Ref PublicRouteTable
 
   DatabaseSubnet2RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       SubnetId: !Ref DatabaseSubnet2
-      RouteTableId: !Ref PrivateRouteTableAZ2
+      RouteTableId: !Ref PublicRouteTable
 
   ###########
   # DB Subnet Group
@@ -307,8 +295,8 @@ Resources:
           Value: AppInstanceSecurityGroup
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
+          FromPort: 8081
+          ToPort: 8081
           SourceSecurityGroupId: !Ref ALBsecurityGroup
 
   RDSSecurityGroup:
@@ -322,8 +310,8 @@ Resources:
           Value: RDSSecurityGroup
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: 3306
-          ToPort: 3306
+          FromPort: 1433
+          ToPort: 1433
           SourceSecurityGroupId: !Ref AppInstanceSecurityGroup
 
 
@@ -384,11 +372,12 @@ Outputs:
     Value: !Ref AppSubnet2
     Export:
       Name: "AppSubnet2"
+
   PublicSubnet1ID:
     Description: "Subnet Id for public Subnet 1"
-    Value: !Ref PublicSubnet1ID
+    Value: !Ref PublicSubnet1
     Export:
-      Name: "PublicSubnet1"
+      Name: "PublicSubnet1ID"
   PublicSubnet2ID:
     Description: "Subnet Id for public Subnet 2"
     Value: !Ref PublicSubnet2

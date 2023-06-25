@@ -11,7 +11,7 @@ Resources:
           - !ImportValue AppInstanceSecurityGroupID
           - !ImportValue ALBsecurityGroupID
           - !ImportValue RDSSecurityGroupID 
-          - !ImportValue EFSMountTargetSecurityGroupID
+          
         UserData: !Base64 |
           #!/bin/bash
           sudo apt update -y
@@ -26,6 +26,7 @@ Resources:
           npm install bcrypt cors mssql jsonwebtoken
           node server.js
           
+  
           
 
         
@@ -41,7 +42,8 @@ Resources:
       VPCZoneIdentifier:
         - !ImportValue AppSubnet1
         - !ImportValue AppSubnet2
-      TargetGroupARNs: !ImportValue BackendTGArn
+      TargetGroupARNs: 
+        - !ImportValue BackendTGArn
       Tags:
         - Key: Name
           Value: SurveyAutoScalingGroup

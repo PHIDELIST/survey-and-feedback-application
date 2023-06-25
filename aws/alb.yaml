@@ -11,7 +11,7 @@ Description: |
   - HTTP Listerner
     - redirects to HTTPS Listerner
   - Backend App Target Group
-  
+
 Parameters:
   NetworkingStack:
     Type: String
@@ -23,35 +23,34 @@ Parameters:
   #Backend ------
   BackendPort:
     Type: Number
-    Default: 3000
+    Default: 8081
   BackendHealthCheckIntervalSeconds:
-    Type: Integer
+    Type: Number
     Default: 15
   BackendHealthCheckPath:
     Type: String
-    Default: "/api/health-check"
+    Default: "/"
   BackendHealthCheckPort:
     Type: String
-    Default: 4567
+    Default: 8081
   BackendHealthCheckProtocol:
     Type: String
     Default: HTTP
   BackendHealthCheckTimeoutSeconds:
-    Type: Integer
+    Type: Number
     Default: 5
   BackendHealthyThresholdCount:
-    Type: Integer
+    Type: Number
     Default: 2
   BackendUnhealthyThresholdCount:
-    Type: Integer
+    Type: Number
     Default: 2
 Resources:
-
   ALB:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-loadbalancer.html
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    Properties: 
-      Name: "Survey ALB"
+    Properties:
+      Name: "SurveyALB"
       Type: application
       IpAddressType: ipv4
       # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-loadbalancer-loadbalancerattributes.html
@@ -77,49 +76,51 @@ Resources:
         #   Value: bucket-name
         # - Name: access_logs.s3.prefix
         #   Value: ""
-  HTTPSListener:
-    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listener.html
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      Protocol: HTTPS
-      Port: 443
-      LoadBalancerArn: !Ref ALB
-      Certificates: 
-        - CertificateArn: !Ref CertificateArn
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn:  !Ref BackendTGArn
+  # HTTPSListener:
+  #   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listener.html
+  #   Type: AWS::ElasticLoadBalancingV2::Listener
+  #   Properties:
+  #     Protocol: HTTPS
+  #     Port: 443
+  #     LoadBalancerArn: !Ref ALB
+  #     Certificates:
+  #       - CertificateArn: !Ref CertificateArn
+  #     DefaultActions:
+  #       - Type: forward
+  #         TargetGroupArn: !Ref BackendTG
   HTTPListener:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listener.html
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
-        Protocol: HTTP
-        Port: 80
-        LoadBalancerArn: !Ref ALB
-        DefaultActions:
-          - Type: redirect
-            RedirectConfig:
-              Protocol: "HTTPS"
-              Port: 443
-              Host: "#{host}"
-              Path: "/#{path}"
-              Query: "#{query}"
-              StatusCode: "HTTP_301"
-  ApiALBListernerRule:
-    # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listenerrule.html
-    Type: AWS::ElasticLoadBalancingV2::ListenerRule
-    Properties:
-      Conditions: 
-        - Field: host-header
-          HostHeaderConfig: 
-            Values: 
-              - api.Surveywebsite.com
-      Actions: 
+      Protocol: HTTP
+      Port: 80
+      LoadBalancerArn: !Ref ALB
+      DefaultActions:
+      # - Type: redirect
+      #       RedirectConfig:
+      #         Protocol: "HTTPS"
+      #         Port: 443
+      #         Host: "#{host}"
+      #         Path: "/#{path}"
+      #         Query: "#{query}"
+      #         StatusCode: "HTTP_301"
         - Type: forward
-          TargetGroupArn:  !Ref BackendAppTG
-      ListenerArn: !Ref HTTPSListener
-      Priority: 1
-      
+          TargetGroupArn: !Ref BackendTG
+  # ApiALBListernerRule:
+  #   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listenerrule.html
+  #   Type: AWS::ElasticLoadBalancingV2::ListenerRule
+  #   Properties:
+  #     Conditions:
+  #       - Field: host-header
+  #         HostHeaderConfig:
+  #           Values:
+  #             - api.surveynode.com
+  #     Actions:
+  #       - Type: forward
+  #         TargetGroupArn: !Ref BackendTG
+  #     ListenerArn: !Ref HTTPSListener
+  #     Priority: 1
+
   BackendTG:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -135,20 +136,19 @@ Resources:
       HealthyThresholdCount: !Ref BackendHealthyThresholdCount
       UnhealthyThresholdCount: !Ref BackendUnhealthyThresholdCount
       IpAddressType: ipv4
-      Matcher: 
+      Matcher:
         HttpCode: 200
       Protocol: HTTP
-      ProtocolVersion: HTTP2
-      TargetType: ip
-      TargetGroupAttributes: 
+      ProtocolVersion: HTTP1
+      TargetType: instance
+      TargetGroupAttributes:
         - Key: deregistration_delay.timeout_seconds
           Value: 0
-      VpcId:
-        - !ImportValue SurveyVPCID 
-          
+      VpcId: !ImportValue SurveyVPCID
+
       Tags:
         - Key: target-group-name
-          Value: backend App 
+          Value: backend App
 
 # Outputs:
 Outputs:
@@ -156,4 +156,8 @@ Outputs:
     Value: !Ref BackendTG
     Export:
       Name: "BackendTGArn"
-      
+  ALBDNSName:
+    Description: The DNS name of the ALB
+    Value: !GetAtt ALB.DNSName
+    Export:
+      Name: "ALBDNSName"
