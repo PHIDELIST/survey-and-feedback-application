@@ -4,6 +4,7 @@
     align-items: center;
     background: linear-gradient(to bottom, #f2f2f2, #ffffff);
     border-radius: 4px;
+    height: 56vh;
 }
 
 #survey-cards-container{
@@ -53,6 +54,9 @@
   
  
 #popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: relative;
     background-color: #fff;
     border-radius: 5px;

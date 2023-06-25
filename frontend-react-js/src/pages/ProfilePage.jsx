@@ -52,9 +52,11 @@ export default function ProfilePage() {
           </div>
           <div className="card__title">Name: {user.AdminName}</div>
           <div className="card__subtitle">Email: {user.Email}</div>
+          </div>
+            <div id='admin-details'>
           {adminDetails && (
-            <div className="admin-details">
-              <h2>Admin Details</h2>
+            <div id='profiledetails'>
+              <h2>Organization Details</h2>
               <ul>
                 <li>Country: {adminDetails.Country}</li>
                 <li>City: {adminDetails.City}</li>
@@ -69,6 +71,8 @@ export default function ProfilePage() {
             </button>
           </div>
         </div>
+        
+      </div>
         {isPopupVisible && (
           <div className="popup-container">
             <div className="popup">
@@ -77,7 +81,7 @@ export default function ProfilePage() {
             </div>
           </div>
         )}
-      </div>
+      
     </>
   );
 }

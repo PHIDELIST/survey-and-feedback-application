@@ -6,6 +6,7 @@ import sarova from '../assets/sarova.png'
 import kilele from'../assets/kilele.jpg'
 import mtKenya from '../assets/mtKenya.jpg'
 import gym from '../assets/gym.jpg'
+import FeedBackForm from '../forms/FeedBackForm'
 
 export default function HomePage() {
   return (
@@ -40,14 +41,14 @@ export default function HomePage() {
               <img src={sarova} alt="Survey Image" />
               <h3>Sarova Whitesands Beach Resort</h3>
               <p>we will like to know how was your experince at our beach hotel</p>
-              <Link to="/userpage"><button id='PlansBtn'>TAKE SURVEY</button></Link>
+              <div id='PlansBtn'><FeedBackForm /> </div>
           </div>
           <div id="survey-card">
           <img src={kilele} alt="Survey Image" />
             <h3>KIRINYAGA UNIVERSITY</h3>
             <p>We value your experience on our site take survey to help us make it better</p>
             
-            <Link to="/userpage"><button id='PlansBtn'>TAKE SURVEY</button></Link>
+            <div id='PlansBtn'><FeedBackForm /> </div>
           </div>
           <div id="survey-card">
           <img src={gym} alt="Survey Image" />
@@ -55,8 +56,8 @@ export default function HomePage() {
             <div className="progress-bar">
               <div className="progress"></div>
             </div>
-            <p>Progress: 50%</p>
-            <Link to="/userpage"><button id='PlansBtn'>Continue Survey</button></Link>
+            <p>Please tell us how you feel about our gym</p>
+            <div id='PlansBtn'><FeedBackForm /> </div>
   
           </div>
           <div id="survey-card">
@@ -69,8 +70,8 @@ export default function HomePage() {
               <span className="rating">&#9734;</span>
               <span className="rating">&#9734;</span>
             </div>
-            <p>Number of Reviews: 10</p>
-            <Link to="/userpage"><button id='PlansBtn'>View Surveys</button></Link>
+            <p>How was your experience with our safaris</p>
+            <div id='PlansBtn'><FeedBackForm /> </div>
           </div>
 
 

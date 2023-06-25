@@ -2,13 +2,10 @@ import sql from 'mssql';
 import config from '../db/config.js';
 
 export const submitResponse = async (req, res) => {
-
     const surveyResponse = req.body;
-  
-    try {
+      try {
       await sql.connect(config.sql);
-  
-      // Insert the survey response into the database
+        // Insert the survey response into the database
       const query = `
         INSERT INTO SurveyResponses (SurveyID, QuestionID, Answer)
         VALUES (@surveyID, @questionID, @answer)

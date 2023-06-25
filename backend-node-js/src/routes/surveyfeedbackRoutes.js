@@ -1,18 +1,19 @@
-import {createSurvey,getQuestions, getSurveys,deleteSurvey,getResponse} from '../controllers/surveyfeedbackController.js'
+import {createSurvey,getSurveys,deleteSurvey,getResponse} from '../controllers/surveyfeedbackController.js'
 import {register,login,loginRequired} from '../controllers/authController.js'
 import {submitResponse,getSurvey} from '../controllers/responseController.js'
 import { GetProfile, UpdateProfile } from '../controllers/profileController.js';
+import { sendFeedback } from '../controllers/feedBackController.js';
 
 
 
 
 const surveyfeedbackRoutes = (app) =>{
     app.route("/surveyfeedbacks")
-        .get(loginRequired,getSurveys)
-        .post(loginRequired,createSurvey);
+        .post(loginRequired,createSurvey)
+        .get(loginRequired,getSurveys);
        
     app.route("/surveyfeedback/:surveyId")
-        .get(loginRequired,getQuestions)
+        
         .delete(loginRequired,deleteSurvey);
 
     app.route("/response/:questionId")
@@ -21,6 +22,9 @@ const surveyfeedbackRoutes = (app) =>{
     app.route("/questions")
         .post(loginRequired,submitResponse)
         .get(loginRequired,getSurvey);
+
+    app.route("/feedback")
+        .post(loginRequired,sendFeedback)
 
     app.route('/auth/register')
         .post(register);

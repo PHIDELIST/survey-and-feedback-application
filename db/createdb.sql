@@ -102,3 +102,9 @@ CREATE TABLE Analytics (
   FOREIGN KEY (SurveyID) REFERENCES Surveys(SurveyID) ON DELETE CASCADE,
   FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
 );
+CREATE TABLE Feedback (
+    Id INT PRIMARY KEY IDENTITY,
+    FeedbackType NVARCHAR(255),
+    FeedbackText NVARCHAR(MAX),
+    SubmittedDate DATETIME DEFAULT GETDATE()
+)
