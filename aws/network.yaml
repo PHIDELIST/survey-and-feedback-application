@@ -169,21 +169,6 @@ Resources:
         - Key: Name
           Value: PublicRouteTable
 
-# LocalRouteTableAZ1:
-#   Type: 'AWS::EC2::RouteTable'
-#   Properties:
-#     VpcId: !Ref SurveyVPC
-#     Tags:
-#       - Key: Name
-#         Value: LocalRouteTableAZ1
-
-# LocalRouteTableAZ2:
-#   Type: 'AWS::EC2::RouteTable'
-#   Properties:
-#     VpcId: !Ref SurveyVPC
-#     Tags:
-#       - Key: Name
-#         Value: LocalRouteTableAZ2
 
 #Routes
   PublicRoute:
@@ -193,19 +178,6 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref SurveyInternetGateway
 
-  # PrivateRouteAZ1:
-  #   Type: 'AWS::EC2::Route'
-  #   Properties:
-  #     RouteTableId: !Ref PrivateRouteTableAZ1
-  #     DestinationCidrBlock: 10.0.0.0/16
-  #     NatGatewayId: !Ref NATGateway
-
-  # PrivateRouteAZ2:
-  #   Type: 'AWS::EC2::Route'
-  #   Properties:
-  #     RouteTableId: !Ref PrivateRouteTableAZ2
-  #     DestinationCidrBlock: 10.0.0.0/16
-  #     NatGatewayId: !Ref NATGateway
 #Subnet Associations
   PublicSubnet1RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'

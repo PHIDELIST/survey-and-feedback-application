@@ -16,15 +16,12 @@ function CustomSurveyForm() {
         },
       })
       .then((response) => {
-        console.log('API response:', response.data);
         setQuestions(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
-
-  console.log('Updated questions state:', questions);
 
   return (
     <div>

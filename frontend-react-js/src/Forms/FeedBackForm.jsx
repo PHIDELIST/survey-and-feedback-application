@@ -58,23 +58,12 @@ function FeedbackForm() {
         </button>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Feedback Form"
-      >
+      <Modal isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Feedback Form">
         <h2>Provide additional feedback</h2>
         <form onSubmit={handleFormSubmit}>
           <p>{feedbackType}</p>
-
           <label htmlFor="feedbackText">Additional Comments:</label>
-          <textarea
-            id="feedbackText"
-            value={feedbackText}
-            onChange={(e) => setFeedbackText(e.target.value)}
-            rows={4}
-          />
-
+          <textarea id="feedbackText" value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} rows={4}/>
           <button type="submit">
             Submit Feedback
           </button>

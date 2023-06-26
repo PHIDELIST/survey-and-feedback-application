@@ -6,8 +6,8 @@ function UserFeedbackForm() {
 
   const handleFormSubmit = async (data) => {
     try {
-      // Send user feedback to the backend and store it in the UserFeedback table
-      const response = await fetch('/api/user-feedback', {
+     
+      const response = await fetch('/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

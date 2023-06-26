@@ -30,8 +30,8 @@ export const submitResponse = async (req, res) => {
   
             for (const choice of question.choices) {
               await ps.execute({
-                surveyID: 1, // Replace with the actual survey ID
-                questionID: 1, // Replace with the actual question ID
+                surveyID: surveyID, // Replace with the actual survey ID
+                questionID: questionID, // Replace with the actual question ID
                 answer: choice,
               });
             }
@@ -62,6 +62,8 @@ export const submitResponse = async (req, res) => {
   
       const query = `
         SELECT
+          s.SurveyID,
+          s.EndDate,
           s.Title,
           s.Description,
           q.QuestionText AS 'text',

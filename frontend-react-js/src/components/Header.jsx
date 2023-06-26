@@ -6,11 +6,8 @@ import { useContext } from 'react'
 import { Context } from '../context/UserContext/Context'
 import data from '../assets/data.jpeg'
 function Header() {
-  const {user} = useContext(Context);
-  const handleLogout = () => {  
-    dispatch({type: "LOGOUT"});
+  const {user,dispatch} = useContext(Context);
 
-  };
   return (
 
     <>
@@ -30,7 +27,7 @@ function Header() {
                 user && (
                   <>
                   <Link to ="/profile"><img id='profileicon'  src={data} alt="" /></Link>
-                  <Link to ="/" onClick={handleLogout}>logout</Link>
+                  
                   </>
                 )
                   

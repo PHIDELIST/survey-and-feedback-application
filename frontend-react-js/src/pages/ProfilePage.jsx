@@ -5,11 +5,17 @@ import avatarbg from '../assets/420.jpg';
 import data from '../assets/data.jpeg';
 import UpdateProfile from './UpdateProfile';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function ProfilePage() {
-  const { user } = useContext(Context);
+  const { user,dispatch } = useContext(Context);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [adminDetails, setAdminDetails] = useState(null);
+
+  const handleLogout = () => {  
+    dispatch({type: "LOGOUT"});
+
+  };
 
   const handleUpdateClick = () => {
     setPopupVisible(true);
@@ -40,6 +46,7 @@ export default function ProfilePage() {
     fetchAdminDetails();
   }, []);
 
+  
   return (
     <>
       <div id='profilepage-main'>
@@ -52,6 +59,7 @@ export default function ProfilePage() {
           </div>
           <div className="card__title">Name: {user.AdminName}</div>
           <div className="card__subtitle">Email: {user.Email}</div>
+          <Link to ="/" onClick={handleLogout}>logout</Link>
           </div>
             <div id='admin-details'>
           {adminDetails && (
