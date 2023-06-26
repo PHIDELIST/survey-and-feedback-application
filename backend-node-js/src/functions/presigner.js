@@ -15,5 +15,5 @@ s3.getSignedUrl('putObject', params, (err, url) => {
     console.error(err);
     return;
   }
-  console.log('Generated presigned URL:', url);
+  console.log('presigned URL:', url);
 });
