@@ -1,9 +1,11 @@
-#dashboard{
+#admin-sidenav{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: linear-gradient(to bottom, #f2f2f2, #ffffff);
+  background: linear-gradient(to bottom, #ffffff);
   border-radius: 4px;
+  border-bottom: 2px solid gainsboro;
+  border-right: 2px solid gainsboro;
 }
 #createform{
     display: flex;
@@ -26,6 +28,15 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  width: 80%;
+}
+#templates h4{
+  font-family: sans-serif;
+  font-style: oblique;
+  font-weight: 400;
+  font-size: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid gainsboro;
 }
 #survey-form-overlay {
   position: fixed;
@@ -59,4 +70,8 @@
   position: absolute;
   top: 10px;
   right: 10px;
+}
+#admin-page-main{
+  display: flex;
+  flex-direction: row;
 }

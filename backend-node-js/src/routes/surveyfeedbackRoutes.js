@@ -12,8 +12,7 @@ const surveyfeedbackRoutes = (app) =>{
         .post(loginRequired,createSurvey)
         .get(loginRequired,getSurveys);
        
-    app.route("/surveyfeedback/:surveyId")
-        
+    app.route("/surveyfeedback/:id")
         .delete(loginRequired,deleteSurvey);
 
     app.route("/response/:questionId")

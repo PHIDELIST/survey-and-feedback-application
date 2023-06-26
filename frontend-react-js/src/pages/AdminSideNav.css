@@ -1,0 +1,16 @@
+#Surveys-main{
+    display: flex;
+    flex-direction: column;
+    padding-left:10px;
+   
+}
+#deletesurvey{
+    color: red;
+    width: 60px;
+}
+#survey{
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgb(126, 124, 124);
+    padding-bottom: 4px;
+}

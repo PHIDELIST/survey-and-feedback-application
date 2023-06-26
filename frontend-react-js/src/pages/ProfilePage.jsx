@@ -66,10 +66,10 @@ export default function ProfilePage() {
             <div id='profiledetails'>
               <h2>Organization Details</h2>
               <ul>
+                <li>Organization Name: {adminDetails.OrganizationName}</li>
+                <li>Organization Type: {adminDetails.OrganizationType}</li>
                 <li>Country: {adminDetails.Country}</li>
                 <li>City: {adminDetails.City}</li>
-                <li>Organization Type: {adminDetails.OrganizationType}</li>
-                <li>Organization Name: {adminDetails.OrganizationName}</li>
               </ul>
             </div>
           )}

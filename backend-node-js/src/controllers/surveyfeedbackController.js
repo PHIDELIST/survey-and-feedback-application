@@ -136,21 +136,25 @@ export const getQuestions = async (req,res) => {
 }
 //DELETING a Survey
 
-export const deleteSurvey = async (req,res) => {
-    try{
-        const{surveyId} = req.params;
-        let pool = await sql.connect(config.sql);//configurations for connectiong to sql
-        await pool.request()
-        .input('surveyId',sql.Int,surveyId)
-        .query("DELETE FROM Surveys WHERE surveyId = @surveyId");
-        res.status(200).json({message: 'survey deleted successfully'})
-    }catch(error){
-        res.status(500).json({error: 'an error occurred while deleting a survey'}); 
-    }finally{
-        sql.close();
+export const deleteSurvey = async (req, res) => {
+  try {
+    const { id } = req.params; 
+    let pool = await sql.connect(config.sql); 
+    const result = await pool.request()
+      .input('SurveyID', sql.Int, id) 
+      .query("DELETE FROM Surveys WHERE SurveyID = @SurveyID"); 
+    if (result.rowsAffected[0]) {
+      res.status(200).json({ message: 'survey deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'No survey found with the given id' });
     }
+  } catch (error) {
+    res.status(500).json({ error: 'an error occurred while deleting a survey' });
+  } finally {
+    sql.close();
+  }
+};
 
-}
 //GET a response for a specific question
 
 export const getResponse = async (req,res) => {

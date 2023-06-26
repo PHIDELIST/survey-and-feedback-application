@@ -16,25 +16,24 @@ function Header() {
       <Link to ="/"><img src={logo} alt="" /></Link>
       </div>
       <div id='NavLinks'> 
-          <ul id='links'> 
+          <div id='links'> 
               <Link id='loginbtn' to ="/about">About</Link>
-              <Link id='loginbtn' to ="/login">Login</Link>
-              <div id="arrow-wrapper">
-            <div id="arrow"></div>
-                </div>
-               
+              
+              {!user && <Link id='loginbtn' to ="/login">Login</Link>} 
+              
               {
                 user && (
                   <>
-                  <Link to ="/profile"><img id='profileicon'  src={data} alt="" /></Link>
                   
+                  <Link id='loginbtn' to ="/adminpage">Dashboard</Link>
+                  <Link to ="/profile"><img id='profileicon'  src={data} alt= "<FaUser />" /></Link>
                   </>
                 )
                   
               }              
               
               
-          </ul>
+          </div>
          
       </div>
       

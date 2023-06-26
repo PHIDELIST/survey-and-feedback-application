@@ -10,6 +10,7 @@
     margin-right: 10px;
     width: 100%;
     top: 0;
+    border-radius: 5px;
     background-color: #91ddf6;
   }
   
@@ -22,6 +23,7 @@
     align-items: center;
     justify-content: center;
     color: black;
+    text-decoration: none;
   }
   
   #links {
@@ -30,7 +32,8 @@
     justify-content: center;
     align-items: center;
     list-style: none;
-    gap: 3rem;
+    gap: 2rem;
+    text-decoration: none;
   }
   
  
@@ -62,7 +65,7 @@
     padding-left: 30px;
   }
   #loginbtn {
-    --primary-color: #645bff;
+    --primary-color: #73d1fa;
     --secondary-color: #fff;
     --hover-color: #111;
     --arrow-width: 10px;
@@ -84,6 +87,7 @@
     text-align: center;
     gap: 0.6em;
     font-weight: bold;
+    text-decoration: none;
   }
  
 
@@ -93,17 +97,13 @@
   
   
   #NavImg img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    width: 150px;
+    height: 70px;
+    border-radius: 30%;
     margin-left: 10px;
   }
   
-  #HomeIcon {
-    color: greenyellow;
-    width: 50px;
-    height: 40px;
-  }
+ 
   
   #NavImg {
     display: flex;
@@ -112,12 +112,13 @@
     gap: 2px;
   }
   #profileicon{
-     width: 40px;
-     height: 40px;
+     width: 50px;
+     height: 50px;
      border-radius: 100%;
      display: flex;
      align-items: center;
      justify-content: center;
+     margin-right: 15px;
 
   }
 
