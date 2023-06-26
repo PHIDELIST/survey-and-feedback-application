@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 
 const SurveyResponseForm = ({ survey, onSubmit }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState([]);
+  const [selectedAnswer, setSelectedAnswer] = useState({});
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const handleOptionChange = (event) => {
-    setSelectedAnswer(event.target.value);
+    setSelectedAnswer({
+      ...selectedAnswer,
+      [currentQuestionIndex]: event.target.value,
+    });
   };
 
   const handleSubmit = (event) => {
@@ -13,40 +17,57 @@ const SurveyResponseForm = ({ survey, onSubmit }) => {
       onSubmit({ surveyId: survey.SurveyID, answer: selectedAnswer });
     }
   };
-console.log(survey);
+
+  const handleNext = () => {
+    if (currentQuestionIndex < survey.questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const currentQuestion = survey.questions[currentQuestionIndex];
+
   return (
     <form onSubmit={handleSubmit}>
       <h3>{survey.Title}</h3>
       <p>{survey.Description}</p>
 
       <div>
-        <p>{survey.text}</p>
+        <p>{currentQuestion.text}</p>
         {/* Render the appropriate input based on the question type */}
-        {survey.type === 'yes-no' && (
+        {currentQuestion.type === 'yes-no' && (
           <>
             <label>
-              <input type="radio" name="answer" value="yes" onChange={handleOptionChange} /> Yes
+              <input type="radio" name="answer" value="yes" onChange={handleOptionChange} checked={selectedAnswer[currentQuestionIndex] === "yes"} /> Yes
             </label>
             <label>
-              <input type="radio" name="answer" value="no" onChange={handleOptionChange} /> No
+              <input type="radio" name="answer" value="no" onChange={handleOptionChange} checked={selectedAnswer[currentQuestionIndex] === "no"} /> No
             </label>
           </>
         )}
 
-        {survey.type === 'multiple-choice' && (
+        {currentQuestion.type === 'multiple-choice' && (
           <>
-            {survey.choices.map((choice, index) => (
+            {currentQuestion.choices.map((choice, index) => (
               <label key={index}>
-                <input type="checkbox" name="answer" value={choice.OptionText} onChange={handleOptionChange} /> {choice.OptionText}
+                <input type="checkbox" name="answer" value={choice.OptionText} onChange={handleOptionChange} checked={selectedAnswer[currentQuestionIndex] === choice.OptionText} /> {choice.OptionText}
               </label>
             ))}
           </>
         )}
 
-        {survey.type === 'text_input' && <textarea name="answer" rows="4" cols="50" onChange={handleOptionChange} />}
+        {currentQuestion.type === 'text_input' && <textarea name="answer" rows="4" cols="50" onChange={handleOptionChange} value={selectedAnswer[currentQuestionIndex] || ''} />}
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="button" onClick={handlePrevious} disabled={currentQuestionIndex === 0}>Previous</button>
+      <button type="button" onClick={handleNext} disabled={currentQuestionIndex === survey.questions.length - 1}>Next</button>
+
+      {currentQuestionIndex === survey.questions.length - 1 && <button type="submit">Submit</button>}
     </form>
   );
 };

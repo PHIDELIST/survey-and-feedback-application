@@ -21,10 +21,27 @@ function UserPage() {
       });
 
       const surveysData = response.data.survey;
-      const unique = Array.from(new Map(surveysData.map((survey) => [survey.SurveyID, survey])).values());
+      const surveyMap = {};
+
+      surveysData.forEach(surveyQuestion => {
+        const { SurveyID, EndDate, Title, Description } = surveyQuestion;
+        if (!surveyMap[SurveyID]) {
+          surveyMap[SurveyID] = {
+            SurveyID,
+            EndDate,
+            Title,
+            Description,
+            questions: [],
+          };
+        }
+        surveyMap[SurveyID].questions.push(surveyQuestion);
+      });
+
+      const uniqueSurveys = Object.values(surveyMap);
+
       setSurveys(surveysData);
-      setUniqueSurveys(unique);
-      console.log('Surveys:', surveysData);
+      setUniqueSurveys(uniqueSurveys);
+      console.log('Surveys:', uniqueSurveys);
     } catch (error) {
       console.error('Error fetching surveys:', error);
     }
