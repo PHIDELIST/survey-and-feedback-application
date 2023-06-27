@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import assert from 'assert'//validates if an event is true
 
 dotenv.config();
-const {PORT,HOST,HOST_URL,SQL_PORT,SQL_USER,SQL_PWD,SQL_DB,SQL_SERVER,JWT_SECRET} = process.env;
+const {PORT,HOST,HOST_URL,S3_BUCKET_NAME,SQL_USER,SQL_PWD,SQL_DB,SQL_SERVER,JWT_SECRET} = process.env;
 const sqLEncrypt = process.env.SQL_ENCRYPTED === "true";  
 
 assert(PORT, 'PORT is required');
@@ -23,5 +23,6 @@ const config ={
         }
     },
     jwt_secret:JWT_SECRET,
+    s3_bucket_name:S3_BUCKET_NAME,
 };
 export default config;

@@ -3,10 +3,10 @@ import {register,login,loginRequired} from '../controllers/authController.js'
 import {submitResponse,getSurvey} from '../controllers/responseController.js'
 import { GetProfile, UpdateProfile } from '../controllers/profileController.js';
 import { sendFeedback } from '../controllers/feedBackController.js';
+import { UpdateProfilePhoto } from '../functions/updateprofile.js';
+import multer from "multer";
 
-
-
-
+const upload = multer({ dest: "uploads/" });
 const surveyfeedbackRoutes = (app) =>{
     app.route("/surveyfeedbacks")
         .post(loginRequired,createSurvey)
@@ -28,12 +28,14 @@ const surveyfeedbackRoutes = (app) =>{
     app.route('/auth/register')
         .post(register);
     
-
     app.route('/auth/login')
         .post(login);
 
     app.route('/profile')
         .post(loginRequired,UpdateProfile)
         .get(loginRequired,GetProfile)
+    app.route("/upload-profile-picture")
+        .post(upload.single("file"),UpdateProfilePhoto);
+
 };
 export default surveyfeedbackRoutes 

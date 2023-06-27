@@ -6,12 +6,14 @@ import data from '../assets/data.jpeg';
 import UpdateProfile from './UpdateProfile';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import UpdateProfilePicture from './UpdateProfilePicture';
+import {url, avatar} from '../utilis.jsx'
 
 export default function ProfilePage() {
   const { user,dispatch } = useContext(Context);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [adminDetails, setAdminDetails] = useState(null);
-
+  
   const handleLogout = () => {  
     dispatch({type: "LOGOUT"});
 
@@ -29,9 +31,9 @@ export default function ProfilePage() {
     const fetchAdminDetails = async () => {
       const user = JSON.parse(localStorage.getItem('user'));
     const { token } = user;
-
+    
       try {
-        const response = await axios.get('http://localhost:8081/profile',{
+        const response = await axios.get(`${url}/profile`,{
           headers: {
             'Content-Type': 'application/json',
             authorization: token,
@@ -55,10 +57,13 @@ export default function ProfilePage() {
             <img src={avatarbg} alt="avatar background" />
           </div>
           <div className="card__avatar">
-            <img src={data} alt="" />
+          <img src={`${avatar}`} alt="avatar" />
+
+
           </div>
           <div className="card__title">Name: {user.AdminName}</div>
           <div className="card__subtitle">Email: {user.Email}</div>
+          <div className="updateprofile"><UpdateProfilePicture /></div>
           <Link to ="/" onClick={handleLogout}>logout</Link>
           </div>
             <div id='admin-details'>
