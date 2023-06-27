@@ -5,6 +5,7 @@ import logo from '../assets/logo.png'
 import { useContext } from 'react'
 import { Context } from '../context/UserContext/Context'
 import data from '../assets/data.jpeg'
+import {avatar} from '../utilis.jsx'
 function Header() {
   const {user,dispatch} = useContext(Context);
 
@@ -26,7 +27,7 @@ function Header() {
                   <>
                   
                   <Link id='loginbtn' to ="/adminpage">Dashboard</Link>
-                  <Link to ="/profile"><img id='profileicon'  src={data} alt= "<FaUser />" /></Link>
+                  <Link to ="/profile"><img id='profileicon'  src={`${avatar}`} alt="avatar" /></Link>
                   </>
                 )
                   

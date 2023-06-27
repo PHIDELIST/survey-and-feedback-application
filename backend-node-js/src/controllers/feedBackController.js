@@ -18,3 +18,24 @@ export const sendFeedback = async (req, res) => {
         sql.close();
     }
 };
+
+
+
+export const submitSurveyResponse = async (req, res) => {
+    const { SurveyID, answerValue } = req.body;
+    try {
+      
+      const pool = await sql.connect(config.sql);
+      const request = new sql.Request(pool);
+      request.input('SurveyID', sql.Int, SurveyID);
+      request.input('answerValue', sql.Text, JSON.stringify(answerValue));
+      await request.query('INSERT INTO SurveyResponses (SurveyID, answerValue) VALUES (@SurveyID, @answerValue)');
+      res.status(200).send('Survey response submitted successfully');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error submitting survey response');
+    } finally {
+      sql.close();
+    }
+  };
+  

@@ -7,7 +7,7 @@ import UpdateProfilePicture from './UpdateProfilePicture'
 export default function AboutPage() {
   return (
     <div id='about'>
-      <UpdateProfilePicture />
+   
       <p>
     "Discover valuable insights, make informed decisions, and shape the future with our powerful survey platform.
     
