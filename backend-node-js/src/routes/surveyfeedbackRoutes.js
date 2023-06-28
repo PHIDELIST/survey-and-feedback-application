@@ -21,12 +21,14 @@ const surveyfeedbackRoutes = (app) =>{
     
     app.route("/questions")
         .post(loginRequired,submitResponse)
-        .get(loginRequired,getSurvey);
+        .get(getSurvey);
 
     app.route("/feedback")
         .post(loginRequired,sendFeedback)
+
     app.route("/surveyresponse")
         .post(loginRequired,submitSurveyResponse)
+     
     
 
     app.route("/statistics")

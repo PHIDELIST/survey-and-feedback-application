@@ -10,7 +10,7 @@ import { useContext } from 'react';
 import { Context } from '../context/UserContext/Context';
 function LoginPage() {
   const {user, dispatch} = useContext(Context);
-  console.log(user);
+ 
   const navigate= useNavigate();
    const schema = yup.object().shape({
     Email: yup.string().email().required(),

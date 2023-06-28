@@ -1,7 +1,6 @@
 #admin-sidenav{
   display: flex;
   flex-direction: column;
-  justify-content: center;
   background: linear-gradient(to bottom, #ffffff);
   border-radius: 4px;
   border-bottom: 2px solid gainsboro;

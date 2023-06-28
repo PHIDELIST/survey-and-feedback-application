@@ -11,18 +11,9 @@ function UserPage() {
 
   const getSurveys = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
-      const { token } = user;
-
-      const response = await axios.get('http://localhost:8081/questions', {
-        headers: {
-          authorization: token,
-        },
-      });
-
+      const response = await axios.get('http://localhost:8081/questions');
       const surveysData = response.data.survey;
       const surveyMap = {};
-
       surveysData.forEach(surveyQuestion => {
         const { SurveyID, EndDate, Title, Description } = surveyQuestion;
         if (!surveyMap[SurveyID]) {
@@ -99,7 +90,7 @@ function UserPage() {
                     );
                 
               } else {
-                return null; // Don't render the survey if remaining days is negative
+                return null; 
               }
             })}
           </div>

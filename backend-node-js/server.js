@@ -47,7 +47,7 @@ app.use((req,res,next) => {
 //ROUTES
 surveyfeedbackRoutes(app);
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+    res.send("healthy!");
 
 });
 

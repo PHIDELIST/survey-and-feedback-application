@@ -107,12 +107,19 @@ export const createSurvey = async (req, res) => {
 //get all surveys
 export const getSurveys = async (req, res) => {
   try {
+   
+    const AdminID = req.admin.AdminID;
+
     let pool = await sql.connect(config.sql); 
-    const result = await pool.request().query("SELECT * FROM Surveys");
-    res.status(200).json(result.recordset); // Return the entire recordset
+    const result = await pool
+      .request()
+      .input('AdminID', sql.Int, AdminID)
+      .query('SELECT * FROM Surveys WHERE AdminID = @adminID');
+
+    res.status(200).json(result.recordset); // Return the surveys created by the admin
 
   } catch (error) {
-    res.status(202).json({ error: 'An error occurred while retrieving surveys' });
+    res.status(500).json({ error: 'An error occurred while retrieving surveys' });
   } finally {
     sql.close();
   }
