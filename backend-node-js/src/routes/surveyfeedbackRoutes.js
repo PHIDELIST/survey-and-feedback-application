@@ -4,7 +4,8 @@ import {submitResponse,getSurvey} from '../controllers/responseController.js'
 import { GetProfile, UpdateProfile } from '../controllers/profileController.js';
 import { sendFeedback,submitSurveyResponse } from '../controllers/feedBackController.js';
 import { UpdateProfilePhoto } from '../functions/updateprofile.js';
-import {getResponseStatistics} from '../controllers/statisticsController.js'
+import {getResponseCountBySurvey} from '../controllers/statisticsController.js'
+import {getResponsePerSurvey} from '../controllers/surveyResponseController.js'
 import multer from "multer";
 
 const upload = multer({ dest: "uploads/" });
@@ -29,11 +30,12 @@ const surveyfeedbackRoutes = (app) =>{
     app.route("/surveyresponse")
         .post(loginRequired,submitSurveyResponse)
      
-    
 
     app.route("/statistics")
-        .get(getResponseStatistics)
+        .get(loginRequired,getResponseCountBySurvey)
 
+    app.route("/statistics/:surveyID")
+        .get(loginRequired,getResponsePerSurvey)
 
     app.route('/auth/register')
         .post(register);

@@ -2,8 +2,9 @@ import './AdminSideNav.css';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-export default function AdminSideNav() {
+function AdminSideNav() {
   const [surveys, setSurveys] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getSurveys = async () => {
@@ -16,11 +17,15 @@ export default function AdminSideNav() {
             authorization: token,
           },
         });
+
         setSurveys(response.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     };
+
     getSurveys();
   }, []);
 
@@ -43,15 +48,24 @@ export default function AdminSideNav() {
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div id="Surveys-main">
       <h1>Surveys</h1>
-      {surveys && surveys.map((survey) => (
-        <div id='survey' key={survey.SurveyID}>
-          <h3>{survey.Title}</h3>
-          <button id='deletesurvey' onClick={() => deleteSurvey(survey.SurveyID)}>Delete</button>
-        </div>
-      ))}
+      {surveys.length === 0 ? (
+        <div>No available surveys</div>
+      ) : (
+        surveys.map((survey) => (
+          <div id='survey' key={survey.SurveyID}>
+            <h3>{survey.Title}</h3>
+            <button id='deletesurvey' onClick={() => deleteSurvey(survey.SurveyID)}>Delete</button>
+          </div>
+        ))
+      )}
     </div>
   );
 }
+export default AdminSideNav;

@@ -1,10 +1,8 @@
 #FooterMain{
     display: flex;
     flex-direction: column;
-    padding: 20px;
     background-color: hsl(0, 0%, 98%);
-    margin-top: 3rem;
-    justify-content: center;
+    margin-top: 1rem;
     background-image: url(../assets/bg-pattern-footer-desktop.svg);
     padding-left: 2rem;
     padding-right: 2rem;

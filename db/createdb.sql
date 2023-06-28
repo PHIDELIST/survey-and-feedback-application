@@ -48,16 +48,7 @@ CREATE TABLE SurveyResponses (
 );
 
 
-CREATE TABLE Analytics (
-  AnalyticsID INT PRIMARY KEY IDENTITY(1,1),
-  SurveyID INT,
-  QuestionID INT,
-  ResponseCount INT,
-  AverageRating DECIMAL(5,2),
-  CompletionRate DECIMAL(5,2),
-  FOREIGN KEY (SurveyID) REFERENCES Surveys(SurveyID) ON DELETE CASCADE,
-  FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
-);
+
 CREATE TABLE Feedback (
     Id INT PRIMARY KEY IDENTITY,
     FeedbackType NVARCHAR(255),

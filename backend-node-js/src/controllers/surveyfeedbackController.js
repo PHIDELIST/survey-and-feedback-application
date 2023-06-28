@@ -104,7 +104,7 @@ export const createSurvey = async (req, res) => {
 };
 
 
-//get all surveys
+//get all surveys for specific admin
 export const getSurveys = async (req, res) => {
   try {
    

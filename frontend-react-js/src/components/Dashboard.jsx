@@ -1,72 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import './Dashboard.css'
+import axios from 'axios';
+import './Dashboard.css';
+import SurveyResponse from './SurveyResponse';
 
-function Dashboard() {
-  const [questionData, setQuestionData] = useState([]);
-
-  // Mock data for demonstration
-  const mockResponseData = [
-    { question: 'Question 1', responses: ['Option A', 'Option A', 'Option B', 'Option C'] },
-    { question: 'Question 2', responses: ['Option B', 'Option B', 'Option B', 'Option A'] },
-    { question: 'Question 3', responses: ['Option C', 'Option C', 'Option C', 'Option A'] },
-  ];
+const Dashboard = () => {
+  const [responseCounts, setResponseCounts] = useState([]);
 
   useEffect(() => {
-    // Calculate percentages for each question
-    const calculatePercentages = () => {
-      const newData = mockResponseData.map((item) => {
-        const responseCount = item.responses.length;
-        const optionCounts = {};
-
-        item.responses.forEach((response) => {
-          if (!optionCounts[response]) {
-            optionCounts[response] = 0;
-          }
-          optionCounts[response]++;
-        });
-
-        const optionPercentages = {};
-        for (const option in optionCounts) {
-          optionPercentages[option] = (optionCounts[option] / responseCount) * 100;
-        }
-
-        return {
-          question: item.question,
-          percentages: optionPercentages,
-        };
-      });
-
-      setQuestionData(newData);
-    };
-
-    calculatePercentages();
+    fetchData();
   }, []);
 
+  const fetchData = async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const { token } = user;
+    try {
+      const response = await axios.get('http://localhost:8081/statistics', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      });
+      const data = response.data;
+      setResponseCounts(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
-    <div>
-      <div id='maindashboardcontainer'>
-       <h1>Admin Dashboard</h1>
-      <div id='dashboardmain'>
-      {questionData.map((item) => (
-        <div id="card" key={item.question}>
-          <div id="card-header">
-            <h3>{item.question}</h3>
-          </div>
-          <div id="card-body">
-            <ul>
-              {Object.entries(item.percentages).map(([option, percentage]) => (
-                <li key={option}>
-                  {option}: {percentage.toFixed(2)}%
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ))}
+    <div id='main-dashboard-stats'>
+      <div id='response-count-by-survey'>
+      <h1>Survey Response Count</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Survey ID</th>
+            <th>Survey Title</th>
+            <th>Response Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {responseCounts.length > 0 ? (
+            responseCounts.map((item) => (
+              <tr key={item.SurveyID}>
+                <td>{item.SurveyID}</td>
+                <td>{item.Title}</td>
+                <td>{item.ResponseCount}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="3">No survey statistics available</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
       </div>
-      </div>
+      <SurveyResponse />
     </div>
   );
-}
+};
 
 export default Dashboard;
