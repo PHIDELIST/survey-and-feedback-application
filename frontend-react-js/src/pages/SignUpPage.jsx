@@ -5,6 +5,7 @@ import IntroPhoto from '../assets/introPhoto.jpg';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Axios from 'axios';
+import {url} from '../utilis.jsx'
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -24,13 +25,13 @@ function SignUpPage() {
   });
 
   const onSubmit = (data) => {
-    const { confirmPassword, ...requestData } = data; // Exclude confirmPassword from the request data
+    const { confirmPassword, ...requestData } = data; 
     if (requestData.Password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
     
-    Axios.post('http://localhost:8081/auth/register', requestData)
+    Axios.post(`${url}/auth/register`, requestData)
       .then((response) => {
         
         if (response.status === 400 && response.data.message === 'User already exists') {

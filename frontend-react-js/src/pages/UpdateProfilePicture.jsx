@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import './UpdateProfilePicture.css'
+import {url} from '../utilis.jsx'
 
 const UploadProfilePicture = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -20,7 +21,7 @@ const UploadProfilePicture = () => {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const response = await axios.post("http://localhost:8081/upload-profile-picture", formData, {
+      const response = await axios.post(`${url}/upload-profile-picture`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

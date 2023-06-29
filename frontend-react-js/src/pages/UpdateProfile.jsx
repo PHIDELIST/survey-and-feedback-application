@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import Profile from '../components/Profile.jsx'
+import {url} from '../utilis.jsx'
 
 export default function UpdateProfile({ onClose }) {
   const schema = yup.object().shape({
@@ -22,7 +23,7 @@ export default function UpdateProfile({ onClose }) {
   const { token } = user;
 
   const onSubmit = (data) => {
-    Axios.post('http://localhost:8081/profile', data, {
+    Axios.post(`${url}/profile`, data, {
       headers: {
         'Content-Type': 'application/json',
         authorization: token,

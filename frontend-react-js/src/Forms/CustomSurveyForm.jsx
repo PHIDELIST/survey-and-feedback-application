@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {url} from '../utilis.jsx'
 
 function CustomSurveyForm() {
   const [questions, setQuestions] = useState([]);
@@ -9,7 +10,7 @@ function CustomSurveyForm() {
     const { token } = user;
 
     axios
-      .get('http://localhost:8081/questions', {
+      .get(`${url}/questions`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: token,

@@ -6,7 +6,8 @@ import sarova from '../assets/sarova.png'
 import kilele from'../assets/kilele.jpg'
 import mtKenya from '../assets/mtKenya.jpg'
 import gym from '../assets/gym.jpg'
-import FeedBackForm from '../forms/FeedBackForm'
+import FeedBackForm from '../Forms/FeedBackForm'
+
 
 export default function HomePage() {
   return (

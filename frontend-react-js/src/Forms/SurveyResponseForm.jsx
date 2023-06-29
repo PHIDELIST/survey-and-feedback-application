@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './SurveyResponseForm.css';
+import {url} from '../utilis.jsx'
 const SurveyResponseForm = ({ survey, onSubmit }) => {
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -23,7 +24,7 @@ const SurveyResponseForm = ({ survey, onSubmit }) => {
           answerValue: selectedAnswer,
         });
         const response = await axios.post(
-          'http://localhost:8081/surveyresponse',
+          `${url}/surveyresponse`,
           {
             SurveyID: survey.SurveyID,
             answerValue: selectedAnswer,

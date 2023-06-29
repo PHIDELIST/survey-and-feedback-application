@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Dashboard.css';
 import SurveyResponse from './SurveyResponse';
+import {url} from '../utilis.jsx'
 
 const Dashboard = () => {
   const [responseCounts, setResponseCounts] = useState([]);
@@ -14,7 +15,7 @@ const Dashboard = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const { token } = user;
     try {
-      const response = await axios.get('http://localhost:8081/statistics', {
+      const response = await axios.get(`${url}statistics`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: token,

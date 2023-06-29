@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './SurveyCreationForm.css';
+import {url} from '../utilis.jsx'
 
 function SurveyCreationForm() {
   const [Title, setTitle] = useState('');
@@ -57,7 +58,7 @@ function SurveyCreationForm() {
     try {
       const user = JSON.parse(localStorage.getItem('user'))
       const { token } = user
-      const response = await axios.post('http://localhost:8081/surveyfeedbacks', surveyData, {
+      const response = await axios.post(`${url}/surveyfeedbacks`, surveyData, {
         headers: {
           'Content-Type': 'application/json',
           'authorization': token

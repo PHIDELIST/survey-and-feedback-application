@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import './UserPage.css';
 import SurveyResponseForm from '../Forms/SurveyResponseForm';
 import axios from 'axios';
-
+import {url} from '../utilis.jsx'
 function UserPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
   const [surveys, setSurveys] = useState([]);
   const [uniqueSurveys, setUniqueSurveys] = useState([]);
 
+
   const getSurveys = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/questions');
+      const response = await axios.get(`${url}/questions`);
       const surveysData = response.data.survey;
       const surveyMap = {};
       surveysData.forEach(surveyQuestion => {

@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     gap: 5rem;
-    height: 55vh;
+    height: 75vh;
    
 }
 #LoginForm{
@@ -16,6 +16,7 @@
 }
 #LoginForm input {
     width: 70%;
+    height: 30px;
     
 }
 #LoginForm button{
@@ -55,7 +56,26 @@
     #LoginContainer{
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 3px;
       width: 100%;
+      height: 100%;
+      
     }
+    #Log{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    #LoginForm{
+        
+        display: flex;
+        flex-direction: column;
+   
+     }
+     #LoginForm input {
+        width: 90%;
+        height: 25px;
+        
+    }
+   
 }

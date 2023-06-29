@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useContext } from 'react';
 import { Context } from '../context/UserContext/Context';
+import {url} from '../utilis.jsx'
 function LoginPage() {
   const {user, dispatch} = useContext(Context);
  
@@ -18,7 +19,7 @@ function LoginPage() {
    });
    const {register, handleSubmit, formState:{errors}} = useForm({resolver:yupResolver(schema)})
    const onSubmit = (data) => {
-    Axios.post('http://localhost:8081/auth/login',data)
+    Axios.post(`${url}/auth/login`,data)
     .then(({data}) => {
       if(data.token){
         dispatch({type:"LOGIN_SUCCESS", payload:data})

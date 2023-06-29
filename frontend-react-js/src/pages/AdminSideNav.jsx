@@ -1,6 +1,7 @@
 import './AdminSideNav.css';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import {url} from '../utilis.jsx'
 
 function AdminSideNav() {
   const [surveys, setSurveys] = useState([]);
@@ -12,7 +13,7 @@ function AdminSideNav() {
         const user = JSON.parse(localStorage.getItem('user'));
         const { token } = user;
 
-        const response = await axios.get('http://localhost:8081/surveyfeedbacks', {
+        const response = await axios.get(`${url}/surveyfeedbacks`, {
           headers: {
             authorization: token,
           },
@@ -35,7 +36,7 @@ function AdminSideNav() {
         const user = JSON.parse(localStorage.getItem('user'));
         const { token } = user;
 
-        await axios.delete(`http://localhost:8081/surveyfeedback/${id}`, {
+        await axios.delete(`${url}/${id}`, {
           headers: {
             authorization: token,
           },

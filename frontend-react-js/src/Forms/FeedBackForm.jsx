@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import './FeedbackForm.css';
+import {url} from '../utilis.jsx'
 
 function FeedbackForm() {
   const [feedbackType, setFeedbackType] = useState('');
@@ -15,7 +16,7 @@ function FeedbackForm() {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const { token } = user;
-      const response = await axios.post('http://localhost:8081/feedback', {
+      const response = await axios.post(`${url}/feedback`, {
         feedbackType,
         feedbackText,
       },{
