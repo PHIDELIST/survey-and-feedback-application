@@ -1,7 +1,7 @@
 import express from "express";
 import config from './src/db/config.js';
 import surveyfeedbackRoutes from "./src/routes/surveyfeedbackRoutes.js"
-// import Rollbar from 'rollbar';
+import Rollbar from 'rollbar';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 
@@ -11,16 +11,16 @@ import cors from 'cors';
 
 const app = express();
 app.use("/images", express.static('images'));
-// const rollbar = new Rollbar({
-//   accessToken: process.env.ROLLBAR_TOKEN,
-//   captureUncaught: true,
-//   captureUnhandledRejections: true,
-//   payload: {
-//     code_version: '1.0.0',
-//   },
-// });
-// // Error handling middleware
-// app.use(rollbar.errorHandler());
+const rollbar = new Rollbar({
+  accessToken: process.env.ROLLBAR_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  payload: {
+    code_version: '1.0.0',
+  },
+});
+// Error handling middleware
+app.use(rollbar.errorHandler());
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
