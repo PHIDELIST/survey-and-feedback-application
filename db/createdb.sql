@@ -5,11 +5,12 @@ CREATE TABLE Admins (
   AdminName VARCHAR(26) NOT NULL,
   Email VARCHAR(255) NOT NULL,
   Password VARCHAR(255) NOT NULL,
-  Country VARCHAR(255) NOT NULL,
-  City VARCHAR(255) NOT NULL,
-  OrganizationType VARCHAR(255) NOT NULL,
-  OrganizationName VARCHAR(255) NOT NULL,
-  FOREIGN KEY (LocationID) REFERENCES Locations(LocationID) ON DELETE SET NULL
+  Country VARCHAR(255) NULL,
+  City VARCHAR(255) NULL,
+  OrganizationType VARCHAR(255) NULL,
+  OrganizationName VARCHAR(255) NULL,
+  ProfileAvatar INT NULL,
+  
 );
 
 
@@ -19,9 +20,8 @@ CREATE TABLE Surveys (
   Description TEXT,
   StartDate DATE,
   EndDate DATE,
-  Active BIT DEFAULT 0,
   AdminID INT,
-  FOREIGN KEY (AdminID) REFERENCES Admins(AdminID) ON DELETE CASCADE
+  FOREIGN KEY (AdminID) REFERENCES Admins(AdminID) ON DELETE CASCADE,
   CONSTRAINT CHK_SurveyDates CHECK (EndDate >= StartDate)
 );
 
@@ -47,11 +47,14 @@ CREATE TABLE SurveyResponses (
   FOREIGN KEY (SurveyID) REFERENCES Surveys (SurveyID) ON DELETE CASCADE
 );
 
-
-
 CREATE TABLE Feedback (
     Id INT PRIMARY KEY IDENTITY,
     FeedbackType NVARCHAR(255),
     FeedbackText NVARCHAR(MAX),
     SubmittedDate DATETIME DEFAULT GETDATE()
 )
+CREATE TABLE CustomQuestions(
+  Id INT PRIMARY KEY IDENTITY(1,1),
+  question VARCHAR(255)
+)
+

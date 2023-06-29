@@ -4,6 +4,7 @@ import './UpdateProfile.css';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
+import Profile from '../components/Profile.jsx'
 
 export default function UpdateProfile({ onClose }) {
   const schema = yup.object().shape({
@@ -43,6 +44,8 @@ export default function UpdateProfile({ onClose }) {
   return (
     <div className="popup-container">
       <div className="popup">
+        <h2>Update Profile</h2>
+        <Profile />
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>Country:</label>
           <input type="text" name="Country" {...register('Country')} />

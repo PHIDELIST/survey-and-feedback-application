@@ -31,6 +31,7 @@
     "node-cron": "^3.0.2",
     "nodemailer": "^6.9.3",
     "rollbar": "^2.26.1",
+    "sharp": "^0.32.1",
     "stream": "^0.0.2"
   }
 }

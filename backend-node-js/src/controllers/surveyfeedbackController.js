@@ -4,7 +4,7 @@ import config from '../db/config.js';
 // Creating a Survey
 export const createSurvey = async (req, res) => {
   try {
-    const { Title, Description, StartDate, EndDate, Active, Questions } = req.body;
+    const { Title, Description, StartDate, EndDate, Questions } = req.body;
     const AdminID = req.admin.AdminID; // getting stored admin's ID in the user object after authentication
     let pool = await sql.connect(config.sql);
 
@@ -35,11 +35,10 @@ export const createSurvey = async (req, res) => {
       request.input('Description', sql.VarChar, Description);
       request.input('StartDate', sql.Date, StartDate);
       request.input('EndDate', sql.Date, EndDate);
-      request.input('Active', sql.Bit, Active);
       request.input('AdminID', sql.Int, AdminID);
       const surveyInsertQuery =
-        'INSERT INTO Surveys (Title, Description, StartDate, EndDate, Active, AdminID) ' +
-        'VALUES (@Title, @Description, @StartDate, @EndDate, @Active, @AdminID); ' +
+        'INSERT INTO Surveys (Title, Description, StartDate, EndDate, AdminID) ' +
+        'VALUES (@Title, @Description, @StartDate, @EndDate, @AdminID); ' +
         'SELECT SCOPE_IDENTITY() AS SurveyID';
 
         const surveyIdResult = await request.query(surveyInsertQuery);

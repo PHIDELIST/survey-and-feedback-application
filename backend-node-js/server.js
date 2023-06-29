@@ -10,7 +10,7 @@ import cors from 'cors';
 
 
 const app = express();
-
+app.use("/images", express.static('images'));
 // const rollbar = new Rollbar({
 //   accessToken: process.env.ROLLBAR_TOKEN,
 //   captureUncaught: true,
@@ -25,6 +25,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
 //JWT middleware
 app.use((req,res,next) => {
   if(req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT'){

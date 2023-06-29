@@ -3,12 +3,18 @@ import {register,login,loginRequired} from '../controllers/authController.js'
 import {submitResponse,getSurvey} from '../controllers/responseController.js'
 import { GetProfile, UpdateProfile } from '../controllers/profileController.js';
 import { sendFeedback,submitSurveyResponse } from '../controllers/feedBackController.js';
-import { UpdateProfilePhoto } from '../functions/updateprofile.js';
 import {getResponseCountBySurvey} from '../controllers/statisticsController.js'
 import {getResponsePerSurvey} from '../controllers/surveyResponseController.js'
-import multer from "multer";
+import {AvatarUpload,upload,AvatarDelete} from '../functions/avatarController.js'
 
-const upload = multer({ dest: "uploads/" });
+//for s3 upload
+//import multer from "multer";
+//import { UpdateProfilePhoto } from '../functions/updateprofile.js';
+// const upload = multer({ dest: "uploads/" });
+
+
+
+
 const surveyfeedbackRoutes = (app) =>{
     app.route("/surveyfeedbacks")
         .post(loginRequired,createSurvey)
@@ -46,8 +52,16 @@ const surveyfeedbackRoutes = (app) =>{
     app.route('/profile')
         .post(loginRequired,UpdateProfile)
         .get(loginRequired,GetProfile)
-    app.route("/upload-profile-picture")
-        .post(upload.single("file"),UpdateProfilePhoto);
+        //for s3 upload
+    // app.route("/upload-profile-picture")
+    //     .post(upload.single("file"),UpdateProfilePhoto);
+
+    app.route("/deleteProfileAvatar")
+        .post(loginRequired,AvatarDelete)
+
+    app.route("/updateProfileAvatar")
+        .post(loginRequired,upload.single("profile_image"),AvatarUpload)
+
 
 };
 export default surveyfeedbackRoutes 
