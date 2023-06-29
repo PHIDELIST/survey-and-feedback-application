@@ -63,6 +63,7 @@
   font-weight: 400;
   font-size: 15px;
   color: var(--submain-color);
+  margin-bottom: 5px;
 }
 
 .card__btn {
@@ -107,4 +108,31 @@
   background: rgb(223, 225, 235);
   border-radius: 50px;
   box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+#logout{
+  background: linear-gradient(to bottom, #ffffff);
+  border-radius: 8px;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 80px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+@media screen and (max-width: 480px) {
+  #profilepage-main{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 100%;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+   
+  }
+  #profiledetails{
+    width: 100%;
+  }
+  
 }

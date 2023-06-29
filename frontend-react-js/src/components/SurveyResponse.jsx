@@ -68,7 +68,7 @@ const SurveyResponse = () => {
   return (
     <div className="survey-response">
       <h1>Survey Responses</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} id='response-form'>
         <input id="surveyIDsearch" type="text" value={surveyID} onChange={handleInputChange} placeholder="Enter Survey ID" disabled={loading} />
         <button type="submit" disabled={loading}>
           Fetch Responses

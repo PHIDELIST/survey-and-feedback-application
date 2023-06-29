@@ -74,8 +74,6 @@ export default function HomePage() {
             <div id='PlansBtn'><FeedBackForm /> </div>
           </div>
 
-
-
         </div>
 
         </div>

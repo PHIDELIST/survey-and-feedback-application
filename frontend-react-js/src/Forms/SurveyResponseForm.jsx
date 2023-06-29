@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import './SurveyResponseForm.css';
 const SurveyResponseForm = ({ survey, onSubmit }) => {
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -36,10 +36,10 @@ const SurveyResponseForm = ({ survey, onSubmit }) => {
           }
         );
         console.log('Survey response submitted successfully:', response.data);
-        // Call any other necessary logic after successful submission
+      
       } catch (error) {
         console.error('Error submitting survey response:', error);
-        // Handle error state or display an error message
+   
       }
     }
   };
@@ -59,11 +59,11 @@ const SurveyResponseForm = ({ survey, onSubmit }) => {
   const currentQuestion = survey.questions[currentQuestionIndex];
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} id='surveyresponsepopped'>
       <h3>{survey.Title}</h3>
       <p>{survey.Description}</p>
 
-      <div>
+      <div id='surveyquestions'>
         <p>{currentQuestion.text}</p>
         {/* Render the appropriate input based on the question type */}
         {currentQuestion.type === 'yes-no' && (

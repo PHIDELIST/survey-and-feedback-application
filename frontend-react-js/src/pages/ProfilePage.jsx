@@ -64,7 +64,7 @@ export default function ProfilePage() {
           <div className="card__title">Name: {user.AdminName}</div>
           <div className="card__subtitle">Email: {user.Email}</div>
          
-          <Link to ="/" onClick={handleLogout}>logout</Link>
+         <button id='logout'> <Link to ="/" onClick={handleLogout}>logout</Link></button>
           </div>
             <div id='admin-details'>
           {adminDetails && (

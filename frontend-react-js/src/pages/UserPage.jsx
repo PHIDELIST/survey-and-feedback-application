@@ -78,19 +78,18 @@ function UserPage() {
         {!showPopup && (
           <div id="survey-cards-container">
             {uniqueSurveys.map((survey, index) => {
-                const daysRemaining = calculateDaysRemaining(survey.EndDate);
-                if (daysRemaining >= 0) {
-                    return (
-                        <div id="userpagesurvey-card" key={`${survey.SurveyID}-${index}`}>
-                            <h3>{survey.Title}</h3>
-                            <p>{survey.Description}</p>
-                            <p>Expires in: {daysRemaining} days</p>
-                            <button onClick={() => handleTakeSurvey(survey)}>Take Survey</button>
-                        </div>
-                    );
-                
+              const daysRemaining = calculateDaysRemaining(survey.EndDate);
+              if (daysRemaining > 0) {
+                return (
+                  <div id="userpagesurvey-card" key={`${survey.SurveyID}-${index}`}>
+                    <h3>{survey.Title}</h3>
+                    <p>{survey.Description}</p>
+                    <p>Expires in: {daysRemaining} days</p>
+                    <button onClick={() => handleTakeSurvey(survey)}>Take Survey</button>
+                  </div>
+                );
               } else {
-                return null; 
+                return null;
               }
             })}
           </div>

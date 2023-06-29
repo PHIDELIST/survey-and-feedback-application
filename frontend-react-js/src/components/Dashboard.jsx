@@ -31,7 +31,7 @@ const Dashboard = () => {
     <div id='main-dashboard-stats'>
       <div id='response-count-by-survey'>
       <h1>Survey Response Count</h1>
-      <table>
+      <table >
         <thead>
           <tr>
             <th>Survey ID</th>

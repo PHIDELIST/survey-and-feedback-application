@@ -53,7 +53,7 @@ function AdminSideNav() {
   }
 
   return (
-    <div id="Surveys-main">
+    <div id="Surveys-sidebar-main">
       <h1>Surveys</h1>
       {surveys.length === 0 ? (
         <div>No available surveys</div>
