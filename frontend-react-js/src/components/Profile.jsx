@@ -77,21 +77,21 @@ function Profile() {
   };
 
   return (
-    <div className="container">
+    <div id="container">
       {loading && <h5>loading ...</h5>}
       <h3>Profile Avatar</h3>
       
       <hr />
-      <div className="row-form">
-        <div className="upload-form">
-          <div className="upload-form_display">
+      <div id="row-form">
+        <div id="upload-form">
+          <div id="upload-form_display">
             {file ? (
-              <img className="displayImg" src={URL.createObjectURL(file)} alt="No pic" />
+              <img id="displayImg" src={URL.createObjectURL(file)} alt="No pic" />
             ) : (
-              <img className="displayImg" src={Placeholder} alt="No pic" />
+              <img id="displayImg" src={Placeholder} alt="No pic" />
             )}
           </div>
-          <div className="upload-form_inputs">
+          <div id="upload-form_inputs">
             <input type="file" name="profile_image" id="fileInput" onChange={handleFileChange} />
             <button type="button" onClick={handleUpdateAvatar}>
               {loading ? 'Loading...' : 'Update Profile Avatar'}

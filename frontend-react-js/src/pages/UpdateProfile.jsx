@@ -38,12 +38,12 @@ export default function UpdateProfile({ onClose }) {
   };
 
   const handleCancelClick = () => {
-    onClose(); // Close the popup when cancel button is clicked
+    onClose(); 
   };
 
   return (
-    <div className="popup-container">
-      <div className="popup">
+    <div id="popup-container">
+      <div id="popup">
         <h2>Update Profile</h2>
         <Profile />
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -59,7 +59,7 @@ export default function UpdateProfile({ onClose }) {
           <label>OrganizationName:</label>
           <input type="text" name="OrganizationName" {...register('OrganizationName')} />
           <p>{errors.OrganizationName?.message}</p>
-          <div className="button-group">
+          <div id="button-group">
             <button type="submit">Submit</button>
             <button type="button" onClick={handleCancelClick}>Cancel</button>
           </div>

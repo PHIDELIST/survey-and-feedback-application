@@ -1,10 +1,10 @@
-import { FaUser } from 'react-icons/fa'
+
 import './Header.css'
 import {Link} from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { useContext } from 'react'
 import { Context } from '../context/UserContext/Context'
-import data from '../assets/data.jpeg'
+
 
 import Avatar from './avatar.jsx'
 function Header() {

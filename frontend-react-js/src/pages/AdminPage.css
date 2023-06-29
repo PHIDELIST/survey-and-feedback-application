@@ -3,7 +3,7 @@
   flex-direction: column;
   background: linear-gradient(to bottom, #ffffff);
   border-radius: 4px;
-  
+  height: 85vh;
   border-right: 2px solid gainsboro;
   align-items: center;
  
