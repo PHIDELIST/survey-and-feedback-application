@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  SurveyLaunchTemplate:
+    Type: 'AWS::EC2::LaunchTemplate'
+    Properties:
+      LaunchTemplateName: SurveyLaunchTemplate
+      LaunchTemplateData:
+        ImageId: ami-0261755bbcb8c4a84
+        InstanceType: t2.micro
+        SecurityGroupIds:
+          - !ImportValue AppInstanceSecurityGroupID
+          - !ImportValue ALBsecurityGroupID
+          - !ImportValue RDSSecurityGroupID 
+          
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            sudo apt update -y
+            cd /home
+            sudo git clone https://github.com/PHIDELIST/survey-and-feedback-application.git
+            cd survey-and-feedback-application/backend-node-js
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+            . ~/.nvm/nvm.sh
+            nvm install --lts
+            npm install -g npm@9.7.2
+            sudo chown -R ubuntu:ubuntu /home/survey-and-feedback-application/backend-node-js
+            npm install bcrypt cors mssql jsonwebtoken
+            npm install -g pm2 
+            pm2 save
+            pm2 startup
+
+   
+  SurveyAutoScalingGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId: !Ref SurveyLaunchTemplate
+        Version: !GetAtt SurveyLaunchTemplate.LatestVersionNumber # Specify the same version as in the Launch Template
+      MinSize: 2
+      MaxSize: 4
+      DesiredCapacity: 2
+      VPCZoneIdentifier:
+        - !ImportValue AppSubnet1
+        - !ImportValue AppSubnet2
+      TargetGroupARNs: 
+        - !ImportValue BackendTGArn
+      Tags:
+        - Key: Name
+          Value: SurveyAutoScalingGroup
+          PropagateAtLaunch: true
+  ScalingPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AdjustmentType: ChangeInCapacity
+      AutoScalingGroupName: !Ref SurveyAutoScalingGroup
+      Cooldown: '300'
+      PolicyType: TargetTrackingScaling
+      TargetTrackingConfiguration:
+        TargetValue: '50'
+        CustomizedMetricSpecification:
+          MetricName: CPUUtilization
+          Namespace: AWS/EC2
+          Dimensions:
+            - Name: AutoScalingGroupName
+              Value: !Ref SurveyAutoScalingGroup
+          Statistic: Average
+          Unit: Percent
+
+Outputs:
+  AutoScalingGroupName:
+    Description: The name of the Auto Scaling Group
+    Value: !Ref SurveyAutoScalingGroup
+    Export:
+      Name: AutoScalingGroupName

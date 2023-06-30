@@ -1,9 +1,14 @@
 import React from 'react'
-import FeedbackForm from '../Forms/FeedBackForm'
+import './AboutPage.css'
+import Profile from '../components/Profile.jsx'
+
+
 
 export default function AboutPage() {
   return (
-    <div><p><FeedbackForm />
+    <div id='about'>
+  
+      <p>
     "Discover valuable insights, make informed decisions, and shape the future with our powerful survey platform.
     
     Unlock actionable data, gain meaningful perspectives, and drive positive change through our user-friendly survey solutions.

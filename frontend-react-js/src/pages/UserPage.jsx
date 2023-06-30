@@ -1,66 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UserPage.css';
 import SurveyResponseForm from '../Forms/SurveyResponseForm';
-
-const sampleSurveys = [
-  {
-    id: 1,
-    title: 'Survey feedback   website',
-    description: 'I am dummy.',
-    expiration_date: '2024-07-07',
-    questions: [
-      {
-        text: 'Question 1',
-        type: 'yes_no',
-      },
-      {
-        text: 'Question 2',
-        type: 'multiple_response',
-        choices: [
-          { text: 'Choice 1', checked: true },
-          { text: 'Choice 2', checked: false },
-          { text: 'Choice 3', checked: true },
-        ],
-      },
-      {
-        text: 'Question 3',
-        type: 'text_input',
-        answer: '',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Sarova white sands hotel &',
-    description: 'lets try it out.',
-    expiration_date: '2024-07-08',
-    questions: [
-      {
-        text: 'Question 1',
-        type: 'yes_no',
-      },
-      {
-        text: 'Question 2',
-        type: 'multiple_response',
-        choices: [
-          { text: 'Choice 1', checked: true },
-          { text: 'Choice 2', checked: false },
-          { text: 'Choice 3', checked: true },
-        ],
-      },
-      {
-        text: 'Question 3',
-        type: 'text_input',
-        answer: '',
-      },
-    ],
-  },
-
-];
-
+import axios from 'axios';
+import {url} from '../utilis.jsx'
 function UserPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
+  const [surveys, setSurveys] = useState([]);
+  const [uniqueSurveys, setUniqueSurveys] = useState([]);
+
+
+  const getSurveys = async () => {
+    try {
+      const response = await axios.get(`${url}/questions`);
+      const surveysData = response.data.survey;
+      const surveyMap = {};
+      surveysData.forEach(surveyQuestion => {
+        const { SurveyID, EndDate, Title, Description } = surveyQuestion;
+        if (!surveyMap[SurveyID]) {
+          surveyMap[SurveyID] = {
+            SurveyID,
+            EndDate,
+            Title,
+            Description,
+            questions: [],
+          };
+        }
+        surveyMap[SurveyID].questions.push(surveyQuestion);
+      });
+
+      const uniqueSurveys = Object.values(surveyMap);
+
+      setSurveys(surveysData);
+      setUniqueSurveys(uniqueSurveys);
+      console.log('Surveys:', uniqueSurveys);
+    } catch (error) {
+      console.error('Error fetching surveys:', error);
+    }
+  };
+
+  useEffect(() => {
+    getSurveys();
+  }, []);
 
   const handleTakeSurvey = (survey) => {
     setSelectedSurvey(survey);
@@ -72,32 +53,48 @@ function UserPage() {
     setShowPopup(false);
   };
 
+  const calculateDaysRemaining = (endDate) => {
+    const today = new Date();
+    const expiryDate = new Date(endDate);
+    const timeDifference = expiryDate.getTime() - today.getTime();
+    const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    return daysRemaining >= 0 ? daysRemaining : 'Expired';
+  };
+  
   return (
     <div id="Mainuserpage">
       <h1>AVAILABLE SURVEYS</h1>
-      <div id='usercontainerdashboard'>
-      {showPopup && selectedSurvey && (
-        <div id="popup-container">
-          <div id="popup">
-            <button id="popup-close" onClick={() => setShowPopup(false)}>
-              &times;
-            </button>
-            <SurveyResponseForm survey={selectedSurvey} onSubmit={handleFinishSurvey} />
-          </div>
-        </div>
-      )}
-      {!showPopup && (
-        <div id="survey-cards-container">
-          {sampleSurveys.map((survey) => (
-            <div id="survey-card" key={survey.id}>
-              <h3>{survey.title}</h3>
-              <p>{survey.description}</p>
-              <p>Expires on: {survey.expiration_date}</p>
-              <button onClick={() => handleTakeSurvey(survey)}>Take Survey</button>
+      <div id="usercontainerdashboard">
+        {showPopup && selectedSurvey && (
+          <div id="popup-container">
+            <div id="popup">
+              <button id="popup-close" onClick={() => setShowPopup(false)}>
+                &times;
+              </button>
+              <SurveyResponseForm survey={selectedSurvey} onSubmit={handleFinishSurvey} />
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        )}
+        
+        {!showPopup && (
+          <div id="survey-cards-container">
+            {uniqueSurveys.map((survey, index) => {
+              const daysRemaining = calculateDaysRemaining(survey.EndDate);
+              if (daysRemaining > 0) {
+                return (
+                  <div id="userpagesurvey-card" key={`${survey.SurveyID}-${index}`}>
+                    <h3>{survey.Title}</h3>
+                    <p>{survey.Description}</p>
+                    <p>Expires in: {daysRemaining} days</p>
+                    <button onClick={() => handleTakeSurvey(survey)}>Take Survey</button>
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

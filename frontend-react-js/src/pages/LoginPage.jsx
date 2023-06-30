@@ -3,28 +3,47 @@ import IntroPhoto from '../assets/introPhoto.jpg'
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
+import Axios  from 'axios';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { useContext } from 'react';
+import { Context } from '../context/UserContext/Context';
+import {url} from '../utilis.jsx'
 function LoginPage() {
+  const {user, dispatch} = useContext(Context);
+ 
+  const navigate= useNavigate();
    const schema = yup.object().shape({
-    email: yup.string().email().required().matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, 'Email is not valid'),
-    password: yup.string().required().matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, 'Password must be at least 8 characters long and contain at least one letter and one number')
+    Email: yup.string().email().required(),
+    Password: yup.string().required()
    });
    const {register, handleSubmit, formState:{errors}} = useForm({resolver:yupResolver(schema)})
-   const onSubmit = (data) => {console.log(data)}
+   const onSubmit = (data) => {
+    Axios.post(`${url}/auth/login`,data)
+    .then(({data}) => {
+      if(data.token){
+        dispatch({type:"LOGIN_SUCCESS", payload:data})
+        navigate("/adminpage")
+      }
+    })
+    .catch(({response}) =>{
+      alert(response.data.error)
+    })
+  }
   return (
     <>
     <div id='LoginContainer'>
         <div id='Log'>
     <form id='LoginForm' onSubmit={handleSubmit(onSubmit)}>
-        <label> Email: </label><input type='text' placeholder='Enter your email' {...register('email')}/> 
-        <p>{errors.email?.message}</p>
+        <label> Email: </label><input type='text' placeholder='Enter your email' {...register('Email')}/> 
+        <p>{errors.Email?.message}</p>
         < br />
-        <label> Password: </label><input type='password' placeholder='Enter your password' {...register('password')}/>
-        <p>{errors.password?.message}</p>
+        <label> Password: </label><input type='password' placeholder='Enter your password' {...register('Password')}/>
+        <p>{errors.Password?.message}</p>
         <br />
-        <Link to ='/adminpage'><button type='submit'>Login</button></Link>
+        <button type='submit'>Login</button>
     </form>
-    <Link to='/register'>SignUp here</Link>
+    <Link id='SignUpLink'to='/register'>SignUp here</Link>
     </div>
     <div id='RightLoginImg'>
             <img src={IntroPhoto} alt="" />

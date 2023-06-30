@@ -1,39 +1,43 @@
-//make sure to run yarn add react-modal//
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-
-const modalStyles = {
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 9999,
-  },
-  content: {
-    width: '400px',
-    margin: '0 auto',
-    padding: '20px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    background: '#fff',
-  },
-};
+import axios from 'axios';
+import './FeedbackForm.css';
+import {url} from '../utilis.jsx'
+import {Link} from 'react-router-dom';
 
 function FeedbackForm() {
   const [feedbackType, setFeedbackType] = useState('');
   const [feedbackText, setFeedbackText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
+    // Submit feedback to the server
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const { token } = user;
+      const response = await axios.post(`${url}/feedback`, {
+        feedbackType,
+        feedbackText,
+      },{
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token,
+        },
+      });
 
-    console.log('Feedback submitted:', feedbackType, feedbackText);
-
-
-    setFeedbackType('');
-    setFeedbackText('');
-
-
-    setIsModalOpen(false);
+      if (response.status === 200) {
+        alert('Thank you for your feedback!');
+        setFeedbackType('');
+        setFeedbackText('');
+        setIsModalOpen(false);
+      } else {
+        
+      }
+    } catch (err) {
+      
+    }
   };
 
   const openModal = (type) => {
@@ -46,36 +50,23 @@ function FeedbackForm() {
   };
 
   return (
-    <div>
-      <h2>Feedback Form</h2>
+    <div id='feedback-formthumbs'>
       <div className="feedback-options">
-        <button onClick={() => openModal('thumbs-up')}>
+        <button onClick={() => openModal('thumbs-up 👍')}>
           <span role="img" aria-label="Thumbs Up">👍</span>
         </button>
-        <button onClick={() => openModal('thumbs-down')}>
+        <button onClick={() => openModal('thumbs-down 👎')}>
           <span role="img" aria-label="Thumbs Down">👎</span>
         </button>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Feedback Form"
-        style={modalStyles}
-      >
-        <h2>Feedback Form</h2>
+      <Modal isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Feedback Form">
+        <h2>Provide additional feedback</h2>
         <form onSubmit={handleFormSubmit}>
           <p>{feedbackType}</p>
-
           <label htmlFor="feedbackText">Additional Comments:</label>
-          <textarea
-            id="feedbackText"
-            value={feedbackText}
-            onChange={(e) => setFeedbackText(e.target.value)}
-            rows={4}
-          />
-
-          <button type="submit">
+          <textarea id="feedbackText" value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} rows={4}/>
+          <button type="submit" onClick={closeModal}>
             Submit Feedback
           </button>
         </form>

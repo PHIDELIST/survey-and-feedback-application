@@ -7,16 +7,18 @@ import Footer from './components/Footer'
 import SignUpPage from './pages/SignUpPage'
 import AboutPage from './pages/AboutPage'
 import AdminPage from './pages/AdminPage'
-import Dashboard from './components/Dashboard'
 import UserPage from './pages/UserPage'
-import UserLoginPage from './pages/UserLoginPage'
-import UserSignUpPage from './pages/UserSignUpPage'
+import ProfilePage from './pages/ProfilePage'
 
+import { useContext } from 'react'
+import { Context } from './context/UserContext/Context'
  
 
 
 
 function App() {
+  const {user} = useContext(Context)
+  
   return (
     <>
     <BrowserRouter>
@@ -26,13 +28,11 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<SignUpPage />} />
         <Route path='/about' element={<AboutPage />} />
-        <Route path='/adminpage' element={<AdminPage/>} />
-        <Route path='/dashboard' element={<Dashboard/>} />
-        <Route path='*' element={<h1>404</h1>} />
+        <Route path='/adminpage' element={user ? <AdminPage/> : <HomePage />} />
+        <Route path='*' element={<h1>404 PAGE NOT FOUND</h1>} />
         <Route path='/userpage' element={<UserPage />} />
+        <Route path='/profile' element={<ProfilePage />} />
         {/* <Route path='/userpage/:id' element={<UserPage />} /> */}
-        <Route path='userloginpage' element={<UserLoginPage />} />
-        <Route path='/usersignuppage' element={<UserSignUpPage />} />
       </Routes> 
     <Footer />
     </BrowserRouter>

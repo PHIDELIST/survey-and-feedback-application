@@ -1,0 +1,71 @@
+.survey-response {
+    margin-bottom: 20px;
+  }
+  
+  .input-container {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .input-container input {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .btn-container {
+    margin-top: 10px;
+  }
+  
+  .btn-container button {
+    margin-right: 10px;
+  }
+  
+  .download-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .end-viewing-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+#surveyIDsearch{
+    margin-right: 10px;
+    padding: 5px;
+}
+@media screen and (max-width: 480px) {
+  #survey-response{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+  }
+  #btn-container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  #response-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  #surveyIDsearch{
+    width: 100px;
+   
+  }
+  .survey-response {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

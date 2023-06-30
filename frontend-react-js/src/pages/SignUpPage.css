@@ -4,9 +4,8 @@
     gap: 5rem;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
     background-color: hsl(0, 0%, 98%); 
-    margin-top: 5rem;
+ 
 }
 #RegisterForm{
     display: flex;
@@ -14,51 +13,73 @@
     gap: 1rem;
     align-items: center;
     justify-content: left;
+    width: 40%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    background-color: #343541;
+    overflow: hidden;
+    margin: 10px;
+    color: #ffff;
+    border-radius: 5px;
+    padding-top: 0.5rem;
+    padding-bottom: 2rem;
     
+}
+.card-header {
+    background-color: #333;
+    padding: 16px;
+    text-align: center;
+    width: 50%;
+  }
+  
+  .card-header .text-header {
+    margin: 0;
+    font-size: 18px;
+    color: rgb(255, 255, 255);
+  }
+#RegisterForm input{
+    width: 60%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#RegisterButton{
+    padding: 12px 24px;
+    margin-left: 13px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer
+}
+#RegisterButton:hover{
+    background-color: #ccc;
+    color: #333;
+  
 }
 #RegisterForm p{
     font-size: 10px;
 }
-#Names{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10rem;
-}
-input{
-    max-width: 250px;
-}
-#countyPhone{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10rem;
-}
-#EmailDate{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10rem;
-}
-#Password{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10rem;
-}
-#RightRegisterImg img{
-    width: 400px;
-    margin-top: 25px;
-    margin-right: 50px;
-    background-image: url(../assets/bg-pattern-intro-right-desktop.svg);
-
-
+@media screen and (max-width: 480px) {
+    #RegisterMain{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    #RegisterForm{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    #RegisterForm input{
+        width: 90%;
+    }
 }

@@ -1,0 +1,138 @@
+#profilepage-main{
+  display: flex;
+  flex-direction: row;
+  gap: 10rem;
+  padding: 5em;
+  min-height: 50vh;
+  justify-content: center;
+  
+  
+}
+.card {
+  --main-color: #000;
+  --submain-color: #78858F;
+  --bg-color: #fff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  background: var(--bg-color);
+}
+
+.card__img {
+  height: 250px;
+  width: 100%;
+}
+
+.card__img img {
+  height: 100%;
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+}
+
+.card__avatar {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: var(--bg-color);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: calc(50% - 57px);
+}
+
+.card__avatar img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.card__title {
+  margin-top: 60px;
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--main-color);
+}
+
+.card__subtitle {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--submain-color);
+  margin-bottom: 5px;
+}
+
+.card__btn {
+  margin-top: 15px;
+  width: 76px;
+  height: 31px;
+  border: 2px solid var(--main-color);
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+  color: #ffff;
+  background: linear-gradient(90deg,#1c1c1c,#6220fb);
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.card__btn-solid {
+  background: var(--main-color);
+  color: var(--bg-color);
+}
+
+.card__btn:hover {
+  background: gainsboro;
+  color: var(--bg-color);
+}
+
+.card__btn-solid:hover {
+  background: var(--bg-color);
+  color: var(--main-color);
+}
+#admin-details{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-left: 2px solid #78858F;
+  padding-left: 20px;
+  list-style: none;
+  color: #333;
+  font-size: 1em;
+  font-weight: 600;
+  height: 254px;
+  background: rgb(223, 225, 235);
+  border-radius: 50px;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+#logout{
+  background: linear-gradient(to bottom, #ffffff);
+  border-radius: 8px;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 80px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+@media screen and (max-width: 480px) {
+  #profilepage-main{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 100%;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+   
+  }
+  #profiledetails{
+    width: 100%;
+  }
+  
+}

@@ -1,0 +1,37 @@
+#Surveys-sidebar-main{
+    display: flex;
+    flex-direction: column;
+    padding-left:10px;
+    width: 100%;
+    align-items: center;
+    margin-top: 15px;
+   
+}
+#Surveys-main h1{
+    font-size: 25px;
+}
+#deletesurvey{
+    color: red;
+    width: 60px;
+}
+#survey{
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgb(126, 124, 124);
+    padding-bottom: 4px;
+    margin-right: 10px;
+    width: 100%;
+    align-items: center;
+}
+@media screen and (max-width: 480px) {
+    #Surveys-sidebar-main{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    #survey{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}
