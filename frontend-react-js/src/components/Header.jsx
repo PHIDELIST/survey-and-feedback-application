@@ -4,9 +4,7 @@ import {Link} from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { useContext } from 'react'
 import { Context } from '../context/UserContext/Context'
-
-
-// import Avatar from './avatar.jsx'
+import Avatar from './Avatar.jsx'
 function Header() {
   const {user,dispatch} = useContext(Context);
  
@@ -28,7 +26,7 @@ function Header() {
                   <>
                    
                   <Link id='loginbtn' to ="/adminpage">Dashboard</Link>
-                  {/* <Link to ="/profile"><Avatar /></Link> */}
+                  <Link to ="/profile"><Avatar /></Link>
                   </>
                 )
                   
