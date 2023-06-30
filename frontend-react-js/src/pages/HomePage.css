@@ -112,6 +112,8 @@
       display: flex;
       flex-direction: column;
       width: 100%;
+      font-size: 10px;
+      text-align: center;
     }
     #HomePageIntro {
       flex-direction: column;
@@ -125,13 +127,39 @@
   
     #survey-cards-main {
       flex-direction: column;
+      font-family: 'Times New Roman', Times, serif;
       gap: 2rem;
       width: 100%;
     }
-  
+    #survey-card h3 {
+      margin-top: 10px;
+      font-size: 15px;
+    }
+    
+    #survey-card p {
+      margin-bottom: 10px;
+      font-size: 10px;
+    }
+    
     #survey-card {
       width: 100%;
+      font-size: 10px;
     }
+    #intro h2 {
+      font-size: 25px;
+      text-align: center;
+      font-family: 'Times New Roman', Times, serif;
+    }
+    #intro p {
+      margin-bottom: 10px;
+      font-size: 10px;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: justify;
+      margin-left: 5px;
+      margin-right: 10px;
+     
+    }
+    
   }
   
  

@@ -1,1 +1,1 @@
-export const url='http://localhost:8081'
+export const url=import.meta.env.VITE_PROD_URL

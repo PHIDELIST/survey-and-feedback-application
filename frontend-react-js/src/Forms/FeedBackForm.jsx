@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import './FeedbackForm.css';
 import {url} from '../utilis.jsx'
+import {Link} from 'react-router-dom';
 
 function FeedbackForm() {
   const [feedbackType, setFeedbackType] = useState('');
@@ -65,7 +66,7 @@ function FeedbackForm() {
           <p>{feedbackType}</p>
           <label htmlFor="feedbackText">Additional Comments:</label>
           <textarea id="feedbackText" value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} rows={4}/>
-          <button type="submit">
+          <button type="submit" onClick={closeModal}>
             Submit Feedback
           </button>
         </form>

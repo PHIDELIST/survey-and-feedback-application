@@ -46,7 +46,7 @@ Resources:
       AllocatedStorage: '20'
       AllowMajorVersionUpgrade: true
       AutoMinorVersionUpgrade: true
-      # LicenseModel: license-included
+     
       BackupRetentionPeriod: !Ref BackupRetentionPeriod
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Ref DBInstanceIdentifier

@@ -12,8 +12,6 @@ export const loginRequired = (req, res, next) => {
 
 }
 
-
-
 export const register = async (req, res) => {
     const {AdminName,Password,Email } = req.body;
     const hashedPassword = bcrypt.hashSync(Password, 10);

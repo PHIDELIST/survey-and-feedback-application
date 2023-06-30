@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import './SignUpPage.css';
 import { useNavigate } from 'react-router-dom';
-import IntroPhoto from '../assets/introPhoto.jpg';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Axios from 'axios';

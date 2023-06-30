@@ -5,7 +5,7 @@ export const submitResponse = async (req, res) => {
     const surveyResponse = req.body;
       try {
       await sql.connect(config.sql);
-        // Insert the survey response into the database
+        
       const query = `
         INSERT INTO SurveyResponses (SurveyID, QuestionID, Answer)
         VALUES (@surveyID, @questionID, @answer)
@@ -30,8 +30,8 @@ export const submitResponse = async (req, res) => {
   
             for (const choice of question.choices) {
               await ps.execute({
-                surveyID: surveyID, // Replace with the actual survey ID
-                questionID: questionID, // Replace with the actual question ID
+                surveyID: surveyID, 
+                questionID: questionID,
                 answer: choice,
               });
             }

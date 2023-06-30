@@ -2,11 +2,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import './ProfilePage.css';
 import { Context } from '../context/UserContext/Context';
 import avatarbg from '../assets/420.jpg';
-import data from '../assets/data.jpeg';
 import UpdateProfile from './UpdateProfile';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import UpdateProfilePicture from './UpdateProfilePicture';
 import {url} from '../utilis.jsx'
 
 export default function ProfilePage() {

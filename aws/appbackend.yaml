@@ -25,8 +25,11 @@ Resources:
             npm install -g npm@9.7.2
             sudo chown -R ubuntu:ubuntu /home/survey-and-feedback-application/backend-node-js
             npm install bcrypt cors mssql jsonwebtoken
-            node server.js
-       
+            npm install -g pm2 
+            pm2 save
+            pm2 startup
+
+   
   SurveyAutoScalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
