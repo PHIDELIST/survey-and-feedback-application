@@ -55,7 +55,7 @@ export default function ProfilePage() {
             <img src={avatarbg} alt="avatar background" />
           </div>
           <div className="card__avatar">
-          <img className="displayImg" src={`${url}/images/${AdminID}.jpeg`} alt="Profile pic" />
+          <img className="displayImg" src={`${url}/images/${AdminID}.jpg`} alt="Profile pic" />
 
 
           </div>

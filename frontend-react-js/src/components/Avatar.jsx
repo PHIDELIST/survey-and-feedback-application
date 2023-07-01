@@ -8,7 +8,7 @@ export default function Avatar() {
 
   return (
     <div>
-      <img id="profileicon" src={`${url}/images/${AdminID}.jpeg`} alt="Profile pic" />
+      <img id="profileicon" src={`${url}/images/${AdminID}.jpg`} alt="Profile pic" />
     </div>
   );
 }

@@ -13,7 +13,7 @@ function Profile() {
   const validateFile = (file) => {
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     if (validTypes.indexOf(file.type) === -1) {
-      alert('File format is incorrect. Please use .jpeg');
+      alert('File format is incorrect. Please use .jpg');
       return false;
     } else if (file.size > 1024 * 1024 * 5) {
       alert('File size is too large. Please select a smaller file.');
@@ -94,10 +94,10 @@ function Profile() {
           <div id="upload-form_inputs">
             <input type="file" name="profile_image" id="fileInput" onChange={handleFileChange} />
             <button type="button" onClick={handleUpdateAvatar}>
-              {loading ? 'Loading...' : 'Update Profile Avatar'}
+              {loading ? 'uploading...' : 'Update Avatar'}
             </button>
             <button type="button" onClick={handleDeleteAvatar}>
-              {loading ? 'Loading...' : 'Delete Profile Picture'}
+              {loading ? 'uploading...' : 'Delete Avatar'}
             </button>
           </div>
         </div>

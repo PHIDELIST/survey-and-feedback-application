@@ -15,7 +15,7 @@ const Dashboard = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const { token } = user;
     try {
-      const response = await axios.get(`${url}statistics`, {
+      const response = await axios.get(`${url}/statistics`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: token,

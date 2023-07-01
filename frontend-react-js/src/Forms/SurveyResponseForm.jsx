@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './SurveyResponseForm.css';
 import {url} from '../utilis.jsx'
+import { Link } from 'react-router-dom';
 const SurveyResponseForm = ({ survey, onSubmit }) => {
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -36,10 +37,10 @@ const SurveyResponseForm = ({ survey, onSubmit }) => {
             },
           }
         );
-        console.log('Survey response submitted successfully:', response.data);
+        
       
       } catch (error) {
-        console.error('Error submitting survey response:', error);
+        
    
       }
     }
@@ -127,7 +128,7 @@ const SurveyResponseForm = ({ survey, onSubmit }) => {
         Next
       </button>
 
-      {currentQuestionIndex === survey.questions.length - 1 && <button type="submit">Submit</button>}
+      {currentQuestionIndex === survey.questions.length - 1 && <Link to="/"><button type="submit">Submit</button></Link>}
     </form>
   );
 };
