@@ -1,6 +1,8 @@
 # survey-and-feedback-application
 This is a survey website that allow organizations and individuals to create thier own account and create their own custom surveys so that they can get more insight on their desired topics through reliable surveys
 ![](https://github.com/PHIDELIST/survey-and-feedback-application/blob/main/db/website.png)
+### After updating
+![](https://github.com/PHIDELIST/survey-and-feedback-application/blob/main/db/u%5Bdated-avatar.png)
 ## INFRASTRUCTURE DEPLOYMENT DIAGRAM
 ![](https://github.com/PHIDELIST/survey-and-feedback-application/blob/main/db/surveywebsite1.png)
 ## Rollbar Dashboard
