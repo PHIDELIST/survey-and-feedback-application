@@ -43,6 +43,8 @@ function LoginPage() {
         <br />
         <button type='submit'>Login</button>
     </form>
+    <p>email:omuya@gmail.com password:password#9</p>
+    <p>You can update your profile after login</p>
     <Link id='SignUpLink'to='/register'>SignUp here</Link>
     </div>
     <div id='RightLoginImg'>
