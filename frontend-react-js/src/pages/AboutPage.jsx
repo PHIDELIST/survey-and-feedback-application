@@ -7,7 +7,7 @@ import Profile from '../components/Profile.jsx'
 export default function AboutPage() {
   return (
     <div id='about'>
-  
+  <h1>About Page</h1>
       <p>
     "Discover valuable insights, make informed decisions, and shape the future with our powerful survey platform.
     
