@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import './FeedbackForm.css';
+import './FeedBackForm.css'
 import {url} from '../utilis.jsx'
 import {Link} from 'react-router-dom';
 

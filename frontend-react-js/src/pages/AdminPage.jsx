@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Dashboard from '../components/Dashboard';
-import SurveyCreationForm from '../forms/SurveyCreationForm';
+import SurveyCreationForm from '../Forms/SurveyCreationForm.jsx';
 import './AdminPage.css';
 import AdminSideNav from './AdminSideNav';
 
