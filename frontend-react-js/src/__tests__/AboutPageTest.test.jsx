@@ -1,4 +1,4 @@
-import {render, screen} from '@testing-library/react';
+import {render} from '@testing-library/react';
 import AboutPage from  '../pages/AboutPage'
 import React from 'react';
 test('renders the About Page with a heading', () => {
