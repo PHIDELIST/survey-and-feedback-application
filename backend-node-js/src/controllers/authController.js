@@ -11,31 +11,27 @@ export const loginRequired = (req, res, next) => {
     }
 
 }
-
 export const register = async (req, res) => {
-    const {AdminName,Password,Email } = req.body;
+    const { AdminName, Password, Email } = req.body;
     const hashedPassword = bcrypt.hashSync(Password, 10);
+
     try {
-        const admin= await sql.connect(config.sql);
+        const admin = await sql.connect(config.sql);
         const result = await admin.request()
-            .input('Email', sql.VarChar, Email)
-            .query('SELECT * FROM Admins WHERE Email = @Email');
-            const user = result.recordset[0];
-            if(user){
-                res.status(400).json({ message: 'User already exists' });
-            }else{
-        await admin.request()
             .input('AdminName', sql.VarChar, AdminName)
             .input('Email', sql.VarChar, Email)
             .input('Password', sql.VarChar, hashedPassword)
-            .query('INSERT INTO Admins (AdminName,Email,Password) VALUES (@AdminName,@Email,@Password)')
-        res.status(200).json({ message: 'User created successfully' });
-    }}catch(error){
+            .execute('sp_InsertAdmin');
+
+        const message = result.recordset[0].Message;
+
+        res.status(200).json({ message });
+    } catch (error) {
         res.status(500).json({ message: error.message });
-    }finally{
-        sql.close();
-    }
-}
+    } 
+};
+
+
 export const login = async (req, res) => {
     let { Email, Password } = req.body;
     let pool= await sql.connect(config.sql);
