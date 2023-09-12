@@ -1,4 +1,4 @@
-CREATE or ALTER PROCEDURE sp_InsertAdmin
+CREATE or ALTER PROCEDURE sp_Register
     @AdminName VARCHAR(255),
     @Email VARCHAR(255),
     @Password VARCHAR(255)

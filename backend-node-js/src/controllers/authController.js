@@ -37,7 +37,10 @@ export const login = async (req, res) => {
     let pool= await sql.connect(config.sql);
     const result = await pool.request()
         .input('Email', sql.VarChar, Email)
-        .query('SELECT * FROM Admins WHERE Email = @Email');
+        .input('Password', sql.VarChar, Password)
+        .execute('sp_Login');
+
+
     const admin = result.recordset[0];
     if(!admin){
         res.status(400).json({ message: 'User does not exist' });

@@ -13,7 +13,6 @@ function FeedbackForm() {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // Submit feedback to the server
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const { token } = user;
